@@ -1,0 +1,34 @@
+.forbidden-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    h1 {
+        font-size: 100px;
+        color: var(--mat-sys-primary);
+    }
+
+    .title-forbidden {
+        font-size: xx-large;
+    }
+
+    .title-forbidden-auth,
+    .title-forbidden-role {
+        font-size: large;
+    }
+
+    .button-container {
+        margin-top: 2em;
+        display: flex;
+        gap: 1em;
+    }
+
+    button {
+        background-color: var(--mat-sys-primary);
+        color: white;
+        font-weight: 600;
+        font-size: large;
+    }
+}

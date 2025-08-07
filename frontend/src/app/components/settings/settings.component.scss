@@ -1,0 +1,108 @@
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block: 1em;
+    margin-inline: auto;
+}
+
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block: 1em;
+    margin-inline: auto;
+    max-width: 800px;
+    box-sizing: border-box;
+    padding-inline: 1rem;
+    overflow-x: hidden;
+}
+
+
+.settings-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.settings-title {
+    font-size: 1.5rem;
+    color: var(--mat-sys-primary);
+    font-weight: 600;
+}
+
+.job-filter-form-container {
+    width: 100%;
+    max-width: 900px;
+    padding-inline: 1em;
+    margin-inline: auto;
+}
+
+.job-filter-form {
+    width: 100%;
+}
+
+.mat-mdc-form-field {
+    width: 100% !important;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.form-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.button-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-group {
+    position: relative;
+    border: 1px solid var(--mat-sys-surface-dim);
+    border-radius: 0.25em;
+    padding: 2em 1em 1em 1em;
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+.group-label {
+    position: relative;
+    top: 0;
+    left: 0.5em;
+    transform: translateY(50%);
+    color: var(--mat-sys-on-surface-variant);
+    z-index: 100;
+    background-color: var(--mat-sys-surface);
+    width: fit-content;
+
+    legend {
+        padding-inline: 0;
+        display: flex;
+    }
+}
+
+ng-country-select {
+    width: 100%;
+}
+
+::ng-deep ng-country-select mat-form-field {
+    width: 100% !important;
+}
+
+.error {
+    font-size: small;
+    color: red;
+}

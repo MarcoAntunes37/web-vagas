@@ -1,0 +1,22 @@
+<mat-card [class]="cssClass" class="plans-card-content-item">
+    <mat-card-header class="plans-card-content-item-header">
+        <mat-card-title class="plans-card-content-item-title">
+            <span class="">{{product.name}}</span>
+        </mat-card-title>
+        <mat-card-title class="plans-card-content-item-title">
+            <span class="price">R${{product.clientPrice | number: '1.2-2'}}</span>
+            <span class="month">/mês</span></mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="plans-card-content-item-content">
+        <p class="plans-card-content-item-description" *ngFor="let description of product.clientDescriptions">
+            <span class="item-description-icon"
+                [ngClass]="{'check': description.icon == 'check', 'cancel': description.icon == 'cancel'}"
+                class="material-symbols-outlined">{{description.icon}}</span>
+            <span class="item-description-text">{{description.text}}</span>
+        </p>
+    </mat-card-content>
+    <mat-card-actions class="plans-card-content-item-actions">
+        <button mat-ripple mat-raised-button class="plans-card-button" (click)="handleSignatureClick()">Assine
+            agora</button>
+    </mat-card-actions>
+</mat-card>

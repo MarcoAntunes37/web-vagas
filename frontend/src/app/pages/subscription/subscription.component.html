@@ -1,0 +1,13 @@
+<section class="subscription-container">
+    <section class="plans-container">
+        <header class="plans-header">
+            <h2 class="plans-title">Planos</h2>
+        </header>
+        <div class="plans-content">
+            <div class="plans-card-container" *ngIf="products?.length">
+                <app-product-card *ngFor="let product of products; trackBy: trackByProductId" [product]="product"
+                    [cssClass]="'plans-card-home'" />
+            </div>
+        </div>
+    </section>
+</section>

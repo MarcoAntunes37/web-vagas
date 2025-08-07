@@ -1,0 +1,95 @@
+<section class="settings-container">
+    <div class="settings-header">
+        <header class="settings-title">
+            <h3>Configurações</h3>
+        </header>
+    </div>
+    <div class="settings-content">
+        <section class="job-filter-form-container">
+            <form [formGroup]="jobFiltersForm" class="job-filter-form" (submit)="handleJobFiltersFormSubmit()"
+                *ngIf="jobFiltersForm">
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)" hideToggle="true">
+                        <mat-expansion-panel-header>Preferências obrigatórias</mat-expansion-panel-header>
+                        <div class="group-label">
+                            <legend>Preferências de busca</legend>
+                        </div>
+                        <fieldset class="form-group">
+                            <mat-form-field>
+                                <mat-label>Palavra chave</mat-label>
+                                <input matInput type="text" formControlName="keywords" placeholder="Ex: Desenvolvedor">
+                            </mat-form-field>
+                            <mat-error *ngIf="hasError('keywords', 'required')">
+                                Campo obrigatório
+                            </mat-error>
+                        </fieldset>
+                        <mat-action-row>
+                            <button mat-button type="submit" [disabled]="jobFiltersForm.invalid">Salvar</button>
+                            <button mat-button type="button" (click)="setStep(1)">Proximo</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step() === 1" (opened)="setStep(1)" hideToggle="true">
+                        <mat-expansion-panel-header>Preferências opcionais</mat-expansion-panel-header>
+                        <div class="group-label">
+                            <span>Preferências de vaga</span>
+                        </div>
+                        <fieldset class="form-group">
+                            <mat-form-field>
+                                <mat-label>Tipo de jornada de trabalho</mat-label>
+                                <mat-select formControlName="employmentTypes" multiple>
+                                    <mat-select-trigger>
+                                        {{ getLabel(selectedEmploymentTypes[0]) }}
+                                        <ng-container *ngIf="selectedEmploymentTypes.length > 1">
+                                            <span class="additional-selection">
+                                                (+{{ selectedEmploymentTypes.length - 1 }}
+                                                {{ selectedEmploymentTypes.length === 2 ? 'outro' : 'outros' }})
+                                            </span>
+                                        </ng-container>
+                                    </mat-select-trigger>
+                                    <mat-option *ngFor="let option of employmentTypeOptions; trackBy:trackByValue"
+                                        [value]="option.value">
+                                        {{ option.label }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>Excluir empregadores da busca</mat-label>
+                                <mat-chip-grid #reactiveChipGrid aria-label="Excluir empregadores da busca"
+                                    formControlName="excludeJobPublishers">
+                                    @for (name of employerNames; track name) {
+                                    <mat-chip-row (removed)="removeEmployerName(name)">
+                                        {{name}}
+                                        <button matChipRemove [attr.aria-label]="'remove ' + name">
+                                            <mat-icon class="material-symbols-outlined">cancel</mat-icon>
+                                        </button>
+                                    </mat-chip-row>
+                                    }
+                                </mat-chip-grid>
+                                <input [matChipInputFor]="reactiveChipGrid"
+                                    (matChipInputTokenEnd)="addEmployerName($event)" />
+                            </mat-form-field>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>País da busca</mat-label>
+                                <input type="text" aria-label="País" matInput formControlName="country"
+                                    [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    @for (option of filteredOptions | async; track option) {
+                                    <mat-option [value]="option">{{option}}</mat-option>
+                                    }
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            <div style="display: flex;justify-content: space-between;width: 100%;">
+                                <mat-label>Incluir trabalho remoto</mat-label>
+                                <mat-slide-toggle labelPosition="after" [checked]="jobFiltersForm.value.remoteWork"
+                                    formControlName="remoteWork" />
+                            </div>
+                        </fieldset>
+                        <mat-action-row>
+                            <button mat-button type="submit" [disabled]="jobFiltersForm.invalid">Salvar</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </form>
+        </section>
+    </div>
+</section>

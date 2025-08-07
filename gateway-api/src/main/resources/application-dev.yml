@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: Flashvagas Gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${ISSUER_URI}
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: Flash vagas
+        url: /aggregate/flashvagas-api/v3/api-docs
+  api-docs:
+    enabled: true
+    path: /api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+      cors:
+        allowed-origins: ${DOMAIN}
+        allowed-methods: "GET,OPTIONS"
+        allow-credentials: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      flashVagasApiCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+      flashVagasApiSwaggerCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+  timelimiter:
+    instances:
+      flashVagasApiCircuitBreaker:
+        timeoutDuration: 4s
+      flashVagasApiSwaggerCircuitBreaker:
+        timeoutDuration: 4s
+
+flashvagas-api:
+  service:
+    url: ${API_SERVICE_URL}
+
+server:
+  host: 0.0.0.0
+  port: 9000

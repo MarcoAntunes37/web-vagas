@@ -1,0 +1,54 @@
+<main>
+  <mat-toolbar class="topnav-container">
+    <button class="hamburguer-icon" mat-icon-button (click)="drawer.toggle()"
+      *ngIf="roles()?.includes('plan-essentials') || roles()?.includes('plan-turbo')">
+      <span class="material-symbols-outlined menu-icon">menu</span>
+    </button>
+    <button matRipple class="logo-link" (click)="handleGotoHomeClick()">
+      <img src="logo.svg" alt="logo">
+    </button>
+    <span class="spacer"></span>
+    <button matRipple class="topnav-dropdown" [matMenuTriggerFor]="menu" *ngIf="authenticated">
+      <span class="topnav-username">{{userProfile()?.username | uppercaseFirstLetter}}</span>
+      <!-- <button mat-icon-button class="menu-more-vert-username" >
+            <span class="material-symbols-outlined more-vert-icon">more_vert</span>
+        </button> -->
+      <span class="material-symbols-outlined arrow-drop-down-icon">arrow_drop_down</span>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="handleProfileClick()">
+        <div class="button-content">
+          <span class="material-symbols-outlined person-icon">person</span>
+          <span>Profile</span>
+        </div>
+      </button>
+      <button mat-menu-item (click)="handleLogoutClick()">
+        <div class="button-content">
+          <span class="material-symbols-outlined logout-icon">logout</span>
+          <span>Logout</span>
+        </div>
+      </button>
+    </mat-menu>
+  </mat-toolbar>
+  <mat-drawer-container autosize class="sidenav-container">
+    <mat-drawer #drawer class="sidenav-drawer" mode="side">
+      <div class="sidenav-menu">
+        <button (click)="handleDashboardClick()" class="sidenav-button" mat-raised-button>
+          <div class="sidenav-item">
+            <span class="material-symbols-outlined">dashboard</span>
+            <span>Dashboard</span>
+          </div>
+        </button>
+        <!-- <button (click)="handleSettingsClick()" class="sidenav-button" mat-raised-button>
+          <div class="sidenav-item">
+            <span class="material-symbols-outlined">settings</span>
+            <span>Configurações</span>
+          </div>
+        </button> -->
+      </div>
+    </mat-drawer>
+    <div (click)="drawer.close()" class="sidenav-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-container>
+</main>

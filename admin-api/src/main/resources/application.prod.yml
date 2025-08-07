@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: Flashvagas Admin
+server:
+  host: 0.0.0.0
+  port: 8081
+springdoc:
+  swagger-ui:
+    enabled: false
+    path: /swagger-ui.html
+  api-docs:
+    enabled: false
+    path: /api-docs
+
+stripe:
+  public-key: ${STRIPE_PUBLISHABLE_KEY}
+  secret-key: ${STRIPE_SECRET_KEY}
+  webhook-secret-key: ${STRIPE_WEBHOOK_SECRET}
+  domain: ${DOMAIN}
+
+keycloak:
+  token_url: ${KEYCLOAK_TOKEN_URL}
+  client_id: ${KEYCLOAK_CLIENT_ID}
+  username: ${KEYCLOAK_CLIENT_USERNAME}
+  password: ${KEYCLOAK_CLIENT_PASSWORD}
+  grant_type: ${KEYCLOAK_CLIENT_GRANT_TYPE}
+  host: http://localhost:8181/
+  realm: ${KEYCLOAK_REALM}
+
+twilio:
+  accountSID: ${TWILIO_ACCOUNT_SID}
+  authToken: ${TWILIO_AUTH_TOKEN}
+  phoneNumber: ${TWILIO_PHONE_NUMBER}
+
+jsearch:
+  url: "https://jsearch.p.rapidapi.com/search"
+  rapidapi-host: "jsearch.p.rapidapi.com"
+  rapidapi-key: ${RAPIDAPI_KEY}
+
+plans:
+  essentials:
+    jobs:
+      quantity: 5
+  turbo:
+    jobs:
+      quantity: 10
+
+jobs-user:
+  url: "http://localhost:9000/api/v1/jobs/user/"
+
+user-preferences-jsearch:
+  url: "http://localhost:9000/api/v1/preferences/jsearch/user/"

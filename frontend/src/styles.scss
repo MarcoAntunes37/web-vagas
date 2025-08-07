@@ -1,0 +1,33 @@
+@use "@angular/material" as mat;
+@use "./styles/theme-colors.scss" as theme-colors;
+
+html {
+  @include mat.theme((color: (theme-type: light,
+        primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
+}
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+:root {
+  display: flex;
+}
+
+body,
+:root,
+main {
+  height: 100vh !important;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

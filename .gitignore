@@ -1,0 +1,7 @@
+.vscode
+.apt_generated
+data
+.env
+.env.prod
+.idea
+.apt_generated_tests

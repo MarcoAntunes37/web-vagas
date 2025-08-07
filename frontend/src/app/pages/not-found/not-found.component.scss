@@ -1,0 +1,28 @@
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+
+    h1 {
+        font-size: clamp(5em, 4vw, 8em);
+        color: var(--mat-sys-primary);
+    }
+
+    p {
+        font-size: clamp(2em, 2vw, 4em);
+        text-align: center;
+    }
+
+    .button-container {
+        margin-top: 2em;
+        button{
+            background-color: var(--mat-sys-primary);
+            color: white;
+            font-weight: 600;
+            font-size: large;
+        }
+    }
+}

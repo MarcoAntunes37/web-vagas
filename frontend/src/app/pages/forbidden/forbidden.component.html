@@ -1,0 +1,9 @@
+<section class="forbidden-container">
+    <h1 class="title-403">403</h1>
+    <p class="title-forbidden">Acesso negado</p>
+    <p class="title-forbidden-role" *ngIf="authenticated">Apenas assinantes tem permissão para acessar essa área.</p>
+    <div class="button-container">
+        <button mat-raised-button class="plans-button" (click)="handleGoToPlansClick()" *ngIf="authenticated">Ver nossos
+            planos</button>
+    </div>
+</section>
