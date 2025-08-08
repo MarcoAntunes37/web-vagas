@@ -18,12 +18,13 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.1
     container_name: keycloak
-    command: start --import-realm
+    command: start --import-realm --https-certificate-file=/opt/keycloak/certs/tls.crt --https-certificate-key-file=/opt/keycloak/certs/tls.key
     environment:
       RABBITMQ_HOST: ${RABBITMQ_HOST}
       RABBITMQ_PORT: ${RABBITMQ_PORT}
       RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      KC_HOST_NAME: ${KC_HOST_NAME}
       KC_DB: postgres
       KC_DB_USERNAME: ${KC_DB_USERNAME}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
@@ -37,6 +38,7 @@ services:
     volumes:
       - ./docker/keycloak/realms/:/opt/keycloak/data/import/
       - ./docker/keycloak/providers/:/opt/keycloak/providers/
+      - ./docker/keycloak/certs/:/opt/keycloak/certs/
     depends_on:
       - keycloak-db
     restart: unless-stopped
@@ -108,7 +110,7 @@ services:
       - flashvagas-api
       - admin-api
     restart: unless-stopped
-
+    
   frontend:
     image: flashvagas/flashvagas:frontend
     ports:
