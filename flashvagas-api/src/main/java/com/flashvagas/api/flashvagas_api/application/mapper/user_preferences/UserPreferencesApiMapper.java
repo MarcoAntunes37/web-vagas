@@ -24,7 +24,7 @@ import com.flashvagas.api.flashvagas_api.domain.value_object.EmploymentTypes;
 import com.flashvagas.api.flashvagas_api.domain.value_object.ExcludeJobPublishers;
 
 @Mapper(componentModel = "spring", imports = {
-        UUID.class, UserPreferencesId.class, Country.class, EmploymentTypes.class, EmploymentType.class,
+        UUID.class, UserPreferencesId.class, Country.class, EmploymentTypes.class,
         ExcludeJobPublishers.class })
 public interface UserPreferencesApiMapper {
     @Mapping(target = "id", expression = "java(new UserPreferencesId(UUID.randomUUID()))")

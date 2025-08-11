@@ -18,7 +18,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.1
     container_name: keycloak
-    command: start --import-realm --https-certificate-file=/opt/keycloak/certs/tls.crt --https-certificate-key-file=/opt/keycloak/certs/tls.key
+    command: start --import-realm
     environment:
       RABBITMQ_HOST: ${RABBITMQ_HOST}
       RABBITMQ_PORT: ${RABBITMQ_PORT}
@@ -41,6 +41,20 @@ services:
       - ./docker/keycloak/certs/:/opt/keycloak/certs/
     depends_on:
       - keycloak-db
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.25.1
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - gateway-api
+      - frontend
+      - keycloak
     restart: unless-stopped
 
   keycloak-db:
