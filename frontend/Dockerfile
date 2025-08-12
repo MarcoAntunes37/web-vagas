@@ -8,9 +8,11 @@ RUN npm install && npm run build
 
 FROM nginx:alpine
 
-RUN apk add --no-cache bash
+COPY --from=builder /app/dist/login-page/browser /usr/share/nginx/html
 
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
+COPY /flashvagas/docker/nginx.conf /etc/nginx/nginx.conf
+
+COPY /flashvagas/docker/mime.types /etc/nginx/mime.types
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
