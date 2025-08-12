@@ -7,17 +7,26 @@ import {
     withAutoRefreshToken,
     AutoRefreshTokenService
 } from 'keycloak-angular';
+import { environment } from '../environment/environment';
+
+const { kcConfigRealm: realm, kcConfigUrl: url, kcConfigClientId: clientId } = environment
+
+function escapeRegExp(string: string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+const regexString = `^(${escapeRegExp(url)})(\\/.*)?$`;
 
 const localhostCondition = createInterceptorCondition<IncludeBearerTokenCondition>({
-    urlPattern: /^(http:\/\/localhost:8181)(\/.*)?$/i
+    urlPattern: new RegExp(regexString, 'i'),
 });
 
 export const provideKeycloakAngular = () =>
     provideKeycloak({
         config: {
-            realm: 'FlashVagas',
-            url: 'http://localhost:8181',
-            clientId: 'angular'
+            realm: realm,
+            url: url,
+            clientId: clientId
         },
         initOptions: {
             onLoad: 'login-required',
