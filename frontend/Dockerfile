@@ -8,7 +8,7 @@ RUN npm install && npm run build
 
 FROM nginx:alpine
 
-COPY --from=builder /app/dist/login-page/browser /usr/share/nginx/html
+COPY --from=builder /app/dist/frontend/browser /usr/share/nginx/html
 
 COPY /flashvagas/docker/nginx.conf /etc/nginx/nginx.conf
 
