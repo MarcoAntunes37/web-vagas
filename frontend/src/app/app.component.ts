@@ -11,6 +11,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { UppercaseFirstLetterPipe } from './pipes/uppercase-first-letter.pipe';
 import { NgIf } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
+import { environment } from './environment/environment';
 
 @Component({
   selector: 'app-root',
@@ -58,6 +59,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.themeService.applyTheme();
+    console.log(environment)
   }
 
   handleDashboardClick() {

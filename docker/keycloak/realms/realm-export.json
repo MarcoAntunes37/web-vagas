@@ -885,9 +885,9 @@
       "clientId": "spring",
       "name": "${spring}",
       "description": "",
-      "rootUrl": "http://localhost:9000",
-      "adminUrl": "http://localhost:9000",
-      "baseUrl": "http://localhost:9000/api",
+      "rootUrl": "http://gateway-api:9000",
+      "adminUrl": "http://gateway-api:9000",
+      "baseUrl": "http://gateway-api:9000/api",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -896,7 +896,7 @@
         ""
       ],
       "webOrigins": [
-        "http://localhost:9000/*"
+        "http://gateway-api:9000/*"
       ],
       "notBefore": 0,
       "bearerOnly": false,

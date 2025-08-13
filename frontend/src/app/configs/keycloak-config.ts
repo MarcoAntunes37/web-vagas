@@ -31,7 +31,7 @@ export const provideKeycloakAngular = () =>
         initOptions: {
             onLoad: 'login-required',
             silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
-            checkLoginIframe: true,
+            checkLoginIframe: false,
             redirectUri: window.location.href
         },
         features: [
