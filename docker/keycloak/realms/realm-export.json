@@ -661,18 +661,18 @@
       "clientId": "angular",
       "name": "${angular}",
       "description": "",
-      "rootUrl": "http://www.flashvagas.com.br",
-      "adminUrl": "http://www.flashvagas.com.br",
-      "baseUrl": "http://www.flashvagas.com.br/dashboard",
+      "rootUrl": "https://flashvagas.com.br",
+      "adminUrl": "https://flashvagas.com.br",
+      "baseUrl": "https://flashvagas.com.br/dashboard",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://www.flashvagas.com.br/*"
+        "https://flashvagas.com.br/*"
       ],
       "webOrigins": [
-        "http://www.flashvagas.com.br"
+        "https://flashvagas.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -1882,13 +1882,13 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-sha256-pairwise-sub-mapper",
-            "oidc-usermodel-property-mapper",
-            "saml-role-list-mapper",
             "oidc-address-mapper",
-            "oidc-full-name-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
             "saml-user-property-mapper",
             "oidc-usermodel-attribute-mapper",
+            "oidc-usermodel-property-mapper",
+            "saml-role-list-mapper",
+            "oidc-full-name-mapper",
             "saml-user-attribute-mapper"
           ]
         }
@@ -1909,14 +1909,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-role-list-mapper",
-            "oidc-address-mapper",
             "oidc-usermodel-attribute-mapper",
-            "oidc-usermodel-property-mapper",
+            "oidc-address-mapper",
             "oidc-full-name-mapper",
             "saml-user-property-mapper",
+            "saml-user-attribute-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-attribute-mapper"
+            "saml-role-list-mapper",
+            "oidc-usermodel-property-mapper"
           ]
         }
       },
