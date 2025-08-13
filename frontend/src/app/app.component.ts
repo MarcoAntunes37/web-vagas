@@ -59,7 +59,6 @@ export class AppComponent {
 
   ngOnInit() {
     this.themeService.applyTheme();
-    console.log(environment)
   }
 
   handleDashboardClick() {
