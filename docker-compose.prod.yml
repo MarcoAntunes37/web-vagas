@@ -38,7 +38,7 @@ services:
       KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/certs/tls.crt
       KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/certs/tls.key
     ports:
-      - "443:8443"
+      - "8443:8443"
     volumes:
       - ./docker/keycloak/realms/:/opt/keycloak/data/import/
       - ./docker/keycloak/providers/:/opt/keycloak/providers/
@@ -119,9 +119,29 @@ services:
     image: flashvagas/flashvagas:frontend
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/certbot/conf:/etc/letsencrypt
+      - ./docker/certbot/www:/var/www/certbot
     depends_on:
       - gateway-api
     restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./docker/certbot/conf:/etc/letsencrypt
+      - ./docker/certbot/www:/var/www/certbot
+    command: 
+      certonly
+      --webroot -w /var/www/certbot
+      --email contato@flashvagas.com.br
+      --agree-tos
+      --no-eff-email
+      -d flashvagas.com.br
+      -d www.flashvagas.com.br
+    depends_on:
+      - frontend
 
 networks:
   default:
