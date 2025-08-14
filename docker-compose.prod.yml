@@ -24,25 +24,21 @@ services:
       RABBITMQ_PORT: ${RABBITMQ_PORT}
       RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
       RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
-      KC_HOST_NAME: ${KC_HOST_NAME}
       KC_DB: postgres
       KC_DB_USERNAME: ${KC_DB_USERNAME}
       KC_DB_PASSWORD: ${KC_DB_PASSWORD}
       KC_DB_URL_HOST: keycloak-db
       KC_DB_URL_PORT: 5432
       KC_DB_URL_DATABASE: ${KC_DB_NAME}
-      KC_HOSTNAME: ${KC_HOST_NAME}
+      KC_HOSTNAME_STRICT: false
       KC_PROXY: edge
       KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_ADMIN_USERNAME}
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD}
-      KC_HTTPS_CERTIFICATE_FILE: /opt/keycloak/certs/tls.crt
-      KC_HTTPS_CERTIFICATE_KEY_FILE: /opt/keycloak/certs/tls.key
     ports:
-      - "8443:8443"
+      - "8080"
     volumes:
       - ./docker/keycloak/realms/:/opt/keycloak/data/import/
       - ./docker/keycloak/providers/:/opt/keycloak/providers/
-      - ./docker/keycloak/certs/:/opt/keycloak/certs/
     depends_on:
       - keycloak-db
     restart: unless-stopped
@@ -132,16 +128,9 @@ services:
     volumes:
       - ./docker/certbot/conf:/etc/letsencrypt
       - ./docker/certbot/www:/var/www/certbot
-    command: 
-      certonly
-      --webroot -w /var/www/certbot
-      --email contato@flashvagas.com.br
-      --agree-tos
-      --no-eff-email
-      -d flashvagas.com.br
-      -d www.flashvagas.com.br
     depends_on:
       - frontend
+      - keycloak
 
 networks:
   default:
