@@ -90,7 +90,7 @@ services:
   flashvagas-api:
     image: flashvagas/flashvagas:flashvagas-api
     ports:
-      - "8080:8080"
+      - "8083:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     env_file:
