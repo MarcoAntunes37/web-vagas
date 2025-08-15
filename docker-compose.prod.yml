@@ -18,7 +18,7 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.1
     container_name: keycloak
-    command: start --import-realm
+    command: start --import-realm --http-enabled=true
     environment:
       RABBITMQ_HOST: ${RABBITMQ_HOST}
       RABBITMQ_PORT: ${RABBITMQ_PORT}
