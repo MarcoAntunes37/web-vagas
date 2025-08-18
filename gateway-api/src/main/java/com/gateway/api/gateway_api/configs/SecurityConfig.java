@@ -2,6 +2,7 @@ package com.gateway.api.gateway_api.configs;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -13,8 +14,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
-    private final String[] freeResourceUrls = {"/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
-            "/swagger-resources/**", "/api-docs/**", "/aggregate/**", "/actuator/prometheus"};
+    private final String[] freeResourceUrls = { "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**",
+            "/swagger-resources/**", "/api-docs/**", "/aggregate/**", "/actuator/prometheus",
+            "/.well-known/acme-challenge/" };
+
+    @Value("${frontend.service.url}")
+    String frontEndUrl;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -32,13 +37,13 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration apiCorsConfig = new CorsConfiguration();
-        apiCorsConfig.setAllowedOrigins(List.of("http://localhost:4200"));
+        apiCorsConfig.setAllowedOrigins(List.of(frontEndUrl));
         apiCorsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
         apiCorsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         apiCorsConfig.setAllowCredentials(true);
 
         CorsConfiguration actuatorCorsConfig = new CorsConfiguration();
-        actuatorCorsConfig.setAllowedOrigins(List.of("http://localhost:4200"));
+        actuatorCorsConfig.setAllowedOrigins(List.of(frontEndUrl));
         actuatorCorsConfig.setAllowedMethods(List.of("GET", "OPTIONS"));
         actuatorCorsConfig.setAllowedHeaders(List.of("*"));
         actuatorCorsConfig.setAllowCredentials(true);
