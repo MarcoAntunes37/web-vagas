@@ -134,6 +134,7 @@ services:
     depends_on:
       - frontend
       - keycloak
+      - gateway-api
 
 networks:
   default:
