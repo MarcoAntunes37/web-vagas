@@ -40,7 +40,7 @@ public class SecurityConfig {
         CorsConfiguration apiCorsConfig = new CorsConfiguration();
         apiCorsConfig.setAllowedOrigins(List.of(frontEndUrl));
         apiCorsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
-        apiCorsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        apiCorsConfig.setAllowedHeaders(List.of("*"));
         apiCorsConfig.setAllowCredentials(true);
 
         CorsConfiguration actuatorCorsConfig = new CorsConfiguration();
