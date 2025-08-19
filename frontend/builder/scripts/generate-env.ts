@@ -12,7 +12,6 @@ const envFileTs = path.join(envDir, 'environment.ts');
 const environment = {
     production: true,
     userPreferencesApiUrl: process.env['NG_APP_USER_PREFERENCES_API_URL'],
-    userPreferencesJsearchApiUrl: process.env['NG_APP_USER_PREFERENCES_JSEARCH_API_URL'],
     checkoutSessionApiUrl: process.env['NG_APP_CHECKOUT_SESSION_API_URL'],
     kcConfigRealm: process.env['NG_APP_KC_CONFIG_REALM'],
     kcConfigUrl: process.env['NG_APP_KC_CONFIG_URL'],

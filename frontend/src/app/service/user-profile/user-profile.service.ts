@@ -18,7 +18,6 @@ export class UserProfileService {
     if (this.keycloak.authenticated) {
       const profile = await this.keycloak.loadUserProfile();
       this.userProfileSubject.next(profile);
-      console.log(profile);
     }
   }
 
@@ -51,9 +50,5 @@ export class UserProfileService {
 
   async getRefreshToken(): Promise<string | undefined> {
     return this.keycloak.refreshToken;
-  }
-
-  async getTokenParsed() {
-    console.log(this.getTokenParsed())
   }
 }
