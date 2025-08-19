@@ -4,7 +4,7 @@ set -e
 
 DOCKERHUB_USER="$1"
 REPO_NAME="flashvagas"
-PROJECT_NAME="gateway"
+PROJECT_NAME="gateway-api"
 
 if [ -z "$DOCKERHUB_USER" ]; then
   echo "Uso: ./build_${PROJECT_NAME}.sh <dockerhub-usuario>"
