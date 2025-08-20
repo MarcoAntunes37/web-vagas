@@ -885,9 +885,9 @@
       "clientId": "spring",
       "name": "${spring}",
       "description": "",
-      "rootUrl": "http://gateway-api:9000",
-      "adminUrl": "http://gateway-api:9000",
-      "baseUrl": "http://gateway-api:9000/api",
+      "rootUrl": "https://api.flashvagas.com.br",
+      "adminUrl": "https://api.flashvagas.com.br",
+      "baseUrl": "https://api.flashvagas.com.br/api",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -896,7 +896,7 @@
         ""
       ],
       "webOrigins": [
-        "http://gateway-api:9000/*"
+        "https://api.flashvagas.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,
