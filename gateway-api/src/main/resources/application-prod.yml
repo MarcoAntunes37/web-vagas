@@ -13,6 +13,8 @@ springdoc:
     urls:
       - name: Flash vagas
         url: /aggregate/flashvagas-api/v3/api-docs
+      - name: Admin
+        url: /aggregate/admin-api/v3/api-docs
   api-docs:
     enabled: true
     path: /api-docs
@@ -53,6 +55,10 @@ resilience4j:
 flashvagas-api:
   service:
     url: ${API_SERVICE_URL}
+
+admin-api:
+  service:
+    url: ${ADMIN_API_SERVICE_URL}
 
 frontend:
   service:

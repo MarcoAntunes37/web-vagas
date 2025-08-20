@@ -18,37 +18,62 @@ import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouter
 
 @Configuration
 public class Routes {
-    @Value("${flashvagas-api.service.url}")
-    private String flashvagasApiUrl;
+        @Value("${flashvagas-api.service.url}")
+        private String flashvagasApiUrl;
 
-    @Bean
-    public RouterFunction<ServerResponse> flashVagasApiRouter() {
-        return GatewayRouterFunctions.route("flashvagas_api")
-                .route(RequestPredicates.path("/api/v1/**"),
-                        HandlerFunctions.http(flashvagasApiUrl))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker("flashVagasApiCircuitBreaker",
-                        URI.create("forward:/fallbackRoute")))
-                .build();
-    }
+        @Value("${admin-api.service.url}")
+        private String adminApiUrl;
 
-    @Bean
-    public RouterFunction<ServerResponse> flashVagasApiSwaggerRouter() {
-        return GatewayRouterFunctions.route("flashvagas_api_swagger")
-                .route(RequestPredicates.path("/aggregate/flashvagas-api/v3/api-docs"),
-                        HandlerFunctions.http(flashvagasApiUrl))
-                .filter(CircuitBreakerFilterFunctions.circuitBreaker(
-                        "flashVagasApiSwaggerCircuitBreaker",
-                        URI.create("forward:/fallbackRoute")))
-                .filter(setPath("/api-docs"))
-                .build();
-    }
+        @Bean
+        public RouterFunction<ServerResponse> flashVagasApiRouter() {
+                return GatewayRouterFunctions.route("flashvagas_api")
+                                .route(RequestPredicates.path("/api/v1/**"),
+                                                HandlerFunctions.http(flashvagasApiUrl))
+                                .filter(CircuitBreakerFilterFunctions.circuitBreaker("flashVagasApiCircuitBreaker",
+                                                URI.create("forward:/fallbackRoute")))
+                                .build();
+        }
 
-    @Bean
-    public RouterFunction<ServerResponse> fallbackRoute() {
-        return route("fallbackRoute")
-                .route(RequestPredicates.path("/fallbackRoute"),
-                        request -> ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE)
-                                .body("Service Unavailable, please try again later"))
-                .build();
-    }
+        @Bean
+        public RouterFunction<ServerResponse> flashVagasApiSwaggerRouter() {
+                return GatewayRouterFunctions.route("flashvagas_api_swagger")
+                                .route(RequestPredicates.path("/aggregate/flashvagas-api/v3/api-docs"),
+                                                HandlerFunctions.http(flashvagasApiUrl))
+                                .filter(CircuitBreakerFilterFunctions.circuitBreaker(
+                                                "flashVagasApiSwaggerCircuitBreaker",
+                                                URI.create("forward:/fallbackRoute")))
+                                .filter(setPath("/api-docs"))
+                                .build();
+        }
+
+        @Bean
+        public RouterFunction<ServerResponse> adminApiRouter() {
+                return GatewayRouterFunctions.route("admin_api")
+                                .route(RequestPredicates.path("/api/v1/**"),
+                                                HandlerFunctions.http(flashvagasApiUrl))
+                                .filter(CircuitBreakerFilterFunctions.circuitBreaker("adminApiCircuitBreaker",
+                                                URI.create("forward:/fallbackRoute")))
+                                .build();
+        }
+
+        @Bean
+        public RouterFunction<ServerResponse> adminApiSwaggerRouter() {
+                return GatewayRouterFunctions.route("flashvagas_api_swagger")
+                                .route(RequestPredicates.path("/aggregate/admin-api/v3/api-docs"),
+                                                HandlerFunctions.http(flashvagasApiUrl))
+                                .filter(CircuitBreakerFilterFunctions.circuitBreaker(
+                                                "adminApiSwaggerCircuitBreaker",
+                                                URI.create("forward:/fallbackRoute")))
+                                .filter(setPath("/api-docs"))
+                                .build();
+        }
+
+        @Bean
+        public RouterFunction<ServerResponse> fallbackRoute() {
+                return route("fallbackRoute")
+                                .route(RequestPredicates.path("/fallbackRoute"),
+                                                request -> ServerResponse.status(HttpStatus.SERVICE_UNAVAILABLE)
+                                                                .body("Service Unavailable, please try again later"))
+                                .build();
+        }
 }
