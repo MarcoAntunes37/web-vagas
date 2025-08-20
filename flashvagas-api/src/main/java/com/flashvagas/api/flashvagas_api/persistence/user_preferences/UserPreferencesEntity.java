@@ -23,7 +23,7 @@ import jakarta.persistence.UniqueConstraint;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_preferences_jsearch", uniqueConstraints = {
+@Table(name = "user_preferences", uniqueConstraints = {
         @UniqueConstraint(columnNames = { "user_id" })
 })
 public class UserPreferencesEntity {

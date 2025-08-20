@@ -661,18 +661,18 @@
       "clientId": "angular",
       "name": "${angular}",
       "description": "",
-      "rootUrl": "https://flashvagas.com.br",
-      "adminUrl": "https://flashvagas.com.br",
-      "baseUrl": "https://flashvagas.com.br/dashboard",
+      "rootUrl": "https://app.flashvagas.com.br",
+      "adminUrl": "https://app.flashvagas.com.br",
+      "baseUrl": "https://app.flashvagas.com.br/dashboard",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://flashvagas.com.br/*"
+        "https://app.flashvagas.com.br/*"
       ],
       "webOrigins": [
-        "https://flashvagas.com.br"
+        "https://app.flashvagas.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -885,9 +885,9 @@
       "clientId": "spring",
       "name": "${spring}",
       "description": "",
-      "rootUrl": "https://api.flashvagas.com.br",
-      "adminUrl": "https://api.flashvagas.com.br",
-      "baseUrl": "https://api.flashvagas.com.br/api",
+      "rootUrl": "https://api.flahsvagas.com.br",
+      "adminUrl": "https://api.flahsvagas.com.br",
+      "baseUrl": "https://api.flahsvagas.com.br",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -896,7 +896,7 @@
         ""
       ],
       "webOrigins": [
-        "https://api.flashvagas.com.br"
+        "https://api.flahsvagas.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -913,7 +913,9 @@
         "oidc.ciba.grant.enabled": "false",
         "backchannel.logout.session.required": "true",
         "post.logout.redirect.uris": "+",
+        "frontchannel.logout.session.required": "true",
         "oauth2.device.authorization.grant.enabled": "false",
+        "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -1720,16 +1722,18 @@
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {
+    "password": "**********",
     "replyToDisplayName": "",
-    "starttls": "false",
-    "auth": "",
-    "port": "1025",
-    "host": "mailhog",
+    "starttls": "true",
+    "auth": "true",
+    "port": "465",
+    "host": "smtp.hostinger.com",
     "replyTo": "",
-    "from": "no-reply@flashvagas.com",
+    "from": "noreply@flashvagas.com.br",
     "fromDisplayName": "",
     "envelopeFrom": "",
-    "ssl": "false"
+    "ssl": "true",
+    "user": "contato@flashvagas.com.br"
   },
   "loginTheme": "flash-vagas",
   "accountTheme": "flash-vagas",
@@ -1882,14 +1886,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+            "saml-user-attribute-mapper",
             "oidc-address-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-user-property-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "oidc-usermodel-property-mapper",
             "saml-role-list-mapper",
+            "saml-user-property-mapper",
+            "oidc-usermodel-property-mapper",
             "oidc-full-name-mapper",
-            "saml-user-attribute-mapper"
+            "oidc-usermodel-attribute-mapper"
           ]
         }
       },
@@ -1909,14 +1913,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-usermodel-attribute-mapper",
-            "oidc-address-mapper",
             "oidc-full-name-mapper",
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-usermodel-property-mapper",
+            "oidc-address-mapper",
             "saml-user-property-mapper",
             "saml-user-attribute-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "saml-role-list-mapper",
-            "oidc-usermodel-property-mapper"
+            "oidc-usermodel-attribute-mapper",
+            "saml-role-list-mapper"
           ]
         }
       },

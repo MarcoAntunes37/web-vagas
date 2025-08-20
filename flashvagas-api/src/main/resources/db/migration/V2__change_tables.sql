@@ -31,6 +31,6 @@ BEGIN
 END
 $$;
 
-ALTER TABLE user_preferences_jsearch
-ADD CONSTRAINT user_preferences_jsearch_employment_types_valid_values
+ALTER TABLE user_preferences
+ADD CONSTRAINT user_preferences_employment_types_valid_values
 CHECK (validate_employment_types(employment_types));
