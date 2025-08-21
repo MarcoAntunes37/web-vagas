@@ -8,13 +8,13 @@ import com.flashvagas.api.admin_api.application.service.plan_message.PlanMessage
 
 @Component
 public class SendMessageScheduler {
-    private final PlanMessageService essentialsService;
+    private final PlanMessageService startService;
     private final PlanMessageService turboService;
 
     public SendMessageScheduler(
-            @Qualifier("EssentialsMessageServiceImpl") PlanMessageService essentialsService,
+            @Qualifier("StartMessageServiceImpl") PlanMessageService startService,
             @Qualifier("TurboMessageServiceImpl") PlanMessageService turboService) {
-        this.essentialsService = essentialsService;
+        this.startService = startService;
         this.turboService = turboService;
     }
     /*
@@ -28,8 +28,8 @@ public class SendMessageScheduler {
 
     @Scheduled(cron = "0 0 9 * * *")
     @Scheduled(cron = "0 0 18 * * *")
-    public void sendEssentialsMessages() throws Exception {
-        essentialsService.sendMessages();
+    public void sendStartMessages() throws Exception {
+        startService.sendMessages();
     }
 
     @Scheduled(cron = "0 0 7 * * *")

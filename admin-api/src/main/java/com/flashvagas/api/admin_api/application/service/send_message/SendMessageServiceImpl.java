@@ -8,23 +8,23 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class SendMessageServiceImpl implements SendMessageService {
-    private final PlanMessageService essentialsService;
+    private final PlanMessageService startService;
     private final PlanMessageService turboService;
 
     public SendMessageServiceImpl(
-            @Qualifier("EssentialsMessageServiceImpl") PlanMessageService essentialsService,
+            @Qualifier("StartMessageServiceImpl") PlanMessageService startService,
             @Qualifier("TurboMessageServiceImpl") PlanMessageService turboService) {
-        this.essentialsService = essentialsService;
+        this.startService = startService;
         this.turboService = turboService;
     }
 
     public void sendAllMessages() throws Exception {
-        sendEssentialsMessages();
+        sendStartMessages();
         sendTurboMessages();
     }
 
-    public void sendEssentialsMessages() throws Exception {
-        essentialsService.sendMessages();
+    public void sendStartMessages() throws Exception {
+        startService.sendMessages();
     }
 
     public void sendTurboMessages() throws Exception {

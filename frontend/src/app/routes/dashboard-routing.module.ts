@@ -9,7 +9,7 @@ const routes: Routes = [
         path: '',
         component: DashboardComponent,
         canActivate: [canActivateAuthRole],
-        data: { roles: ['plan-essentials', 'plan-turbo'] },
+        data: { roles: ['plan-start', 'plan-turbo'] },
         children: [
             { path: '', component: DashboardHomeComponent }
         ]

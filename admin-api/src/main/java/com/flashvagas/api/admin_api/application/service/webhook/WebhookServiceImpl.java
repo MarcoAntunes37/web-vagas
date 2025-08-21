@@ -106,9 +106,13 @@ public class WebhookServiceImpl implements WebhookService {
 
     private String resolvePlanFromProduct(Product productDetails) {
         switch (productDetails.getName()) {
-            case "Essentials":
-                return "plan-essentials";
-            case "Turbo":
+            case "Start mensal":
+                return "plan-start";
+            case "Start anual":
+                return "plan-start";
+            case "Turbo mensal":
+                return "plan-turbo";
+            case "Turbo anual":
                 return "plan-turbo";
             default:
                 return "";

@@ -88,13 +88,12 @@
         "attributes": {}
       },
       {
-        "id": "d4827e39-7402-4966-8706-bff0007c0fbf",
-        "name": "plan-essentials",
-        "description": "role_plan_essentials",
+        "id": "d7e99405-35b5-46da-9155-2fa097728f84",
+        "name": "plan-start",
+        "description": "role_plan_start",
         "composite": false,
         "clientRole": false,
-        "containerId": "181ebbfd-bcfb-4afe-9a27-e5791d743d1f",
-        "attributes": {}
+        "containerId": "181ebbfd-bcfb-4afe-9a27-e5791d743d1f"
       },
       {
         "id": "b4300d98-916b-4aef-95b2-bc8905624c47",

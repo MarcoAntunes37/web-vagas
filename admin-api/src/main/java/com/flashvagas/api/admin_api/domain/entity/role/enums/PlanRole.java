@@ -5,7 +5,7 @@ import com.flashvagas.api.admin_api.domain.value_object.RoleAttributes;
 import com.flashvagas.api.admin_api.domain.value_object.RoleDetails;
 
 public enum PlanRole {
-    PLAN_ESSENTIALS("plan-essentials", "d4827e39-7402-4966-8706-bff0007c0fbf"),
+    PLAN_START("plan-start", "d7e99405-35b5-46da-9155-2fa097728f84"),
     PLAN_TURBO("plan-turbo", "1055f149-2dbf-4898-bee8-649bf31dc6f5");
 
     private final String name;

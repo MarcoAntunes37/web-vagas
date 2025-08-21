@@ -1,7 +1,7 @@
 <main>
   <mat-toolbar class="topnav-container">
     <button class="hamburguer-icon" mat-icon-button (click)="drawer.toggle()"
-      *ngIf="roles()?.includes('plan-essentials') || roles()?.includes('plan-turbo')">
+      *ngIf="roles()?.includes('plan-start') || roles()?.includes('plan-turbo')">
       <span class="material-symbols-outlined menu-icon">menu</span>
     </button>
     <button matRipple class="logo-link" (click)="handleGotoHomeClick()">

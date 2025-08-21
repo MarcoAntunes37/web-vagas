@@ -17,9 +17,9 @@ import com.flashvagas.api.admin_api.infrastructure.integration.keycloak.keycloak
 import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Qualifier("EssentialsMessageServiceImpl")
+@Qualifier("StartMessageServiceImpl")
 @Slf4j
-public class EssentialsMessageServiceImpl extends BaseMessageService implements PlanMessageService {
+public class StartMessageServiceImpl extends BaseMessageService implements PlanMessageService {
     private final KeycloakAuthClientImpl kcAuthClient;
     private final KeycloakUserClientImpl kcUserClient;
     @SuppressWarnings("unused")
@@ -28,10 +28,10 @@ public class EssentialsMessageServiceImpl extends BaseMessageService implements 
     private final JobsUserClient jobsUserClient;
     @SuppressWarnings("unused")
     private final JSearchClient jsearchClient;
-    @Value("${plans.essentials.jobs.quantity}")
-    private Integer essentialsJobsQuantity;
+    @Value("${plans.start.jobs.quantity}")
+    private Integer startJobsQuantity;
 
-    public EssentialsMessageServiceImpl(
+    public StartMessageServiceImpl(
             KeycloakAuthClientImpl kcAuthClient,
             KeycloakUserClientImpl kcUserClient,
             JobsUserClient jobsUserClient,
@@ -51,15 +51,15 @@ public class EssentialsMessageServiceImpl extends BaseMessageService implements 
     public void sendMessages() throws Exception {
         String token = kcAuthClient.getAccessToken();
 
-        List<GetUserByRoleResponse> essentialsUsers = kcUserClient
-                .getUsersByRole("plan-essentials", token);
+        List<GetUserByRoleResponse> startUsers = kcUserClient
+                .getUsersByRole("plan-start", token);
 
-        if (essentialsUsers.isEmpty()) {
-            log.warn("Nenhum usuário com role plan-turbo encontrado");
+        if (startUsers.isEmpty()) {
+            log.warn("Nenhum usuário com role plan-start encontrado");
         }
 
-        for (GetUserByRoleResponse user : essentialsUsers) {
-            this.processUserData(user, essentialsJobsQuantity, token);
+        for (GetUserByRoleResponse user : startUsers) {
+            this.processUserData(user, startJobsQuantity, token);
         }
     }
 }
