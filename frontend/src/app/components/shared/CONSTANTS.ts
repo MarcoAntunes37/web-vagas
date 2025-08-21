@@ -70,51 +70,129 @@ const employmentTypeOptions = [
 
 const productListOptions: Product[] = [
     {
-        id: 'prod_S866Rn1WSNGxxv',
+        id: "prod_SuMJq1dQGetNdM",
         active: true,
-        defaultPrice: 'price_1RDpuf2VoRElKCJv1X389cgT',
-        clientPrice: 9.9,
+        defaultPrice: "price_1RyXb12VoRElKCJvB06DQ9d7",
+        clientPrice: 25.42,
         clientDescriptions: [
             {
-                "icon": "check",
-                "text": "Até 5 vagas todos os dias."
+                icon: "check",
+                text: "Até 20 vagas por dia."
             },
             {
-                "icon": "check",
-                "text": "Envio de vagas 1x ao dia."
+                icon: "check",
+                text: "Horarios 7h 12h 17h 20h."
             },
             {
-                "icon": "cancel",
-                "text": "Prioridade nas vagas: Receba com antecedência."
+                icon: "check",
+                text: "Entrega antecipada das em 2h"
+            },
+            {
+                icon: "check",
+                text: "Entrega no whatsapp"
+            },
+            {
+                icon: "check",
+                text: "Suporte por email"
             }
         ],
-        name: 'Essentials',
-        created: '2025-04-14 16:31:12+00',
-        updated: '2025-04-14 16:31:13+00'
+        name: "Turbo anual",
+        created: "2025-04-14 16:31:36+00",
+        updated: "2025-04-14 16:31:36+00"
     },
     {
-        id: 'prod_S867rCJc3K7ObN',
+        id: "prod_SuMJ9fTc64lGIB",
         active: true,
-        defaultPrice: 'price_1RDpv22VoRElKCJvmybyo75h',
-        clientPrice: 14.9,
+        defaultPrice: "price_1RyXaQ2VoRElKCJvWFeznh79",
+        clientPrice: 29.99,
         clientDescriptions: [
             {
-                "icon": "check",
-                "text": "Até 10 vagas todos os dias."
+                icon: "check",
+                text: "Até 20 vagas por dia."
             },
             {
-                "icon": "check",
-                "text": "Envio de vagas 2x ao dia."
+                icon: "check",
+                text: "Horarios 7h 12h 17h 20h."
             },
             {
-                "icon": "check",
-                "text": "Prioridade nas vagas: Receba com antecedência."
+                icon: "check",
+                text: "Entrega antecipada das em 2h"
+            },
+            {
+                icon: "check",
+                text: "Entrega no whatsapp"
+            },
+            {
+                icon: "check",
+                text: "Suporte por email"
             }
         ],
-        name: 'Turbo',
-        created: '2025-04-14 16:31:36+00',
-        updated: '2025-04-14 16:31:36+00'
-    }
+        name: "Turbo mensal",
+        created: "2025-04-14 16:31:36+00",
+        updated: "2025-04-14 16:31:36+00"
+    },
+    {
+        id: "prod_SuMI2ysAB3PUO8",
+        active: true,
+        defaultPrice: "price_1RyXZp2VoRElKCJvK7hhHKey",
+        clientPrice: 16.53,
+        clientDescriptions: [
+            {
+                icon: "check",
+                text: "Até 10 vagas por dia."
+            },
+            {
+                icon: "check",
+                text: "Horários: 9h e 18h."
+            },
+            {
+                icon: "check",
+                text: "Entrega no whatsapp."
+            },
+            {
+                icon: "check",
+                text: "Suporte por email."
+            },
+            {
+                icon: "cancel",
+                text: "Entrega antecipada em 2h"
+            },
+        ],
+        name: "Start anual",
+        created: "2025-04-14 16:31:36+00",
+        updated: "2025-04-14 16:31:36+00"
+    },
+    {
+        id: "prod_SuMI2ysAB3PUO8",
+        active: true,
+        defaultPrice: "price_1RyXZp2VoRElKCJvK7hhHKey",
+        clientPrice: 19.99,
+        clientDescriptions: [
+            {
+                icon: "check",
+                text: "Até 10 vagas por dia."
+            },
+            {
+                icon: "check",
+                text: "Horários: 9h e 18h."
+            },
+            {
+                icon: "check",
+                text: "Entrega no whatsapp."
+            },
+            {
+                icon: "check",
+                text: "Suporte por email."
+            },
+            {
+                icon: "cancel",
+                text: "Entrega antecipada em 2h"
+            },
+        ],
+        name: "Start anual",
+        created: "2025-04-14 16:31:36+00",
+        updated: "2025-04-14 16:31:36+00"
+    },
 ]
 
 export {
