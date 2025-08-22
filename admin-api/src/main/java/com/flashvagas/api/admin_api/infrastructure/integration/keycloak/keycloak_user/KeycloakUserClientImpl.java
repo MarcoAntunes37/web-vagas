@@ -30,6 +30,8 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
     public GetUserByEmailResponse getUserByEmail(String email, String token) {
         String url = KeycloakClientUtils.buildUrlGetByEmail(email);
 
+        log.info("url: {}", url);
+
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
@@ -42,7 +44,6 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
         if (responseArray[0] == null) {
             throw new RuntimeException("Usuário com e-mail " + email + " não encontrado.");
         }
-
 
         return Optional.ofNullable(responseArray)
                 .filter(u -> u.length > 0)

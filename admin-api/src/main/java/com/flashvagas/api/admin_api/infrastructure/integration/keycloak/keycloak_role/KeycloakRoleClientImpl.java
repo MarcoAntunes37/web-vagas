@@ -19,8 +19,10 @@ import com.flashvagas.api.admin_api.domain.entity.role.dto.RoleMappingsResponse;
 import com.flashvagas.api.admin_api.infrastructure.integration.keycloak.utils.KeycloakClientUtils;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     private final RestTemplate restTemplate;
@@ -32,9 +34,13 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     public void assignRole(String userId, AssignRoleRequest role, String token) {
         String url = KeycloakClientUtils.buildUrlUpdateRole(userId);
 
+        log.debug("url: {}", url);
+
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
-        HttpEntity<AssignRoleRequest[]> request = new HttpEntity<>(new AssignRoleRequest[]{role}, headers);
+        log.debug("headers: {}", headers);
+
+        HttpEntity<AssignRoleRequest[]> request = new HttpEntity<>(new AssignRoleRequest[] { role }, headers);
 
         restTemplate.postForEntity(url, request, String.class);
     }
@@ -42,9 +48,13 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     public void removeRole(String userId, RemoveRoleRequest role, String token) {
         String url = KeycloakClientUtils.buildUrlUpdateRole(userId);
 
+        log.debug("url: {}", url);
+
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
-        HttpEntity<RemoveRoleRequest[]> request = new HttpEntity<>(new RemoveRoleRequest[]{role}, headers);
+        HttpEntity<RemoveRoleRequest[]> request = new HttpEntity<>(new RemoveRoleRequest[] { role }, headers);
+
+        log.debug("headers: {}", headers);
 
         restTemplate.exchange(url, HttpMethod.DELETE, request, Void.class);
     }

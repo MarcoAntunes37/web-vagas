@@ -50,6 +50,8 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
     @Override
     public void sendMessages() throws Exception {
         String token = kcAuthClient.getAccessToken();
+        
+        log.debug("token: {}", token);
 
         List<GetUserByRoleResponse> turboUsers = kcUserClient.getUsersByRole("plan-turbo", token);
 

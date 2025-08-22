@@ -14,10 +14,12 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @ControllerAdvice
 @RequestMapping("/api/v1/webhook")
+@Slf4j
 public class WebhookController {
     private final WebhookService webhookService;
     private final StripeClient stripeClient;
@@ -37,6 +39,7 @@ public class WebhookController {
             @RequestBody String payload,
             HttpServletRequest request) {
         String sigHeader = request.getHeader("Stripe-Signature");
+        log.debug("Stripe-Signature-Header: {} ", sigHeader);
         try {
             Event event = stripeClient.constructEvent(payload, sigHeader, stripeWebhookSecret);
 
@@ -45,9 +48,10 @@ public class WebhookController {
             return ResponseEntity
                     .ok("Sucesso");
         } catch (StripeException e) {
+            log.error("Erro ao processar webhook", e);
             return ResponseEntity
                     .status(400)
-                    .body("Assinatura do webhook inválida");
+                    .body("Erro ao processar webhook");
         }
     }
 }

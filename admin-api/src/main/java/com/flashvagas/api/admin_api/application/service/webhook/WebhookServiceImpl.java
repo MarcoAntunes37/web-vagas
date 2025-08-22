@@ -34,23 +34,27 @@ public class WebhookServiceImpl implements WebhookService {
     public void handleEvent(Event event) throws StripeException {
         switch (event.getType()) {
             case "checkout.session.completed":
+                log.info("checkout.session.completed event received");
                 // send confirmation email
                 break;
 
             case "invoice.payment_succeeded":
+                log.info("invoice.payment_succeeded event received");
                 handleInvoiceSucceeded(event);
                 break;
 
             case "invoice.payment_failed":
                 // send information email
+                log.info("invoice.payment_failed event received");
                 break;
 
             case "customer.subscription.deleted":
+                log.info("customer.subscription.deleted event received");
                 handleSubscriptionDeleted(event);
                 break;
 
             default:
-                System.out.println("Evento não tratado: " + event.getType());
+                log.info("Unrecognized event type: {}", event.getType());
         }
     }
 
@@ -79,6 +83,7 @@ public class WebhookServiceImpl implements WebhookService {
             AssignPlanRoleCommand command = new AssignPlanRoleCommand(email, plan);
 
             keycloakService.assignPlanRole(command);
+            log.info("Role '{}' adicionada ao usuário com email '{}'", plan, email);
         } else {
             log.warn("Plano inválido para produto: {}", product.getName());
         }
@@ -97,7 +102,7 @@ public class WebhookServiceImpl implements WebhookService {
                         RemovePlanRoleCommand command = new RemovePlanRoleCommand(email);
 
                         keycloakService.removePlanRole(command);
-
+                        log.info("Role removida do usuário com e-mail {}", email);
                     } catch (StripeException e) {
                         throw new RuntimeException("Erro ao buscar cliente Stripe para remoção de role", e);
                     }

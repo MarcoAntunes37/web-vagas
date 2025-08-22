@@ -41,8 +41,14 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
 
     public void assignPlanRole(AssignPlanRoleCommand command) {
         ExecuteWithUserQuery query = new ExecuteWithUserQuery(command.email(), (user, token) -> {
+            log.debug("user: {}", user);
+
+            log.debug("token: {}", token);
+
             Role role = Optional.ofNullable(PlanRole.fromPlan(command.plan()).toRole())
                     .orElseThrow(() -> new IllegalArgumentException("Plano inválido: " + command.plan()));
+
+            log.debug("role: {}", role);
 
             AssignRoleRequest roleRequest = mapper.domainToAssignRoleRequest(role);
 
@@ -57,7 +63,13 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
     public void removePlanRole(RemovePlanRoleCommand command) {
         ExecuteWithUserQuery query = new ExecuteWithUserQuery(command.email(),
                 (user, token) -> {
+                    log.debug("user: {}", user);
+
+                    log.debug("token: {}", token);
+
                     List<Role> roles = kcRoleClient.getUserRolesMappings(user.id(), token);
+
+                    log.debug("roles: {}", roles);
 
                     for (Role role : roles) {
                         if (PlanRole.isPlanRole(role.getDetails().getName())) {
