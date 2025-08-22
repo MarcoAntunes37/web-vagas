@@ -28,27 +28,32 @@ public class KeycloakClientUtils {
     }
 
     public static String buildUrlGetByEmail(String email) {
-        return UriComponentsBuilder.fromUriString(host)
+        String formattedHost = "https://" + host;
+        return UriComponentsBuilder
+                .fromUriString(formattedHost)
                 .pathSegment("admin", "realms", realm, "users")
                 .queryParam("email", email)
                 .toUriString();
     }
 
     public static String buidlUrlGetUserRoles(String userId) {
-        return UriComponentsBuilder.fromUriString(host)
+        String formattedHost = "https://" + host;
+        return UriComponentsBuilder.fromUriString(formattedHost)
                 .pathSegment("admin", "realms", realm, "users")
                 .queryParam("userId", userId)
                 .toUriString();
     }
 
     public static String buildUrlGetByRole(String role) {
-        return UriComponentsBuilder.fromUriString(host)
+        String formattedHost = "https://" + host;
+        return UriComponentsBuilder.fromUriString(formattedHost)
                 .pathSegment("admin", "realms", realm, "roles", role, "users")
                 .toUriString();
     }
 
     public static String buildUrlUpdateRole(String userId) {
-        return UriComponentsBuilder.fromUriString(host)
+        String formattedHost = "https://" + host;
+        return UriComponentsBuilder.fromUriString(formattedHost)
                 .pathSegment("admin", "realms", realm, "users", userId, "role-mappings", "realm")
                 .toUriString();
     }
