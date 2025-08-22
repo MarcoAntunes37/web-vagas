@@ -110,7 +110,7 @@ O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que 
   - Spring Scheduling
 - **Agendamentos**:
   - Essentials: 9h e 18h diariamente
-  - Turbo: 7h e 16h diariamente
+  - Turbo: 7h, 12h, 16h e 20h diariamente
 
 ### 5. Infraestrutura
 

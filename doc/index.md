@@ -20,7 +20,7 @@ Automatizar o processo de busca e notificação de vagas de emprego, entregando 
 
 #### Plano Turbo
 - **Frequência**: 4 blocos de mensagem por dia
-- **Horários**: 7h, 12h, 17h e 20h
+- **Horários**: 7h, 12h, 16h e 20h
 - **Preço**: R$ 29,90/mês
 - **Limite**: Até 5 vagas por bloco de mensagem
 
