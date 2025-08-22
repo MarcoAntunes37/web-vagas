@@ -163,9 +163,9 @@ const productListOptions: Product[] = [
         updated: "2025-04-14 16:31:36+00"
     },
     {
-        id: "prod_SuMI2ysAB3PUO8",
+        id: "prod_SuMHtJLFwlYxcc",
         active: true,
-        defaultPrice: "price_1RyXZp2VoRElKCJvK7hhHKey",
+        defaultPrice: "price_1RyXYV2VoRElKCJvhJDeDNd6",
         clientPrice: 19.99,
         clientDescriptions: [
             {
@@ -189,7 +189,7 @@ const productListOptions: Product[] = [
                 text: "Entrega antecipada em 2h"
             },
         ],
-        name: "Start anual",
+        name: "Start mensal",
         created: "2025-04-14 16:31:36+00",
         updated: "2025-04-14 16:31:36+00"
     },
