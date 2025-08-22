@@ -6,23 +6,45 @@ O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que 
 
 ## Arquitetura Geral
 
+### Representação da arquitetura
+
+#### Diagrama de fluxo
+```mermaid
+  flowchart TD
+      A[Frontend] -->|Requisita acesso|B
+      B[Keycloak] -->|Concede acesso|A
+      B -->|Requisita dados do db|C((KeycloakDB))
+      C -->|Resposta do db|B
+      A -->|Request com token|E{Gateway}
+      E -->|Retorna a resposta|A
+      E -->|Valida o acesso com token|B
+      B -->|Recebe a resposta|E
+      E -->|Redireciona request para api|D[FlashvagasAPI]
+      D -->|Resposta da request|E
+      D -->|Requisição para o db|F((BackendDB))
+      E -->|Redireciona Request para api|G[AdminAPI]
+      G -->|Resposta da request|E
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   Gateway API   │    │   Admin API     │
-│   (Angular)     │◄──►│   (Spring)      │◄──►│   (Spring)      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                │                       │
-                                ▼                       ▼
-                       ┌─────────────────┐    ┌─────────────────┐
-                       │ FlashVagas API  │    │   Keycloak      │
-                       │   (Spring)      │    │   (Auth)        │
-                       └─────────────────┘    └─────────────────┘
-                                │
-                                ▼
-                       ┌─────────────────┐
-                       │   PostgreSQL    │
-                       │   (Database)    │
-                       └─────────────────┘
+
+#### Diagrama de containers
+```mermaid
+  C4Container
+      Person(usuario, "Usuário", "Pessoa que acessa o sistema pelo navegador ou mobile")
+      Container(frontend, "Frontend (Angular)", "SPA", "Interface que o usuário acessa")
+      Container(gateway, "Gateway API", "Spring Boot", "Responsável por rotear requisições, autenticar via Keycloak e expor APIs")
+      Container(keycloak, "Keycloak", "Identity Provider", "Gerencia autenticação, autorização e tokens")
+      ContainerDb(keycloakdb, "KeycloakDB", "PostgreSQL", "Armazena usuários, papéis e sessões do Keycloak")
+      Container(adminapi, "Admin API", "Spring Boot", "Gerencia operações administrativas e webhooks")
+      Container(flashapi, "FlashVagas API", "Spring Boot", "Gerencia vagas, candidatos e lógica de negócio")
+      ContainerDb(backenddb, "BackendDB", "PostgreSQL", "Dados da aplicação (vagas, candidatos, etc.)")
+
+      Rel(usuario, frontend, "Acessa via navegador/app")
+      Rel(frontend, gateway, "Envia requisições com token")
+      Rel(gateway, keycloak, "Valida token JWT / introspecção")
+      Rel(keycloak, keycloakdb, "Consulta / persiste dados de autenticação")
+      Rel(gateway, flashapi, "Redireciona requisições")
+      Rel(flashapi, backenddb, "Consulta / persiste dados")
+      Rel(gateway, adminapi, "Redireciona requisições administrativas")
 ```
 
 ## Componentes do Sistema
