@@ -10,9 +10,6 @@
     <span class="spacer"></span>
     <button matRipple class="topnav-dropdown" [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <span class="topnav-username">{{userProfile()?.username | uppercaseFirstLetter}}</span>
-      <!-- <button mat-icon-button class="menu-more-vert-username" >
-            <span class="material-symbols-outlined more-vert-icon">more_vert</span>
-        </button> -->
       <span class="material-symbols-outlined arrow-drop-down-icon">arrow_drop_down</span>
     </button>
     <mat-menu #menu="matMenu">
@@ -39,12 +36,6 @@
             <span>Dashboard</span>
           </div>
         </button>
-        <!-- <button (click)="handleSettingsClick()" class="sidenav-button" mat-raised-button>
-          <div class="sidenav-item">
-            <span class="material-symbols-outlined">settings</span>
-            <span>Configurações</span>
-          </div>
-        </button> -->
       </div>
     </mat-drawer>
     <div (click)="drawer.close()" class="sidenav-content">

@@ -10,7 +10,7 @@ import com.flashvagas.api.flashvagas_api.domain.value_object.UserId;
 import com.flashvagas.api.flashvagas_api.persistence.jobs_user.JobsUserEntity;
 import com.flashvagas.api.flashvagas_api.persistence.jobs_user.keys.JobsUserKey;
 
-@Mapper(componentModel = "spring", imports = {OffsetDateTime.class})
+@Mapper(componentModel = "spring", imports = { OffsetDateTime.class })
 public interface JobsUserJpaMapper {
     @Mapping(target = "userId", expression = "java(userId.getValue())")
     @Mapping(target = "jobId", expression = "java(jobId.getValue())")

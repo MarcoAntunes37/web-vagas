@@ -1,4 +1,6 @@
 spring:  
+  config:
+    import: optional:file:.env[.properties]
   rabbitmq:
     host: ${BACKEND_RABBITMQ_HOST}
     username: ${RABBITMQ_USERNAME}
