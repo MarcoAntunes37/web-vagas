@@ -61,7 +61,7 @@ services:
     restart: unless-stopped
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4.0-management
     container_name: rabbitmq
     hostname: rabbitmq
     ports:
@@ -135,6 +135,13 @@ services:
       - frontend
       - keycloak
       - gateway-api
+
+  cloudflare:
+    image: cloudflare/cloudflared:2025.5.0
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN: ${TUNNEL_TOKEN}
 
 networks:
   default:
