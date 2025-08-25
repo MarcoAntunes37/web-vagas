@@ -6,7 +6,7 @@ services:
     container_name: backend-db
     hostname: backend-db
     ports:
-      - ${BACKEND_DB_HOST_PORT}:${BACKEND_DB_CONTAINER_PORT}
+      - ${BACKEND_DB_CONTAINER_PORT}
     environment:
       POSTGRES_USER: ${BACKEND_DB_USERNAME}
       POSTGRES_PASSWORD: ${BACKEND_DB_PASSWORD}
@@ -65,8 +65,8 @@ services:
     container_name: rabbitmq
     hostname: rabbitmq
     ports:
-      - ${RABBITMQ_HOST_PORT}:${RABBITMQ_CONTAINER_PORT}
-      - ${RABBITMQ_MANAGEMENT_HOST_PORT}:${RABBITMQ_MANAGEMENT_CONTAINER_PORT}
+      - ${RABBITMQ_CONTAINER_PORT}
+      - ${RABBITMQ_MANAGEMENT_CONTAINER_PORT}
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
@@ -77,7 +77,7 @@ services:
   admin-api:
     image: flashvagas/flashvagas:admin-api
     ports:
-      - "8081:8081"
+      - "8081"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     env_file:
@@ -91,7 +91,7 @@ services:
   flashvagas-api:
     image: flashvagas/flashvagas:flashvagas-api
     ports:
-      - "8083:8080"
+      - "8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     env_file:
@@ -117,24 +117,13 @@ services:
   frontend:
     image: flashvagas/flashvagas:frontend
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./docker/certbot/conf:/etc/letsencrypt
-      - ./docker/certbot/www:/var/www/certbot
+      - "80"
+      - "443"
+    environment:
+      - APP_ENV=prod
     depends_on:
       - gateway-api
     restart: unless-stopped
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./docker/certbot/conf:/etc/letsencrypt
-      - ./docker/certbot/www:/var/www/certbot
-    depends_on:
-      - frontend
-      - keycloak
-      - gateway-api
 
   cloudflare:
     image: cloudflare/cloudflared:2025.5.0

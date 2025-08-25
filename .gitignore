@@ -3,6 +3,7 @@
 data
 .env
 .env.prod
+.env.dev
 .idea
 .apt_generated_tests
 /docker/certbot/conf
