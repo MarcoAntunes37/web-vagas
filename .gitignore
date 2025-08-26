@@ -6,4 +6,4 @@ data
 .env.dev
 .idea
 .apt_generated_tests
-/docker/certbot/conf
+node_modules
