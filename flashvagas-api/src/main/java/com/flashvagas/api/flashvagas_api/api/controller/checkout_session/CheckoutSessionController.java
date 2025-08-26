@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flashvagas.api.flashvagas_api.application.mapper.checkout_session.CheckoutSessionApiMapper;
 import com.flashvagas.api.flashvagas_api.application.service.checkout_session.CheckoutSessionService;
 import com.flashvagas.api.flashvagas_api.application.service.checkout_session.command.CreateCheckoutSessionCommand;
+import com.flashvagas.api.flashvagas_api.application.service.checkout_session.query.CheckoutSessionGetQuery;
 import com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.dto.create.CreateCheckoutSessionRequest;
 import com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.dto.create.CreateCheckoutSessionResponse;
+import com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.dto.get.GetCheckoutSessionRequest;
+import com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.dto.get.GetCheckoutSessionResponse;
 import com.stripe.exception.StripeException;
 
 import jakarta.validation.Valid;
@@ -14,6 +17,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +42,17 @@ public class CheckoutSessionController {
         CreateCheckoutSessionCommand command = mapper.createCheckoutRequestToCommand(request);
 
         CreateCheckoutSessionResponse response = checkoutSessionService.createCheckoutSession(command);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/get-checkout-session")
+    public ResponseEntity<GetCheckoutSessionResponse> get(
+            String sessionId) throws StripeException {
+                GetCheckoutSessionRequest request = new GetCheckoutSessionRequest(sessionId);
+        CheckoutSessionGetQuery command = mapper.getRequestToQuery(request);
+
+        GetCheckoutSessionResponse response = checkoutSessionService.getCheckoutSession(command);
 
         return ResponseEntity.ok(response);
     }

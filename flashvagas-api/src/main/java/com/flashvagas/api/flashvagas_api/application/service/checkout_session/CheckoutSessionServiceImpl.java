@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.flashvagas.api.flashvagas_api.application.mapper.checkout_session.CheckoutSessionApiMapper;
 import com.flashvagas.api.flashvagas_api.application.service.checkout_session.command.CreateCheckoutSessionCommand;
+import com.flashvagas.api.flashvagas_api.application.service.checkout_session.query.CheckoutSessionGetQuery;
 import com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.CheckoutSession;
 import com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.dto.create.CreateCheckoutSessionResponse;
+import com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.dto.get.GetCheckoutSessionResponse;
 import com.flashvagas.api.flashvagas_api.infrastructure.integrations.stripe.StripeClient;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -35,6 +37,14 @@ public class CheckoutSessionServiceImpl implements CheckoutSessionService {
                 checkoutSession.getPrice().getValue(), customer.getId());
 
         CreateCheckoutSessionResponse response = mapper.sessionToCreateResponse(session);
+
+        return response;
+    }
+
+    public GetCheckoutSessionResponse getCheckoutSession(CheckoutSessionGetQuery query) throws StripeException {
+        Session session = stripeClient.retrieveSession(query.sessionId());
+
+        GetCheckoutSessionResponse response = mapper.sessionToGetResponse(session);
 
         return response;
     }

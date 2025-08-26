@@ -3,6 +3,8 @@ package com.flashvagas.api.flashvagas_api.infrastructure.integrations.stripe;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+import com.stripe.model.Price;
+import com.stripe.model.Product;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.CustomerCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -54,11 +56,16 @@ public class StripeClient {
 
     public Session createCheckoutSession(String priceId, String customerId) throws StripeException {
         Customer customer = retrieveCustomer(customerId);
+        Price price = retrievePrice(priceId);
+        Product product = retrieveProduct(price.getProduct());
+
         if (customer == null) {
             SessionCreateParams params = SessionCreateParams.builder()
                     .setSuccessUrl(domain + "/success?session_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl(domain + "/cancel")
+                    .setCancelUrl(domain + "/cancel?session_id={CHECKOUT_SESSION_ID}")
                     .setMode(Mode.SUBSCRIPTION)
+                    .setClientReferenceId(customerId)
+                    .putMetadata("productName", product.getName())
                     .setSubscriptionData(
                             SubscriptionData.builder()
                                     .setTrialPeriodDays(3L)
@@ -75,9 +82,11 @@ public class StripeClient {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setSuccessUrl(domain + "/success?session_id={CHECKOUT_SESSION_ID}")
-                .setCancelUrl(domain + "/cancel")
+                .setCancelUrl(domain + "/cancel?session_id={CHECKOUT_SESSION_ID}")
                 .setMode(Mode.SUBSCRIPTION)
+                .putMetadata("productName", product.getName())
                 .setCustomer(customerId)
+                .setClientReferenceId(customerId)
                 .addLineItem(LineItem.builder()
                         .setPrice(priceId)
                         .setQuantity(1L)
@@ -87,7 +96,19 @@ public class StripeClient {
         return Session.create(params);
     }
 
+    public Session retrieveSession(String sessionId) throws StripeException {
+        return Session.retrieve(sessionId);
+    }
+
     public Customer retrieveCustomer(String customerId) throws StripeException {
         return Customer.retrieve(customerId);
+    }
+
+    public Product retrieveProduct(String productId) throws StripeException {
+        return Product.retrieve(productId);
+    }
+
+    public Price retrievePrice(String priceId) throws StripeException {
+        return Price.retrieve(priceId);
     }
 }

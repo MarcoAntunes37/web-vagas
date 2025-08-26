@@ -1,5 +1,9 @@
 package com.flashvagas.api.flashvagas_api.domain.entity.checkout_session.dto.get;
 
+import java.math.BigDecimal;
+
 public record GetCheckoutSessionResponse(
-        String jsonSession) {
+        String productName,
+        BigDecimal price,
+        String date) {
 }
