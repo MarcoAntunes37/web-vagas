@@ -1,5 +1,5 @@
 package com.flashvagas.api.flashvagas_api.domain.entity.customer_portal.dto;
 
-public record CreateCustomerPortalSessionRequest(String customerId) {
+public record CreateCustomerPortalSessionRequest(String customerEmail) {
 
 }

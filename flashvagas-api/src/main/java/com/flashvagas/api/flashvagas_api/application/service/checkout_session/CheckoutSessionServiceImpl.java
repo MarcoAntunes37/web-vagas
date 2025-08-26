@@ -14,7 +14,11 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.checkout.Session;
 
+import lombok.extern.slf4j.Slf4j;
+
+
 @Service
+@Slf4j
 public class CheckoutSessionServiceImpl implements CheckoutSessionService {
     private final StripeClient stripeClient;
 
@@ -32,11 +36,17 @@ public class CheckoutSessionServiceImpl implements CheckoutSessionService {
         Customer customer = stripeClient.getOrCreateCustomer(
                 checkoutSession.getCustomerEmail().getValue(),
                 checkoutSession.getCustomerName().getValue());
+        
+        log.debug("Customer: {}", customer.toJson());
 
         Session session = stripeClient.createCheckoutSession(
                 checkoutSession.getPrice().getValue(), customer.getId());
 
+        log.debug("Session: {}", session.toJson());
+
         CreateCheckoutSessionResponse response = mapper.sessionToCreateResponse(session);
+
+        log.debug("Response: {}", response);
 
         return response;
     }

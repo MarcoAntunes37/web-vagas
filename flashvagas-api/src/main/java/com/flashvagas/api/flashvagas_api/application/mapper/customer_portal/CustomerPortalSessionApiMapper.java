@@ -11,7 +11,7 @@ import com.stripe.model.billingportal.Session;
 
 @Mapper(componentModel = "spring")
 public interface CustomerPortalSessionApiMapper {
-    @Mapping(target = "id", expression = "java(new StripeCustomerId(request.customerId()))")
+    @Mapping(target = "customerEmail", expression = "java(new CustomerEmail(request.customerEmail()))")
     CreateCustomerPortalSessionCommand createPortalSessionRequestToCommand(CreateCustomerPortalSessionRequest request);
 
     @Mapping(target = "returnUrl", expression = "java(new StripeCustomerPortalReturnUrl(session.getUrl()))")

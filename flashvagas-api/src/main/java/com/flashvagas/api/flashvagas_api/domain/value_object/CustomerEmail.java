@@ -41,4 +41,9 @@ public class CustomerEmail {
     public int hashCode() {
         return value.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }
