@@ -6,12 +6,16 @@ const currentEnv = process.env['APP_ENV'] || process.env['NODE_ENV'] || 'dev';
 
 const envFile = path.resolve(process.cwd(), `.env.${currentEnv}`);
 
+console.log('Current environment:', currentEnv);
+
+console.log('Looking for env file at:', envFile);
+
 if (!fs.existsSync(envFile)) {
   console.error(`❌ Arquivo de ambiente não encontrado: ${envFile}`);
   process.exit(1);
 }
 
-dotenv.config({ path: envFile });
+dotenv.config({ path: envFile, override: true });
 
 const envDir = path.resolve('src/app/environment');
 const envFileTs = path.join(envDir, 'environment.ts');
