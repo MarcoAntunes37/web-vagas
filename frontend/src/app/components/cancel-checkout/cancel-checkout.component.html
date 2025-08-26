@@ -1,1 +1,13 @@
-<p>cancel-checkout works!</p>
+<section class="cancel-checkout-container">
+    <h1>Pagamento recusado</h1>
+    <p>O pagamento foi recusado, tente novamente ou entre em contato com a sua instituição financeira.</p>
+    <div class="checkout-info-container">
+        <p>Produto: {{product.name}}</p>
+        <p>Período: {{periodText}} </p>
+        <p>Valor: R${{product.clientPrice | number: '1.2-2'}}</p>
+    </div>
+    <div class="button-container">
+        <button mat-raised-button class="plans-button" (click)="handleGoToPlansClick()" *ngIf="authenticated">Ver nossos
+            planos</button>
+    </div>
+</section>

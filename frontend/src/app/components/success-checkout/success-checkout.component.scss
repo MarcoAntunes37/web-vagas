@@ -1,0 +1,26 @@
+.success-checkout-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+    justify-items: center;
+    margin: 1em 0;
+    height: 88vh;
+}
+
+.checkout-info-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+}
+
+.button-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+    justify-items: center;
+
+    button{
+        width: 20vw;
+    }
+}
+

@@ -20,6 +20,7 @@ const environment = {
   production: currentEnv === 'prod',
   userPreferencesApiUrl: process.env['NG_APP_USER_PREFERENCES_API_URL'],
   checkoutSessionApiUrl: process.env['NG_APP_CHECKOUT_SESSION_API_URL'],
+  customerPortalApiUrl: process.env['NG_APP_CUSTOMER_PORTAL_API_URL'],
   kcConfigRealm: process.env['NG_APP_KC_CONFIG_REALM'],
   kcConfigUrl: process.env['NG_APP_KC_CONFIG_URL'],
   kcConfigClientId: process.env['NG_APP_KC_CONFIG_CLIENT_ID'],

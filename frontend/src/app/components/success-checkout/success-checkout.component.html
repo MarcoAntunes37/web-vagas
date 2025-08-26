@@ -1,1 +1,12 @@
-<p>success-checkout works!</p>
+<section class="success-checkout-container">
+    <h1>Pagamento bem-sucedido</h1>
+    <p>O pedido de pagamento foi encaminhado para a instituição financeira.</p>
+    <div class="checkout-info-container">
+        <p>Produto: {{product.name}}</p>
+        <p>Período: {{periodText}} </p>
+        <p>Valor: R${{product.clientPrice | number: '1.2-2'}}</p>
+    </div>
+    <div class="button-container">
+        <button mat-raised-button class="plans-button" (click)="handleGoToDashboardClick()" *ngIf="authenticated">Ir para o dashboard</button>
+    </div>
+</section>

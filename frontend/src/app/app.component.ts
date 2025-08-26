@@ -10,6 +10,7 @@ import { ThemeService } from './service/theme/theme.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgIf } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
+import { CustomerPortalClient } from './integrations/CustomerPortalClient';
 
 
 @Component({
@@ -42,6 +43,7 @@ export class AppComponent {
   constructor(
     private themeService: ThemeService,
     private userProfileService: UserProfileService,
+    private customerPortalClient: CustomerPortalClient,
     public keycloak: Keycloak,
     private router: Router) {
     effect(async () => {
@@ -67,5 +69,14 @@ export class AppComponent {
 
   handleSettingsClick() {
     this.router.navigate(['dashboard/settings']);
+  }
+
+  handleCustomerPortalClick() {
+    this.customerPortalClient.createCustomerPortalSession(this.userProfile()?.email ?? '')
+      .then((response) => {
+        response.subscribe((data) => {
+          window.location.href = data.url
+        })
+      });
   }
 }
