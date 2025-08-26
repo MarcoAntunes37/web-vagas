@@ -104,7 +104,7 @@ const productListOptions: Product[] = [
         id: "prod_SuMJ9fTc64lGIB",
         active: true,
         defaultPrice: "price_1RyXaQ2VoRElKCJvWFeznh79",
-        clientPrice: 29.99,
+        clientPrice: 29.90,
         clientDescriptions: [
             {
                 icon: "check",
@@ -166,7 +166,7 @@ const productListOptions: Product[] = [
         id: "prod_SuMHtJLFwlYxcc",
         active: true,
         defaultPrice: "price_1RyXYV2VoRElKCJvhJDeDNd6",
-        clientPrice: 19.99,
+        clientPrice: 19.90,
         clientDescriptions: [
             {
                 icon: "check",

@@ -3,11 +3,19 @@
         <header class="plans-header">
             <h2 class="plans-title">Planos</h2>
         </header>
-        <div class="plans-content">
-            <div class="plans-card-container" *ngIf="products?.length">
-                <app-product-card *ngFor="let product of products; trackBy: trackByProductId" [product]="product"
-                    [cssClass]="'plans-card-home'" />
-            </div>
-        </div>
+        <mat-tab-group class="plans-tab-group" mat-align-tabs="center"  mat-stretch-tabs="false" dynamicHeight>
+            <mat-tab label="Anual" class="anual-plans-tab">
+                <div class="plans-grid">
+                    <app-product-card *ngFor="let product of anualProducts; trackBy: trackByProductId"
+                        [product]="product" />
+                </div>
+            </mat-tab>
+            <mat-tab label="Mensal" class="mensal-plans-tab">
+                <div class="plans-grid">
+                    <app-product-card *ngFor="let product of mensalProducts; trackBy: trackByProductId"
+                        [product]="product"/>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
     </section>
 </section>

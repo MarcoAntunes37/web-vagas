@@ -46,9 +46,9 @@ a:active {
 
 .topnav-container {
     display: grid;
-    background: #FFFFFF;
+    background: var(--mat-sys-secondary);
     background: linear-gradient(139deg, rgba(255, 255, 255, 1) 0%, rgba(200, 205, 237, 1) 64%, rgba(207, 211, 239, 1) 88%, rgba(255, 255, 255, 1) 100%);
-    grid-template-columns: repeat(3, 1fr);  
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .mat-toolbar {
@@ -60,9 +60,18 @@ a:active {
     justify-content: space-between;
 }
 
-.logo-link img {
-    width: clamp(10em, 5vw, 6em);
-    background-color: var(--mat-sys-primary);
+.logo-link {
+    display: flex;
+}
+
+picture {
+    justify-content: center;
+    display: flex;
+}
+
+.logo-image {
+    width: clamp(5em, 9vw, 15em);
+    display: flex;
 }
 
 .hamburguer-icon {
@@ -72,15 +81,7 @@ a:active {
 .menu-icon,
 .arrow-drop-down-icon {
     cursor: pointer;
-    color: white;
-}
-
-.logo-link {
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
+    color: var(--mat-sys-on-surface)
 }
 
 .material-symbols-outlined {
@@ -88,23 +89,8 @@ a:active {
     vertical-align: middle;
 }
 
-.logo-link:hover {
-    background: var(--mat-sys-on-primary-fixed-variant);
-}
-
 .spacer {
     flex: 1 1 auto;
-}
-
-.logo {
-    height: 100%;
-    width: 100%;
-    background: var(--mat-sys-primary);
-    border: none;
-}
-
-.logo:hover {
-    background: var(--mat-sys-inverse-primary);
 }
 
 .button-content {
@@ -120,26 +106,11 @@ a:active {
     align-items: center;
     justify-content: center;
     border: none;
-    padding: min(0.5em, 1vw);
-    border-radius: 0.5em;
-    background: var(--mat-sys-primary);
     cursor: pointer;
     margin-right: 1em;
 }
 
-.topnav-dropdown:hover {
-    background: var(--mat-sys-inverse-primary);
-}
-
 .topnav-username {
     font-size: clamp(1.5em, 1vw, 2em);
-    color: var(--mat-sys-on-primary);
-}
-
-.topnav-menu-icon:hover {
-    background: var(--mat-sys-inverse-primary);
-}
-
-.hamburguer-icon:hover {
-    background: var(--mat-sys-inverse-primary);
+    color: var(--mat-sys-on-surface);
 }

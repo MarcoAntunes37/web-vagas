@@ -1,4 +1,4 @@
-import { DecimalPipe, NgClass, NgFor } from '@angular/common';
+import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,16 +8,25 @@ import Product from '../../models/types/Product';
 import { CheckoutSessionClient } from '../../integrations/CheckoutSessionClient';
 @Component({
   selector: 'app-product-card',
-  imports: [MatCardModule, NgFor, MatButtonModule, NgClass, MatRipple, DecimalPipe],
+  imports: [MatCardModule, NgFor, MatButtonModule, NgClass, MatRipple, DecimalPipe, NgIf],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
   @Input() product: Product = {} as Product;
   @Input() cssClass: string = '';
+  @Input() isAnnual: boolean = false;
   constructor(
     private userProfileService: UserProfileService,
     private checkoutSessionClient: CheckoutSessionClient) { }
+
+  get periodText(): string {
+    return this.isAnnual ? '/ano' : '/mês';
+  }
+
+  get isPopular(): boolean {
+    return this.product.name.toLowerCase().includes('turbo');
+  }
 
   async handleSignatureClick() {
     const isAuthenticated = await this.userProfileService.getAuthenticated();
@@ -34,8 +43,6 @@ export class ProductCardComponent {
             });
           });
       }
-    } else {
-      window.location.href = 'http://localhost:8181/realms/FlashVagas/protocol/openid-connect/auth?client_id=angular&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fhome&response_type=code&code_challenge=T7qQ67Ozi9_qGTRK9g5LMc8mD8Djm2OwYp5attf_r-k&code_challenge_method=S256';
     }
   }
 }

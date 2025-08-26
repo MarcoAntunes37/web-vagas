@@ -8,15 +8,14 @@ import { UserProfileService } from './service/user-profile/user-profile.service'
 import Keycloak, { KeycloakProfile } from 'keycloak-js';
 import { ThemeService } from './service/theme/theme.service';
 import { MatMenuModule } from '@angular/material/menu';
-import { UppercaseFirstLetterPipe } from './pipes/uppercase-first-letter.pipe';
 import { NgIf } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
-import { environment } from './environment/environment';
+
 
 @Component({
   selector: 'app-root',
   imports: [
-    MatToolbarModule, MatSidenavModule, MatButtonModule, MatIconModule, RouterOutlet, MatButtonModule, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, UppercaseFirstLetterPipe, NgIf, MatRippleModule
+    MatToolbarModule, MatSidenavModule, MatButtonModule, MatIconModule, RouterOutlet, MatButtonModule, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, NgIf, MatRippleModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -26,6 +25,7 @@ export class AppComponent {
   userProfile = signal<KeycloakProfile | null>(null);
   authenticated = signal(false);
   roles = signal<string[]>([]);
+  screenWidth = signal(window.innerWidth);
 
   async handleProfileClick() {
     return this.userProfileService.getProfileManagementLink();

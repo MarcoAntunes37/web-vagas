@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './cancel-checkout.component.scss'
 })
 export class CancelCheckoutComponent {
-
+  
 }

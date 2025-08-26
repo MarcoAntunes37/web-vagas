@@ -1,8 +1,8 @@
 .subscription-container {
     display: flex;
-    justify-content: center;
     flex-direction: column;
     height: 100vh;
+    width: 100vw;
 
     .subscription-title {
         margin-bottom: 2em;
@@ -12,14 +12,15 @@
     }
 }
 
-.plan-card-container {
-    display: flex;
-    gap: 2em;
-    flex-direction: row;
-    width: 80vw;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
+.plans-tab-group {
+    width: 100%;
+    align-self: center
+}
+
+.mat-mdc-tab-body-content {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
 }
 
 .plans-container {
@@ -53,6 +54,12 @@
         width: 100%;
     }
 
+    .plans-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 2fr));
+        padding-block: 0.5em;
+    }
+
     .plans-card-container {
         display: flex;
         flex-direction: column;
@@ -67,13 +74,5 @@
         &:hover {
             transform: scale(1.02);
         }
-    }
-
-    @media screen and (min-width: 1024px) {
-        .plans-card-container {
-            flex-direction: row;
-            justify-content: center;
-        }
-
     }
 }
