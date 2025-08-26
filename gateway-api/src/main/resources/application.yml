@@ -53,7 +53,15 @@ resilience4j:
 flashvagas-api:
   service:
     url: ${API_SERVICE_URL}
+    
+admin-api:
+  service:
+    url: ${API_ADMIN_SERVICE_URL}
 
+frontend:
+  service:
+    url: ${DOMAIN}
+    
 server:
   host: 0.0.0.0
   port: 9000
