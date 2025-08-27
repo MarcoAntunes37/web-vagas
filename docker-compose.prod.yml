@@ -77,7 +77,7 @@ services:
   admin-api:
     image: flashvagas/flashvagas:admin-api
     ports:
-      - "8081"
+      - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     env_file:
