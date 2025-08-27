@@ -72,7 +72,11 @@ export class AppComponent {
   }
 
   handleCustomerPortalClick() {
-    this.customerPortalClient.createCustomerPortalSession(this.userProfile()?.email ?? '')
+    const customerFullName = this.userProfile()?.firstName + ' ' + this.userProfile()?.lastName
+    this.customerPortalClient.createCustomerPortalSession(
+      this.userProfile()?.email ?? '',
+      customerFullName
+    )
       .then((response) => {
         response.subscribe((data) => {
           window.location.href = data.url

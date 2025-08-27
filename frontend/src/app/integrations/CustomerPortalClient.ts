@@ -13,12 +13,13 @@ export class CustomerPortalClient {
         private userProfileService: UserProfileService,
         private http: HttpClient) { }
 
-    async createCustomerPortalSession(customerEmail: string)
+    async createCustomerPortalSession(customerEmail: string, customerName: string)
         : Promise<Observable<CreateCustomerPortalSessionResponse>> {
         const { customerPortalApiUrl } = environment
         const accessToken = await this.userProfileService.getAccessToken();
         return this.http.post<CreateCustomerPortalSessionResponse>(customerPortalApiUrl + "/create-portal-session", {
-            customerEmail
+            customerEmail,
+            customerName
         }, {
             headers: {
                 'Content-Type': 'application/json',
