@@ -51,7 +51,7 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
     public void sendMessages() throws Exception {
         String token = kcAuthClient.getAccessToken();
 
-        log.debug("token: {}", token);
+        log.info("token: {}", token);
 
         List<GetUserByRoleResponse> startUsers = kcUserClient
                 .getUsersByRole("plan-start", token);

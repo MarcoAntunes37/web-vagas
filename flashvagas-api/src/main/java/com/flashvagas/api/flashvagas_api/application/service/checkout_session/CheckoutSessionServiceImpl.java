@@ -37,16 +37,16 @@ public class CheckoutSessionServiceImpl implements CheckoutSessionService {
                 checkoutSession.getCustomerEmail().getValue(),
                 checkoutSession.getCustomerName().getValue());
         
-        log.debug("Customer: {}", customer.toJson());
+        log.info("Customer: {}", customer.toJson());
 
         Session session = stripeClient.createCheckoutSession(
                 checkoutSession.getPrice().getValue(), customer.getId());
 
-        log.debug("Session: {}", session.toJson());
+        log.info("Session: {}", session.toJson());
 
         CreateCheckoutSessionResponse response = mapper.sessionToCreateResponse(session);
 
-        log.debug("Response: {}", response);
+        log.info("Response: {}", response);
 
         return response;
     }

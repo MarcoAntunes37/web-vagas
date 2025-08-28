@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,23 +25,19 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     private final RestTemplate restTemplate;
-    @Value("${keycloak.host}")
-    private String host;
-    @Value("${keycloak.realm}")
-    private String realm;
 
     public void assignRole(String userId, AssignRoleRequest role, String token) {
         String url = KeycloakClientUtils.buildUrlUpdateRole(userId);
 
-        log.debug("url: {}", url);
+        log.info("url: {}", url);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
-        headers.add("Content-Type", "application/json");
-
-        log.debug("headers: {}", headers);
+        log.info("headers: {}", headers);
 
         HttpEntity<AssignRoleRequest[]> request = new HttpEntity<>(new AssignRoleRequest[] { role }, headers);
+
+        log.info("request: {}", request);
 
         restTemplate.postForEntity(url, request, String.class);
     }
@@ -50,15 +45,15 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     public void removeRole(String userId, RemoveRoleRequest role, String token) {
         String url = KeycloakClientUtils.buildUrlUpdateRole(userId);
 
-        log.debug("url: {}", url);
+        log.info("url: {}", url);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
-        headers.add("Content-Type", "application/json");
+        log.info("headers: {}", headers);
 
         HttpEntity<RemoveRoleRequest[]> request = new HttpEntity<>(new RemoveRoleRequest[] { role }, headers);
 
-        log.debug("headers: {}", headers);
+        log.info("request: {}", request);
 
         restTemplate.exchange(url, HttpMethod.DELETE, request, Void.class);
     }
@@ -68,10 +63,16 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
+        log.info("response: {}", headers);
+
         HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        log.info("response: {}", entity);
 
         ResponseEntity<RoleMappingsResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity,
                 RoleMappingsResponse.class);
+
+        log.info("response: {}", response);
 
         RoleMappingsResponse roleMappingsResponse = response.getBody();
 

@@ -41,17 +41,18 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
 
     public void assignPlanRole(AssignPlanRoleCommand command) {
         ExecuteWithUserQuery query = new ExecuteWithUserQuery(command.email(), (user, token) -> {
-            log.debug("user: {}", user);
+            log.info("user: {}", user);
 
-            log.debug("token: {}", token);
+            log.info("token: {}", token);
 
             Role role = Optional.ofNullable(PlanRole.fromPlan(command.plan()).toRole())
                     .orElseThrow(() -> new IllegalArgumentException("Plano inválido: " + command.plan()));
 
-            log.debug("role: {}", role);
+            log.info("role: {}", role);
 
             AssignRoleRequest roleRequest = mapper.domainToAssignRoleRequest(role);
 
+            log.info("roleRequest: {}", roleRequest);
             kcRoleClient.assignRole(user.id(), roleRequest, token);
 
             log.info("Role '{}' adicionada ao usuário '{}'", role.getDetails().getName(), command.email());
@@ -63,13 +64,13 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
     public void removePlanRole(RemovePlanRoleCommand command) {
         ExecuteWithUserQuery query = new ExecuteWithUserQuery(command.email(),
                 (user, token) -> {
-                    log.debug("user: {}", user);
+                    log.info("user: {}", user);
 
-                    log.debug("token: {}", token);
+                    log.info("token: {}", token);
 
                     List<Role> roles = kcRoleClient.getUserRolesMappings(user.id(), token);
 
-                    log.debug("roles: {}", roles);
+                    log.info("roles: {}", roles);
 
                     for (Role role : roles) {
                         if (PlanRole.isPlanRole(role.getDetails().getName())) {
@@ -95,6 +96,7 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
                             () -> new RuntimeException("Usuário com e-mail " + query.email() + " não encontrado."));
 
             log.info("user: {}", user);
+            
             query.action().accept(user, token);
 
         } catch (Exception e) {

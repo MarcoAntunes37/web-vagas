@@ -39,7 +39,7 @@ public class WebhookController {
             @RequestBody String payload,
             HttpServletRequest request) {
         String sigHeader = request.getHeader("Stripe-Signature");
-        log.debug("Stripe-Signature-Header: {} ", sigHeader);
+        log.info("Stripe-Signature-Header: {} ", sigHeader);
         try {
             Event event = stripeClient.constructEvent(payload, sigHeader, stripeWebhookSecret);
 
