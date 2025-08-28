@@ -53,6 +53,7 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
             AssignRoleRequest roleRequest = mapper.domainToAssignRoleRequest(role);
 
             log.info("roleRequest: {}", roleRequest);
+            
             kcRoleClient.assignRole(user.id(), roleRequest, token);
 
             log.info("Role '{}' adicionada ao usuário '{}'", role.getDetails().getName(), command.email());
@@ -96,7 +97,7 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
                             () -> new RuntimeException("Usuário com e-mail " + query.email() + " não encontrado."));
 
             log.info("user: {}", user);
-            
+
             query.action().accept(user, token);
 
         } catch (Exception e) {

@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashvagas.api.admin_api.domain.entity.role.Role;
 import com.flashvagas.api.admin_api.domain.entity.role.dto.AssignRoleRequest;
 import com.flashvagas.api.admin_api.domain.entity.role.dto.RemoveRoleRequest;
@@ -25,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     public void assignRole(String userId, AssignRoleRequest role, String token) {
         String url = KeycloakClientUtils.buildUrlUpdateRole(userId);
@@ -35,9 +38,17 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
 
         log.info("headers: {}", headers);
 
+        log.info("rolebeforeHttpEntity: {}", role);
+        
         HttpEntity<AssignRoleRequest[]> request = new HttpEntity<>(new AssignRoleRequest[] { role }, headers);
 
         log.info("request: {}", request);
+
+        try {
+            log.info("payload JSON: {}", objectMapper.writeValueAsString(new AssignRoleRequest[] { role }));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         restTemplate.postForEntity(url, request, String.class);
     }
