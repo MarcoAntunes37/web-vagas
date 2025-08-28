@@ -94,6 +94,7 @@ public class KeycloakAdminServiceImpl implements KeycloakAdminService {
                     .orElseThrow(
                             () -> new RuntimeException("Usuário com e-mail " + query.email() + " não encontrado."));
 
+            log.info("user: {}", user);
             query.action().accept(user, token);
 
         } catch (Exception e) {

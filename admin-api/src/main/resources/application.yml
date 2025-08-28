@@ -3,6 +3,8 @@ spring:
     name: Flashvagas Admin
   config:
     import: optional:file:.env[.properties]
+  profiles:
+    active: dev
 server:
   host: 0.0.0.0
   port: 8081
@@ -24,7 +26,7 @@ keycloak:
   username: ${KEYCLOAK_CLIENT_USERNAME}
   password: ${KEYCLOAK_CLIENT_PASSWORD}
   grant_type: ${KEYCLOAK_CLIENT_GRANT_TYPE}
-  host: http://localhost:8181/
+  host: ${KEYCLOAK_HOST}
   realm: ${KEYCLOAK_REALM}
 
 twilio:

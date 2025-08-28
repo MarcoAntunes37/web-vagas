@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @ControllerAdvice
-@RequestMapping("/api/v1/webhook")
+@RequestMapping
 @Slf4j
 public class WebhookController {
     private final WebhookService webhookService;
@@ -34,7 +34,7 @@ public class WebhookController {
         this.stripeClient = stripeClient;
     }
 
-    @PostMapping("/")
+    @PostMapping("/api/v1/webhook")
     public ResponseEntity<String> handle(
             @RequestBody String payload,
             HttpServletRequest request) {
