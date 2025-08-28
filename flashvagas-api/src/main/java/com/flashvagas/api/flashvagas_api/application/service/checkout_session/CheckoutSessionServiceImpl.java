@@ -52,8 +52,12 @@ public class CheckoutSessionServiceImpl implements CheckoutSessionService {
     }
 
     public GetCheckoutSessionResponse getCheckoutSession(CheckoutSessionGetQuery query) throws StripeException {
+        log.info("Query: {}", query);
+
         Session session = stripeClient.retrieveSession(query.sessionId());
 
+        log.info("Session: {}", session.toJson());
+        
         GetCheckoutSessionResponse response = mapper.sessionToGetResponse(session);
 
         return response;

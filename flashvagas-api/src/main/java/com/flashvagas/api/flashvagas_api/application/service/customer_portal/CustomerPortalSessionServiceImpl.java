@@ -10,6 +10,7 @@ import com.flashvagas.api.flashvagas_api.application.service.customer_portal.com
 import com.flashvagas.api.flashvagas_api.domain.entity.customer_portal.CustomerPortalSession;
 import com.flashvagas.api.flashvagas_api.domain.entity.customer_portal.dto.CreateCustomerPortalSessionResponse;
 import com.flashvagas.api.flashvagas_api.infrastructure.integrations.stripe.StripeClient;
+import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
 import com.stripe.model.billingportal.Session;
 import com.stripe.param.billingportal.SessionCreateParams;
@@ -31,11 +32,12 @@ public class CustomerPortalSessionServiceImpl implements CustomerPortalSessionSe
 
         public CreateCustomerPortalSessionResponse createCustomerPortalSession(
                         CreateCustomerPortalSessionCommand command)
-                        throws Exception {
-
+                        throws StripeException {
                 Customer target = stripeClient
                                 .getOrCreateCustomer(command.customerEmail().getValue(),
                                                 command.customerName().getValue());
+
+                log.info("Customer: {}", target.toJson());
 
                 SessionCreateParams sessionParams = SessionCreateParams
                                 .builder()
@@ -46,6 +48,8 @@ public class CustomerPortalSessionServiceImpl implements CustomerPortalSessionSe
                 Session session = Session.create(sessionParams);
 
                 CustomerPortalSession customerPortalSession = mapper.sessionToDomain(session);
+
+                log.info("CustomerPortalSession: {}", customerPortalSession);
 
                 CreateCustomerPortalSessionResponse response = mapper.domainToResponse(customerPortalSession);
 

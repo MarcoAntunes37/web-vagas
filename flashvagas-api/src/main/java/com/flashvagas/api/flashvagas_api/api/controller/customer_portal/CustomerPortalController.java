@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +13,7 @@ import com.flashvagas.api.flashvagas_api.application.service.customer_portal.Cus
 import com.flashvagas.api.flashvagas_api.application.service.customer_portal.command.CreateCustomerPortalSessionCommand;
 import com.flashvagas.api.flashvagas_api.domain.entity.customer_portal.dto.CreateCustomerPortalSessionRequest;
 import com.flashvagas.api.flashvagas_api.domain.entity.customer_portal.dto.CreateCustomerPortalSessionResponse;
+import com.stripe.exception.StripeException;
 
 @RestController
 @ControllerAdvice
@@ -27,9 +29,9 @@ public class CustomerPortalController {
     }
 
     @PostMapping("/create-portal-session")
-    public ResponseEntity<CreateCustomerPortalSessionResponse> create(CreateCustomerPortalSessionRequest request)
-            throws Exception {
-
+    public ResponseEntity<CreateCustomerPortalSessionResponse> create(
+        @RequestBody CreateCustomerPortalSessionRequest request)
+            throws StripeException {
         CreateCustomerPortalSessionCommand command = mapper.createPortalSessionRequestToCommand(request);
 
         CreateCustomerPortalSessionResponse response = customerPortalService.createCustomerPortalSession(command);
