@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 import { canActivateAuthRole } from '../guards/auth.guard';
 import { DashboardHomeComponent } from '../components/dashboard-home/dashboard-home.component';
+import { SettingsComponent } from '../components/settings/settings.component';
 
 const routes: Routes = [
     {
@@ -11,7 +12,8 @@ const routes: Routes = [
         canActivate: [canActivateAuthRole],
         data: { roles: ['plan-start', 'plan-turbo'] },
         children: [
-            { path: '', component: DashboardHomeComponent }
+            { path: 'home', component: DashboardHomeComponent },
+            { path: 'settings', component: SettingsComponent }
         ]
     }
 ];

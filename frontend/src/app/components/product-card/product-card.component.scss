@@ -29,7 +29,7 @@
 
     &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 8px 25px var(--mat-sys-shadow);
     }
 }
 
@@ -38,15 +38,15 @@
     max-width: 360px;
     margin: 0 auto;
     border-radius: 1.2em;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(var(--mat-sys-shadow), 0.1);
     transition: all 0.3s ease;
-    background: var(--mat-sys-surface);
+    border: var(--mat-sys-secondary) 1px solid;
     position: relative;
     overflow: hidden;
 
     &:hover {
         transform: translateY(-8px);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 16px 48px rgba(var(--mat-sys-shadow), 0.15);
     }
 }
 
@@ -71,18 +71,18 @@
     gap: 0.8em;
     padding: 2em 1.5em 1.5em;
     text-align: center;
-    color: #333;
+    color: var(--mat-sys-on-surface);
 
     .plan-name {
         font-size: 2rem;
         font-weight: 800;
-        color: #333;
+        color: var(--mat-sys-on-surface);
         margin-bottom: 0.5rem;
     }
 
     .plan-subtitle {
         font-size: 0.9rem;
-        color: #666;
+        color: var(--mat-sys-on-surface);
         font-weight: 400;
         margin-bottom: 1rem;
     }
@@ -99,7 +99,7 @@
     .price {
         font-size: 2.5rem;
         font-weight: 800;
-        color: #333;
+        color: var(--mat-sys-on-surface);
     }
 }
 
@@ -122,10 +122,10 @@
 
     .item-description-text {
         flex: 1;
-        color: #333;
+        color: var(--mat-sys-on-surface);
 
         &.canceled {
-            color: #999;
+            color: var(--mat-sys-neutral-variant);
             text-decoration: line-through;
         }
     }
@@ -136,14 +136,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
-        &.check {
-            color: #4CAF50;
-        }
-
-        &.cancel {
-            color: #999;
-        }
+    }
+    
+    .check {
+        color: var(--mat-sys-tertiary);
+    }
+    
+    .cancel {
+        color: var(--mat-sys-neutral-variant);
     }
 }
 

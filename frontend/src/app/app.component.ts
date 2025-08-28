@@ -33,7 +33,7 @@ export class AppComponent {
   }
 
   handleGotoHomeClick() {
-    this.router.navigate(['dashboard/']);
+    this.router.navigate(['dashboard/home']);
   }
 
   handleLogoutClick() {
@@ -64,7 +64,7 @@ export class AppComponent {
   }
 
   handleDashboardClick() {
-    this.router.navigate(['dashboard']);
+    this.router.navigate(['dashboard/home']);
   }
 
   handleSettingsClick() {

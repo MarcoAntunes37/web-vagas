@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-success-checkout',
-  imports: [NgIf, MatButtonModule, DecimalPipe ],
+  imports: [NgIf, MatButtonModule, DecimalPipe],
   templateUrl: './success-checkout.component.html',
   styleUrl: './success-checkout.component.scss'
 })
@@ -24,18 +24,19 @@ export class SuccessCheckoutComponent {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
-      this.sessionId = params.get('sessionId') || '';
+      this.sessionId = params.get('session_id') || '';
     });
 
-    this.checkoutServiceClient.getCheckoutSession(this.sessionId).then((response) => {
-      response.subscribe((data) => {
-        this.product = {
-          name: data.productName,
-          clientPrice: data.price
-        };
-        this.periodText = data.date
+    this.checkoutServiceClient.getCheckoutSession(this.sessionId)
+      .then((response) => {
+        response.subscribe((data) => {
+          this.product = {
+            name: data.productName,
+            clientPrice: data.price
+          };
+          this.periodText = data.date
+        })
       })
-    })
   }
 
   handleGoToDashboardClick() {

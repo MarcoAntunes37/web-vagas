@@ -13,20 +13,20 @@
     </button>
     <span class="spacer"></span>
     <button mat-icon-button matRipple class="topnav-dropdown" [matMenuTriggerFor]="menu" *ngIf="authenticated">
-      <span class="material-symbols-outlined">
+      <span class="material-symbols-outlined more-vert-icon">
         more_vert
       </span>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="handleProfileClick()">
         <div class="button-content">
-          <span class="material-symbols-outlined person-icon">person</span>
+          <span class="material-symbols-outlined person-icon">manage_accounts</span>
           <span>Perfil</span>
         </div>
       </button>
       <button mat-menu-item (click)="handleCustomerPortalClick()">
         <div class="button-content">
-          <span class="material-symbols-outlined person-icon">person</span>
+          <span class="material-symbols-outlined person-icon">receipt_long</span>
           <span>Portal do cliente</span>
         </div>
       </button>

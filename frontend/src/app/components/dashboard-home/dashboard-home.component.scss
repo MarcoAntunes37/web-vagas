@@ -1,0 +1,38 @@
+.dashboard-home-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+    justify-items: center;
+    margin: 1em 0;
+    height: 88vh;
+}
+
+.dashboard-home-title {
+    font-size: xx-large;
+    color: var(--mat-sys-on-surface);
+    text-align: center;
+    margin-block: 2em;
+}
+
+
+.dashboard-home-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.5em;
+    justify-items: center;
+
+    p {
+        color: var(--mat-sys-on-surface);
+        text-align: center;
+
+        a,
+        a:visited {
+            color: var(--mat-sys-primary);
+        }
+
+        a:hover {
+            color: var(--mat-sys-tertiary);
+            text-decoration: underline;
+        }
+    }
+}
