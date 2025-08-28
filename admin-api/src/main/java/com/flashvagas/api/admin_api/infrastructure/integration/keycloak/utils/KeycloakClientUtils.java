@@ -18,6 +18,10 @@ public class KeycloakClientUtils {
 
     private static String profile;
 
+    private static String clientId;
+
+    private static String clientSecret;
+
     @Value("${keycloak.host}")
     private String hostProp;
 
@@ -27,15 +31,23 @@ public class KeycloakClientUtils {
     @Value("${spring.profiles.active}")
     private String profileProp;
 
+    @Value("$cloudflare.access.client-id")
+    private String clientIdProp;
+
+    @Value("$cloudflare.access.client-secret")
+    private String clientSecretProp;
+
     public static HttpHeaders createAuthHeaders(String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("CF-Access-Client-Id", clientId);
+        headers.add("CF-Access-Client-Secret", clientSecret);
         return headers;
     }
 
     public static String buildUrlGetByEmail(String email) {
-        String formattedHost = formatHost();       
+        String formattedHost = formatHost();
         return UriComponentsBuilder
                 .fromUriString(formattedHost)
                 .pathSegment("admin", "realms", realm, "users")
@@ -70,6 +82,8 @@ public class KeycloakClientUtils {
         host = hostProp;
         realm = realmProp;
         profile = profileProp;
+        clientId = clientIdProp;
+        clientSecret = clientSecretProp;
     }
 
     private static String formatHost() {

@@ -68,8 +68,6 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
-        headers.add("Content-Type", "application/json");
-
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         ResponseEntity<RoleMappingsResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity,

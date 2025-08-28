@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class KeycloakUserClientImpl implements KeycloakUserClient {
-
     private final RestTemplate restTemplate;
 
     @SuppressWarnings("null")
@@ -33,8 +32,6 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
         log.info("url: {}", url);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
-
-        headers.add("Content-Type", "application/json");
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
@@ -57,8 +54,6 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
         String url = KeycloakClientUtils.buildUrlGetByRole(roleName);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
-
-        headers.add("Content-Type", "application/json");
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 

@@ -101,6 +101,16 @@
       "description": "A description for 'jsearch.rapidapi-key'"
     },
     {
+      "name": "cloudflare.access.client-id",
+      "type": "java.lang.String",
+      "description": "A description for 'cloudflare.access.client-id'"
+    },
+    {
+      "name": "cloudflare.access.client-secret",
+      "type": "java.lang.String",
+      "description": "A description for 'cloudflare.access.client-secret'"
+    },
+    {
       "name": "plans.start.jobs.quantity",
       "type": "java.lang.String",
       "description": "A description for 'plans.start.jobs.quantity'"
