@@ -38,6 +38,8 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
+        headers.add("Content-Type", "application/json");
+
         log.debug("headers: {}", headers);
 
         HttpEntity<AssignRoleRequest[]> request = new HttpEntity<>(new AssignRoleRequest[] { role }, headers);
@@ -52,6 +54,8 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
+        headers.add("Content-Type", "application/json");
+
         HttpEntity<RemoveRoleRequest[]> request = new HttpEntity<>(new RemoveRoleRequest[] { role }, headers);
 
         log.debug("headers: {}", headers);
@@ -62,7 +66,11 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     public List<Role> getUserRolesMappings(String userId, String token) {
         String url = KeycloakClientUtils.buidlUrlGetUserRoles(userId);
 
-        HttpEntity<Void> entity = new HttpEntity<>(KeycloakClientUtils.createAuthHeaders(token));
+        HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
+
+        headers.add("Content-Type", "application/json");
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         ResponseEntity<RoleMappingsResponse> response = restTemplate.exchange(url, HttpMethod.GET, entity,
                 RoleMappingsResponse.class);

@@ -34,6 +34,8 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
+        headers.add("Content-Type", "application/json");
+
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         ResponseEntity<GetUserByEmailResponse[]> response = restTemplate.exchange(url, HttpMethod.GET, entity,
@@ -54,7 +56,11 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
     public List<GetUserByRoleResponse> getUsersByRole(String roleName, String token) {
         String url = KeycloakClientUtils.buildUrlGetByRole(roleName);
 
-        HttpEntity<Void> entity = new HttpEntity<>(KeycloakClientUtils.createAuthHeaders(token));
+        HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
+
+        headers.add("Content-Type", "application/json");
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         try {
             ResponseEntity<GetUserByRoleResponse[]> response = restTemplate.exchange(
@@ -62,7 +68,6 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
                     HttpMethod.GET,
                     entity,
                     GetUserByRoleResponse[].class);
-
 
             List<GetUserByRoleResponse> users = Arrays.asList(response.getBody());
 

@@ -662,7 +662,7 @@
       "description": "",
       "rootUrl": "https://app.flashvagas.com.br",
       "adminUrl": "https://app.flashvagas.com.br",
-      "baseUrl": "https://app.flashvagas.com.br/dashboard",
+      "baseUrl": "https://app.flashvagas.com.br/dashboard/home",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -1732,7 +1732,7 @@
     "fromDisplayName": "",
     "envelopeFrom": "",
     "ssl": "true",
-    "user": "contato@flashvagas.com.br"
+    "user": "noreply@flashvagas.com.br"
   },
   "loginTheme": "flash-vagas",
   "accountTheme": "flash-vagas",
@@ -1888,9 +1888,6 @@
             "saml-user-attribute-mapper",
             "oidc-address-mapper",
             "oidc-sha256-pairwise-sub-mapper",
-            "saml-role-list-mapper",
-            "saml-user-property-mapper",
-            "oidc-usermodel-property-mapper",
             "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper"
           ]
@@ -1913,10 +1910,8 @@
         "config": {
           "allowed-protocol-mapper-types": [
             "oidc-full-name-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
             "oidc-usermodel-property-mapper",
             "oidc-address-mapper",
-            "saml-user-property-mapper",
             "saml-user-attribute-mapper",
             "oidc-usermodel-attribute-mapper",
             "saml-role-list-mapper"
