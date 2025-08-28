@@ -1,4 +1,4 @@
-package com.gateway.api.gateway_api.configs;
+package com.flashvagas.api.gateway_api.configs;
 
 import java.util.List;
 

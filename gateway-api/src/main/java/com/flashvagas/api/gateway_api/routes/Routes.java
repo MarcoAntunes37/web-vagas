@@ -1,4 +1,4 @@
-package com.gateway.api.gateway_api.routes;
+package com.flashvagas.api.gateway_api.routes;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.server.mvc.filter.CircuitBreakerFilterFunctions;
