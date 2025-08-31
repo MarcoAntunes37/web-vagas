@@ -1,14 +1,16 @@
 package com.flashvagas.api.admin_api.infrastructure.integration.keycloak.keycloak_auth;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flashvagas.api.admin_api.domain.entity.user.dto.AuthResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class KeycloakAuthClientImpl implements KeycloakAuthClient {
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
     @Value("${keycloak.client_id}")
     private String clientId;
 
@@ -33,16 +34,23 @@ public class KeycloakAuthClientImpl implements KeycloakAuthClient {
     private String tokenUrl;
 
     public String getAccessToken() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("client_id", clientId);
         params.add("username", username);
         params.add("password", password);
         params.add("grant_type", grantType);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, params, String.class);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
 
-        JsonNode jsonNode = objectMapper.readTree(response.getBody());
+        ResponseEntity<AuthResponse> response = restTemplate.postForEntity(
+                tokenUrl,
+                request,
+                AuthResponse.class);
 
-        return jsonNode.get("access_token").asText();
+        return response.getBody().accessToken();
     }
 }

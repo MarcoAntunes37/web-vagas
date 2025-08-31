@@ -33,6 +33,10 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
+        headers.set("Content-Type", "application/json");
+
+        log.info("headers: {}", headers);
+
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
         ResponseEntity<GetUserByEmailResponse[]> response = restTemplate.exchange(url, HttpMethod.GET, entity,
@@ -54,6 +58,8 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
         String url = KeycloakClientUtils.buildUrlGetByRole(roleName);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
+
+        headers.set("Content-Type", "application/json");
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 

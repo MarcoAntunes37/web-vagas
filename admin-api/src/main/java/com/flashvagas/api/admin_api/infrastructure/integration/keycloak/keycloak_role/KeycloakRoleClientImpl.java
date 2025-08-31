@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
 
     public void assignRole(String userId, AssignRoleRequest role, String token) {
         String url = KeycloakClientUtils.buildUrlUpdateRole(userId);
@@ -36,21 +36,27 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
         log.info("headers: {}", headers);
 
         log.info("rolebeforeHttpEntity: {}", role);
-        
-        HttpEntity<AssignRoleRequest[]> request = new HttpEntity<>(new AssignRoleRequest[] { role }, headers);
+
+        List<AssignRoleRequest> roleList = new ArrayList<>();
+        roleList.add(role);
+
+        HttpEntity<List<AssignRoleRequest>> request = new HttpEntity<>(roleList, headers);
 
         log.info("request: {}", request);
-
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            log.info("payload JSON: {}", objectMapper.writeValueAsString(new AssignRoleRequest[] { role }));
+            System.out.println(objectMapper.writeValueAsString(roleList));
         } catch (JsonProcessingException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        restTemplate.postForEntity(url, request, String.class);
+        restTemplate.postForEntity(url, request, Void.class);
     }
 
     public void removeRole(String userId, RemoveRoleRequest role, String token) {
@@ -59,6 +65,8 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
         log.info("url: {}", url);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
+
+        headers.set("Content-Type", "application/json");
 
         log.info("headers: {}", headers);
 
@@ -73,6 +81,8 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
         String url = KeycloakClientUtils.buidlUrlGetUserRoles(userId);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
+
+        headers.set("Content-Type", "application/json");
 
         log.info("response: {}", headers);
 

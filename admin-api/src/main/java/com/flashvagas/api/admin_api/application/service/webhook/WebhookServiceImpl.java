@@ -82,7 +82,10 @@ public class WebhookServiceImpl implements WebhookService {
 
             AssignPlanRoleCommand command = new AssignPlanRoleCommand(email, plan);
 
+            log.info("command: {}", command);
+
             keycloakService.assignPlanRole(command);
+
             log.info("Role '{}' adicionada ao usuário com email '{}'", plan, email);
         } else {
             log.warn("Plano inválido para produto: {}", product.getName());

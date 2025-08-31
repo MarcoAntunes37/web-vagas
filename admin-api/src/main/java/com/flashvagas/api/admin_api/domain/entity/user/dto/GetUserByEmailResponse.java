@@ -1,12 +1,16 @@
 package com.flashvagas.api.admin_api.domain.entity.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record GetUserByEmailResponse(
-        String id,
-        String firstName,
-        String lastName,
-        String email,
-        String username,
-        Attributes attributes
+        @JsonProperty("id") String id,
+        @JsonProperty("firstName") String firstName,
+        @JsonProperty("lastName") String lastName,
+        @JsonProperty("email") String email,
+        @JsonProperty("username") String username,
+        @JsonProperty("attributes") Attributes attributes
 ) {
 
 }

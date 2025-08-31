@@ -1,11 +1,15 @@
 package com.flashvagas.api.admin_api.domain.entity.role.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record RemoveRoleRequest(
-        String id,
-        String name,
-        String description,
-        boolean composite,
-        boolean clientRole,
-        String containerId) {
+                @JsonProperty("id") String id,
+                @JsonProperty("name") String name,
+                @JsonProperty("description") String description,
+                @JsonProperty("composite") boolean composite,
+                @JsonProperty("clientRole") boolean clientRole,
+                @JsonProperty("containerId") String containerId) {
 
 }

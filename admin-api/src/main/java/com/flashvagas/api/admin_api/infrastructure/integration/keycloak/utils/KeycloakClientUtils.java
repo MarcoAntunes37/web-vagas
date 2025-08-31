@@ -2,7 +2,6 @@ package com.flashvagas.api.admin_api.infrastructure.integration.keycloak.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -40,9 +39,6 @@ public class KeycloakClientUtils {
     public static HttpHeaders createAuthHeaders(String token) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("CF-Access-Client-Id", clientId);
-        headers.add("CF-Access-Client-Secret", clientSecret);
         return headers;
     }
 

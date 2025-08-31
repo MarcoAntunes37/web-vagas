@@ -2,10 +2,10 @@ package com.flashvagas.api.admin_api.domain.value_object;
 
 public class RoleAttributes {
     private boolean composite;
-    private boolean clientRole;
+    private Boolean clientRole;
     private String containerId;
 
-    public RoleAttributes(boolean composite, boolean clientRole, String containerId) {
+    public RoleAttributes(boolean composite, Boolean clientRole, String containerId) {
         this.composite = composite;
         this.clientRole = clientRole;
         this.containerId = containerId;
@@ -46,11 +46,11 @@ public class RoleAttributes {
                 '}';
     }
 
-    public boolean isComposite() {
+    public Boolean isComposite() {
         return composite;
     }
 
-    public boolean isClientRole() {
+    public Boolean isClientRole() {
         return clientRole;
     }
 

@@ -6,9 +6,6 @@ public class Country {
     private String value;
 
     public Country(String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("Country cannot be null");
-        }
         this.value = value;
     }
 
