@@ -1,4 +1,4 @@
-export default interface CreateCheckoutSessionResponse {
+export default interface GetCheckoutSessionResponse {
     productName: string,
     price: number,
     date: string

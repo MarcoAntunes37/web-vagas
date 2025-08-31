@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal, viewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
@@ -15,11 +15,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { KeycloakProfile } from 'keycloak-js';
 import { JobFiltersTypeJsearch } from '../../models/types/JobFiltersTypeJsearch';
 import { SaveUserPreferencesJsearchRequest } from '../../models/types/SaveUserPreferencesJsearchRequest';
-import { firstValueFrom, map, Observable, of, startWith } from 'rxjs';
-import { UserPreferencesClient } from '../../integrations/UserPreferencesClient';
+import { map, Observable, of, startWith } from 'rxjs';
 import { UserProfileService } from '../../service/user-profile/user-profile.service';
 import { employmentTypeOptions, countryListOptions } from '../shared/CONSTANTS';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
+import { UserPreferencesStore } from '../../behavior/UserPreferencesStore';
 @Component({
   selector: 'app-settings',
   imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatSelectModule, MatInputModule,
@@ -49,57 +49,47 @@ export class SettingsComponent {
 
   filteredOptions: Observable<string[]> = of([])
 
-  formBuilder = inject(FormBuilder)
-
   accordion = viewChild.required(MatAccordion)
 
-  jobFiltersForm: FormGroup | null = null
+  jobFiltersForm!: FormGroup;
 
   constructor(
-    private userPreferencesClient: UserPreferencesClient,
-    private userProfileService: UserProfileService) { }
+    private fb: FormBuilder,
+    private userProfileService: UserProfileService,
+    private userPreferencesStore: UserPreferencesStore
+  ) { }
+
 
   async ngOnInit() {
+    this.jobFiltersForm = this.fb.group({
+      keywords: [''],
+      employmentTypes: [''],
+      country: [''],
+      remoteWork: [false],
+      excludeJobPublishers: ['']
+    })
+
     if (await this.userProfileService.getAuthenticated()) {
-      this.userProfile = await this.userProfileService.getUserProfile();
+      this.userProfile = this.userProfileService.getUserProfile();
     };
 
     if (!this.userProfile) return;
 
-    let userPreferences: JobFiltersTypeJsearch | null = null
+    const userPreferences = this.userPreferencesStore.loadPreferences(this.userProfile.id ?? '');
 
-    try {
-      userPreferences = await firstValueFrom(
-        await this.userPreferencesClient.getUserPreferences(this.userProfile?.id ?? '')
-      );
-    } catch (err: any) {
-      if (err.status === 404) {
-        userPreferences = await firstValueFrom(
-          await this.userPreferencesClient.saveUserPreferences(
-            {
-              userId: this.userProfile?.id ?? '',
-              keywords: this.jobFilters?.keywords ?? '',
-              employmentTypes: this.jobFilters?.employmentTypes ?? '',
-              remoteWork: this.jobFilters?.remoteWork ?? false,
-              country: this.jobFilters?.country ?? 'br',
-              excludeJobPublishers: this.jobFilters?.excludeJobPublishers ?? ''
-            }
-          )
-        );
-      } else {
-        console.error("Erro ao buscar preferências do usuário", err);
-        return;
-      };
-    };
+    if (userPreferences === null) return;
 
-    const countryObj = countryListOptions.find(c => c.code === userPreferences.country);
-
-    this.jobFiltersForm = this.formBuilder.group({
-      keywords: new FormControl(userPreferences.keywords ?? "", [Validators.required]),
-      employmentTypes: new FormControl(userPreferences.employmentTypes ? userPreferences.employmentTypes.split(',') : []),
-      country: new FormControl(countryObj?.code ?? "",),
-      remoteWork: new FormControl(userPreferences.remoteWork ?? 0),
-      excludeJobPublishers: new FormControl(userPreferences.excludeJobPublishers ? userPreferences.excludeJobPublishers.split(',') : []),
+    this.userPreferencesStore.preferences$.subscribe(pref => {
+      if (pref) {
+        const countryObj = countryListOptions.find(c => c.code === pref.country);
+        this.jobFiltersForm.patchValue({
+          keywords: pref.keywords ?? "",
+          employmentTypes: pref.employmentTypes ? pref.employmentTypes.split(',') : [],
+          country: countryObj?.code ?? "",
+          remoteWork: pref.remoteWork ?? false,
+          excludeJobPublishers: pref.excludeJobPublishers ? pref.excludeJobPublishers.split(',') : [],
+        });
+      }
     });
 
     const countryControl = this.jobFiltersForm.get('country');
@@ -159,6 +149,7 @@ export class SettingsComponent {
     event.chipInput!.clear();
   }
 
+  handleJobFiltersFormSubmit() { }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
@@ -183,27 +174,6 @@ export class SettingsComponent {
 
   prevStep() {
     this.step.update(i => i - 1);
-  }
-
-  async handleJobFiltersFormSubmit() {
-    if (this.jobFiltersForm?.valid) {
-      this.saveUserPreferences = {
-        userId: this.userProfile?.id!,
-        keywords: this.jobFiltersForm.value.keywords ?? '',
-        employmentTypes: this.jobFiltersForm.value.employmentTypes.join(',') ?? '',
-        country: this.jobFiltersForm.value.country ?? '',
-        remoteWork: this.jobFiltersForm.value.remoteWork ?? false,
-        excludeJobPublishers: this.jobFiltersForm.value.excludeJobPublishers.join(',') ?? ''
-      }
-
-      await firstValueFrom(
-        await this.userPreferencesClient.updateUserPreferences(this.saveUserPreferences)
-      ).then((data) => {
-        if (data) {
-          this.openSnackBar();
-        }
-      });
-    }
   }
 
   openSnackBar() {

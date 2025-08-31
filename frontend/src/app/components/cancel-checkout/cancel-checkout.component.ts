@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckoutSessionClient } from '../../integrations/CheckoutSessionClient';
+import { CheckoutSessionStore } from '../../behavior/CheckoutSessionStore';
 
 @Component({
   selector: 'app-cancel-checkout',
@@ -11,34 +12,35 @@ import { CheckoutSessionClient } from '../../integrations/CheckoutSessionClient'
   styleUrl: './cancel-checkout.component.scss'
 })
 export class CancelCheckoutComponent {
-  checkoutServiceClient = inject(CheckoutSessionClient);
   sessionId = '';
   authenticated: boolean = true
   product = {
-    name: 'placeholder',
+    name: '',
     clientPrice: 0,
   }
-  periodText = 'placeholder';
+  periodText = '';
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private checkoutSessionStore: CheckoutSessionStore,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
-      this.sessionId = params.get('sessionId') || '';
+      this.sessionId = params.get('session_id') || '';
     });
 
-    this.checkoutServiceClient.getCheckoutSession(this.sessionId).then((response) => {
-      response.subscribe((data) => {
-        this.product = {
-          name: data.productName,
-          clientPrice: data.price
-        };
-        this.periodText = data.date
-      })
+    this.checkoutSessionStore.loadSession(this.sessionId).subscribe((response) => {
+      this.product = {
+        name: response.productName,
+        clientPrice: response.price
+      };
+      this.periodText = response.date
     })
   }
-  
+
   handleGoToPlansClick() {
-    window.location.href = '/subscription';
+    this.router.navigate(['/subscription']);
   }
 }

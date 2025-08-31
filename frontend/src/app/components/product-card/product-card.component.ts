@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { UserProfileService } from '../../service/user-profile/user-profile.service';
 import { MatRipple } from '@angular/material/core';
 import Product from '../../models/types/Product';
-import { CheckoutSessionClient } from '../../integrations/CheckoutSessionClient';
+import { CheckoutSessionStore } from '../../behavior/CheckoutSessionStore';
 @Component({
   selector: 'app-product-card',
   imports: [MatCardModule, NgFor, MatButtonModule, NgClass, MatRipple, DecimalPipe, NgIf],
@@ -18,7 +18,7 @@ export class ProductCardComponent {
   @Input() isAnnual: boolean = false;
   constructor(
     private userProfileService: UserProfileService,
-    private checkoutSessionClient: CheckoutSessionClient) { }
+    private checkoutSessionStore: CheckoutSessionStore) { }
 
   get periodText(): string {
     return this.isAnnual ? '/ano' : '/mês';
@@ -31,17 +31,18 @@ export class ProductCardComponent {
   async handleSignatureClick() {
     const isAuthenticated = await this.userProfileService.getAuthenticated();
     if (isAuthenticated) {
-      const userProfile = await this.userProfileService.getUserProfile();
+      const userProfile = this.userProfileService.getUserProfile();
       if (userProfile?.email && this.product.defaultPrice) {
-        await this.checkoutSessionClient.createCheckoutSession(
+        this.checkoutSessionStore.createSession(
           this.product.defaultPrice,
           userProfile.firstName + ' ' + userProfile.lastName,
-          userProfile.email)
-          .then((observable: any) => {
-            observable.subscribe((data: any) => {
-              window.location.href = data.url;
-            });
-          });
+          userProfile.email).subscribe(
+            (response: any) => {
+              if (response) {
+                window.location.href = response.url;
+              }
+            }
+          );
       }
     }
   }

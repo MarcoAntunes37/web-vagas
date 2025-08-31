@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { CheckoutSessionClient } from '../../integrations/CheckoutSessionClient';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DecimalPipe, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { CheckoutSessionStore } from '../../behavior/CheckoutSessionStore';
 
 @Component({
   selector: 'app-success-checkout',
@@ -11,35 +11,35 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './success-checkout.component.scss'
 })
 export class SuccessCheckoutComponent {
-  checkoutServiceClient = inject(CheckoutSessionClient);
   sessionId = '';
   authenticated: boolean = true
   product = {
-    name: 'placeholder',
+    name: '',
     clientPrice: 0,
   }
-  periodText = 'placeholder';
+  periodText = '';
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private checkoutSessionStore: CheckoutSessionStore,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
       this.sessionId = params.get('session_id') || '';
     });
 
-    this.checkoutServiceClient.getCheckoutSession(this.sessionId)
-      .then((response) => {
-        response.subscribe((data) => {
-          this.product = {
-            name: data.productName,
-            clientPrice: data.price
-          };
-          this.periodText = data.date
-        })
-      })
+    this.checkoutSessionStore.loadSession(this.sessionId).subscribe((response) => {
+      this.product = {
+        name: response.productName,
+        clientPrice: response.price
+      };
+      this.periodText = response.date
+    })
   }
 
   handleGoToDashboardClick() {
-    window.location.href = '/dashboard';
+    this.router.navigate(['/dashboard/home']);
   }
 }
