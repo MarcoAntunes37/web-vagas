@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public class Country {
     private String value;
 
-    public Country(String value) {
-        if (value == null || value.toString().isBlank()) {
-            throw new IllegalArgumentException("Country cannot be null or blank");
-        }
+    public Country(String value) {        
         this.value = value;
     }
 
