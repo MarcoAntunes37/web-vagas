@@ -62,11 +62,11 @@ export class SettingsComponent {
 
   async ngOnInit() {
     this.jobFiltersForm = this.fb.group({
-      keywords: [''],
-      employmentTypes: [''],
-      country: [''],
-      remoteWork: [false],
-      excludeJobPublishers: ['']
+      keywords: '',
+      employmentTypes: '',
+      country: '',
+      remoteWork: false,
+      excludeJobPublishers: ''
     })
 
     if (await this.userProfileService.getAuthenticated()) {
@@ -84,7 +84,7 @@ export class SettingsComponent {
         const countryObj = countryListOptions.find(c => c.code === pref.country);
         this.jobFiltersForm.patchValue({
           keywords: pref.keywords ?? "",
-          employmentTypes: pref.employmentTypes ? pref.employmentTypes.split(',') : [],
+          employmentTypes: pref.employmentTypes != "" || pref.employmentTypes != null ? pref.employmentTypes.split(',') : [],
           country: countryObj?.code ?? "",
           remoteWork: pref.remoteWork ?? false,
           excludeJobPublishers: pref.excludeJobPublishers ? pref.excludeJobPublishers.split(',') : [],
@@ -149,7 +149,17 @@ export class SettingsComponent {
     event.chipInput!.clear();
   }
 
-  handleJobFiltersFormSubmit() { }
+  handleJobFiltersFormSubmit() {
+    this.saveUserPreferences = {
+      userId: this.userProfile?.id ?? '',
+      keywords: this.jobFiltersForm?.get('keywords')?.value || '',
+      employmentTypes: this.jobFiltersForm?.get('employmentTypes')?.value.join(',') || "",
+      country: this.jobFiltersForm?.get('country')?.value || '',
+      remoteWork: this.jobFiltersForm?.get('remoteWork')?.value || false,
+      excludeJobPublishers: this.jobFiltersForm?.get('excludeJobPublishers')?.value.join(",") || ""
+    },
+      this.userPreferencesStore.savePreferences(this.saveUserPreferences);
+  }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 

@@ -18,7 +18,7 @@ export class CheckoutSessionClient {
         : Observable<CreateCheckoutSessionResponse> {
         const { checkoutSessionApiUrl } = environment
         return from(this.userProfileService.getAccessToken()).pipe(
-            switchMap(token =>
+            switchMap(accessToken =>
                 this.http.post<CreateCheckoutSessionResponse>(checkoutSessionApiUrl + "/create-checkout-session", {
                     price,
                     customerName,
@@ -26,7 +26,7 @@ export class CheckoutSessionClient {
                 }, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 })
             )
@@ -40,7 +40,7 @@ export class CheckoutSessionClient {
                 this.http.get<GetCheckoutSessionResponse>(checkoutSessionApiUrl + "/get-checkout-session?sessionId=" + checkoutSessionId, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + accessToken
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 })
             )

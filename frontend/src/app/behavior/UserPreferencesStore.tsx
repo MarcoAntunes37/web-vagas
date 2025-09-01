@@ -33,7 +33,15 @@ export class UserPreferencesStore {
     }
 
     savePreferences(userPreferences: SaveUserPreferencesJsearchRequest) {
-        this.userPreferencesClient.saveUserPreferences(userPreferences)
-            .subscribe(pref => this._preferences$.next(pref));
+        console.log("userPreferences", userPreferences);
+        this._preferences$.next(userPreferences);
+        this.userPreferencesClient.saveUserPreferences(userPreferences).pipe(
+            catchError(err => {
+                console.error("Erro ao salvar preferências", err);
+                return of(null);
+            })
+        ).subscribe(
+            pref => console.log("pref", pref),
+        )
     }
 }

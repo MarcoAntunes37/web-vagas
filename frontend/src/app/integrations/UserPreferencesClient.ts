@@ -18,11 +18,11 @@ export class UserPreferencesClient {
     getUserPreferences(userId: string): Observable<JobFiltersTypeJsearch> {
         const { userPreferencesApiUrl } = environment;
         return from(this.userProfileService.getAccessToken()).pipe(
-            switchMap(token =>
+            switchMap(accessToken =>
                 this.http.get<JobFiltersTypeJsearch>(`${userPreferencesApiUrl}/${userId}`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${accessToken}`
                     }
                 })
             )
@@ -32,13 +32,16 @@ export class UserPreferencesClient {
     saveUserPreferences(userPreferences: SaveUserPreferencesJsearchRequest)
         : Observable<SaveUserPreferencesJsearchRequest> {
         const { userPreferencesApiUrl } = environment
-        const accessToken = this.userProfileService.getAccessToken();
-        return this.http.post<SaveUserPreferencesJsearchRequest>(userPreferencesApiUrl, userPreferences, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + accessToken
-            }
-        });
+        return from(this.userProfileService.getAccessToken()).pipe(
+            switchMap(accessToken =>
+                this.http.put<SaveUserPreferencesJsearchRequest>(userPreferencesApiUrl + "/", userPreferences, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+            )
+        )
     }
 
     updateUserPreferences(userPreferences: UpdateUserPreferencesJsearchRequest)
@@ -48,7 +51,7 @@ export class UserPreferencesClient {
         return this.http.put<any>(userPreferencesApiUrl + "/", userPreferences, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + accessToken
+                'Authorization': `Bearer ${accessToken}`
             }
         });
     }

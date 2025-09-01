@@ -37,7 +37,7 @@ export class ProductCardComponent {
           this.product.defaultPrice,
           userProfile.firstName + ' ' + userProfile.lastName,
           userProfile.email).subscribe(
-            (response: any) => {
+            (response) => {
               if (response) {
                 window.location.href = response.url;
               }
