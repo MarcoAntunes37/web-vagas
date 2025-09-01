@@ -1,5 +1,7 @@
 package com.flashvagas.api.admin_api.infrastructure.integration.keycloak.keycloak_auth;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -33,10 +35,20 @@ public class KeycloakAuthClientImpl implements KeycloakAuthClient {
     @Value("${keycloak.token_url}")
     private String tokenUrl;
 
+    @Value("$cloudflare.access.client-id")
+    private String cfClientId;
+
+    @Value("$cloudflare.access.client-secret")
+    private String cfClientSecret;
+
     public String getAccessToken() throws Exception {
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        headers.set("CF-Access-Client-Id", cfClientId);
+
+        headers.set("CF-Access-Client-Secret", cfClientSecret);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("client_id", clientId);
@@ -51,6 +63,8 @@ public class KeycloakAuthClientImpl implements KeycloakAuthClient {
                 request,
                 AuthResponse.class);
 
-        return response.getBody().accessToken();
+        return Optional.ofNullable(response.getBody())
+                .map(AuthResponse::accessToken)
+                .orElseThrow(() -> new Exception("Can't extract access token"));
     }
 }

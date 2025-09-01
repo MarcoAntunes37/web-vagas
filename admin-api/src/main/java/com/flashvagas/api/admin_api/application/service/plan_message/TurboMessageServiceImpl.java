@@ -38,8 +38,9 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
             JSearchClient jsearchClient,
             UserPreferencesClient userPreferencesClient,
             @Value("${twilio.accountSID}") String accountSid,
-            @Value("${twilio.authToken}") String authToken) {
-        super(jsearchClient, jobsUserClient, userPreferencesClient, accountSid, authToken);
+            @Value("${twilio.authToken}") String authToken,
+            @Value("${twilio.phoneNumber}") String twilioNumber) {
+        super(jsearchClient, jobsUserClient, userPreferencesClient, accountSid, authToken, twilioNumber);
         this.kcAuthClient = kcAuthClient;
         this.jsearchClient = jsearchClient;
         this.kcUserClient = kcUserClient;
@@ -50,7 +51,7 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
     @Override
     public void sendMessages() throws Exception {
         String token = kcAuthClient.getAccessToken();
-        
+
         log.info("token: {}", token);
 
         List<GetUserByRoleResponse> turboUsers = kcUserClient.getUsersByRole("plan-turbo", token);

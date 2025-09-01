@@ -3,9 +3,13 @@ package com.flashvagas.api.admin_api.domain.entity.job.dto;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record GetJobsResponse(
-        String status,
-        UUID requestId,
-        Parameters parameters,
-        List<GetJobResponse> data) {
+                @JsonProperty("status") String status,
+                @JsonProperty("request_id") UUID requestId,
+                @JsonProperty("parameters") Parameters parameters,
+                @JsonProperty("data") List<GetJobResponse> data) {
 }

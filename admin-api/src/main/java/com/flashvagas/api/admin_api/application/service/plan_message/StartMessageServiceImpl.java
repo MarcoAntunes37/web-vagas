@@ -38,8 +38,9 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
             JSearchClient jsearchClient,
             UserPreferencesClient userPreferencesClient,
             @Value("${twilio.accountSID}") String accountSid,
-            @Value("${twilio.authToken}") String authToken) {
-        super(jsearchClient, jobsUserClient, userPreferencesClient, accountSid, authToken);
+            @Value("${twilio.authToken}") String authToken,
+            @Value("${twilio.phoneNumber}") String twilioNumber) {
+        super(jsearchClient, jobsUserClient, userPreferencesClient, accountSid, authToken, twilioNumber);
         this.kcAuthClient = kcAuthClient;
         this.jsearchClient = jsearchClient;
         this.kcUserClient = kcUserClient;

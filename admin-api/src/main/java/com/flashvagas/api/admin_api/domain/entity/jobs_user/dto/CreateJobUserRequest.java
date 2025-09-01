@@ -3,9 +3,10 @@ package com.flashvagas.api.admin_api.domain.entity.jobs_user.dto;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateJobUserRequest(
-                String userId,
-                List<String> jobIds) {
+                @JsonProperty("user_id") String userId,
+                @JsonProperty("job_ids") List<String> jobIds) {
 }

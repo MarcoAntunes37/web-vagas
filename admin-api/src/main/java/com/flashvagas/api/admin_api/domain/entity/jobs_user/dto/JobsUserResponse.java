@@ -1,6 +1,10 @@
 package com.flashvagas.api.admin_api.domain.entity.jobs_user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record JobsUserResponse(
-        boolean exists,
-        String jobId) {
+                @JsonProperty("exists") boolean exists,
+                @JsonProperty("job_id") String jobId) {
 }

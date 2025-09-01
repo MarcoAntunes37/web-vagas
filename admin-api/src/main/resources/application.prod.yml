@@ -56,4 +56,4 @@ jobs-user:
   url: "http://gateway-api:9000/api/v1/jobs/user/"
 
 user-preferences-jsearch:
-  url: "http://gateway-api:9000/api/v1/preferences/jsearch/user/"
+  url: "http://gateway-api:9000/api/v1/preferences/user/"

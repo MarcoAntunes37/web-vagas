@@ -29,18 +29,21 @@ public abstract class BaseMessageService {
     protected final UserPreferencesClient userPreferencesClient;
     protected final String accountSid;
     protected final String authToken;
+    protected final String twilioNumber;
 
     protected BaseMessageService(
             JSearchClient jsearchClient,
             JobsUserClient jobsUserClient,
             UserPreferencesClient userPreferencesClient,
             String accountSid,
-            String authToken) {
+            String authToken,
+            String twilioNumber) {
         this.jsearchClient = jsearchClient;
         this.jobsUserClient = jobsUserClient;
         this.accountSid = accountSid;
         this.authToken = authToken;
         this.userPreferencesClient = userPreferencesClient;
+        this.twilioNumber = twilioNumber;
     }
 
     protected List<GetJobResponse> fetchJobs(
@@ -119,11 +122,30 @@ public abstract class BaseMessageService {
         return greetingsMessage.toString();
     }
 
+    protected String buildMessageNoJobsFound(GetUserByRoleResponse user) {
+        StringBuilder greetingsMessage = new StringBuilder();
+
+        greetingsMessage.append("Olá ")
+                .append(user.firstName())
+                .append(", ")
+                .append("não encontramos nenhuma vaga para você.\n\n")
+                .append("Mas não desanime, talvez surjam vagas novas até o fim do dia.\n\n")
+                .append("Os filtros são feitos de acordo com suas preferências, ")
+                .append("caso não esteja recebendo vagas de forma recorrente tente alterar os filtros para um filtro menos rigido.");
+
+        greetingsMessage.append("\n\nGostaríamos muito de saber o que você achou do nosso serviço!")
+                .append("\nSua opinião é essencial para que possamos continuar melhorando.")
+                .append("\n\nSe puder dedicar alguns minutinhos, responda ao nosso formulário: ")
+                .append("https://form.jotform.com/252053164981659");
+
+        return greetingsMessage.toString();
+    }
+
     protected Message createMessage(String to, String message) throws Exception {
         Twilio.init(accountSid, authToken);
         return Message.creator(
                 new PhoneNumber("whatsapp:" + to),
-                new PhoneNumber("whatsapp:+14155238886"),
+                new PhoneNumber("whatsapp:" + twilioNumber),
                 message)
                 .create();
     }
@@ -181,6 +203,17 @@ public abstract class BaseMessageService {
                 log.info(message.toString());
                 String response = jobsUserClient.createJobUser(userId, jobsIds, token);
                 log.info("Response: {}", response);
+            } catch (Exception e) {
+                log.error("Error sending message to user: {}", e);
+            }
+        }
+
+        if (jobsToSend.size() == 0) {
+            String messageToUser = buildMessageNoJobsFound(user);
+
+            try {
+                Message message = createMessage(userPhone, messageToUser);
+                log.info(message.toString());
             } catch (Exception e) {
                 log.error("Error sending message to user: {}", e);
             }
