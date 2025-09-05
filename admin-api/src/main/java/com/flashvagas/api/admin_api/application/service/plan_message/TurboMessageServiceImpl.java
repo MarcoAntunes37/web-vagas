@@ -23,10 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 public class TurboMessageServiceImpl extends BaseMessageService implements PlanMessageService {
     private final KeycloakAuthClientImpl kcAuthClient;
     private final KeycloakUserClientImpl kcUserClient;
-    @SuppressWarnings("unused")
-    private final UserPreferencesClient userPreferencesClient;
-    @SuppressWarnings("unused")
     private final JobsUserClient jobsUserClient;
+    @SuppressWarnings("unused")
+    private final UserPreferencesClient userPreferencesClient;    
     @SuppressWarnings("unused")
     private final JSearchClient jsearchClient;
     @SuppressWarnings("unused")
