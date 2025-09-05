@@ -1,4 +1,4 @@
-package com.flashvagas.api.flashvagas_api.application.mapper.user_preferences;
+package com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.create;
 
 public record UserPreferencesCreateRequest(
                 String userId,

@@ -14,6 +14,7 @@ import com.flashvagas.api.flashvagas_api.application.service.user_preferences.co
 import com.flashvagas.api.flashvagas_api.application.service.user_preferences.query.GetUserPreferencesQuery;
 import com.flashvagas.api.flashvagas_api.domain.value_object.UserPreferencesId;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.UserPreferences;
+import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.create.UserPreferencesCreateRequest;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.create.UserPreferencesCreateResponse;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.get.UserPreferencesGetRequest;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.get.UserPreferencesGetResponse;
