@@ -46,7 +46,6 @@ a:active {
 
 .topnav-container {
     display: grid;
-    background: var(--mat-sys-secondary);
     background: linear-gradient(139deg, rgba(255, 255, 255, 1) 0%, rgba(200, 205, 237, 1) 64%, rgba(207, 211, 239, 1) 88%, rgba(255, 255, 255, 1) 100%);
     grid-template-columns: repeat(3, 1fr);
 }

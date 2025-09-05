@@ -88,17 +88,18 @@
         "attributes": {}
       },
       {
-        "id": "d7e99405-35b5-46da-9155-2fa097728f84",
-        "name": "plan-start",
-        "description": "role_plan_start",
-        "composite": false,
-        "clientRole": false,
-        "containerId": "181ebbfd-bcfb-4afe-9a27-e5791d743d1f"
-      },
-      {
         "id": "b4300d98-916b-4aef-95b2-bc8905624c47",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "181ebbfd-bcfb-4afe-9a27-e5791d743d1f",
+        "attributes": {}
+      },
+      {
+        "id": "d7e99405-35b5-46da-9155-2fa097728f84",
+        "name": "plan-start",
+        "description": "role_plan_start",
         "composite": false,
         "clientRole": false,
         "containerId": "181ebbfd-bcfb-4afe-9a27-e5791d743d1f",
@@ -660,7 +661,7 @@
       "clientId": "angular",
       "name": "${angular}",
       "description": "",
-      "rootUrl": "https://app.flashvagas.com.br",
+      "rootUrl": "https://app.flashvagas.com.br/dashboard/home",
       "adminUrl": "https://app.flashvagas.com.br",
       "baseUrl": "https://app.flashvagas.com.br/dashboard/home",
       "surrogateAuthRequired": false,
@@ -1885,11 +1886,11 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "saml-user-attribute-mapper",
-            "oidc-address-mapper",
             "oidc-sha256-pairwise-sub-mapper",
+            "oidc-address-mapper",
             "oidc-full-name-mapper",
-            "oidc-usermodel-attribute-mapper"
+            "oidc-usermodel-attribute-mapper",
+            "saml-user-attribute-mapper"
           ]
         }
       },
@@ -1909,12 +1910,12 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-full-name-mapper",
-            "oidc-usermodel-property-mapper",
             "oidc-address-mapper",
             "saml-user-attribute-mapper",
+            "saml-role-list-mapper",
+            "oidc-usermodel-property-mapper",
             "oidc-usermodel-attribute-mapper",
-            "saml-role-list-mapper"
+            "oidc-full-name-mapper"
           ]
         }
       },
