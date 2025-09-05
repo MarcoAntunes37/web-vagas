@@ -24,7 +24,7 @@ services:
     environment:
       POSTGRES_USER: ${URL_SHORTENER_DB_USERNAME}
       POSTGRES_PASSWORD: ${URL_SHORTENER_DB_PASSWORD}
-      POSTGRES_DB: ${URL_SHORTENER}
+      POSTGRES_DB: ${URL_SHORTENER_DB_NAME}
     volumes:
       - ./data/urlshortener-db:/var/lib/postgresql/data
   
