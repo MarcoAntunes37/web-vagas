@@ -23,40 +23,47 @@ import com.flashvagas.api.flashvagas_api.persistence.jobs_user.projections.JobEx
 @RestController
 @RequestMapping("api/v1/jobs/user")
 public class JobsUserController {
-    private final JobsUserService jobsUserService;
+        private final JobsUserService jobsUserService;
 
-    @Autowired
-    private JobsUserApiMapper jobsUserApiMapper;
+        @Autowired
+        private JobsUserApiMapper jobsUserApiMapper;
 
-    public JobsUserController(
-            JobsUserService jobsUserService) {
-        this.jobsUserService = jobsUserService;
-    }
+        public JobsUserController(
+                        JobsUserService jobsUserService) {
+                this.jobsUserService = jobsUserService;
+        }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<JobExistenceProjection>> exists(
-            @PathVariable UUID userId,
-            @RequestParam List<String> jobIds) {
-        JobUserGetRequest request = new JobUserGetRequest(userId, jobIds);
+        @GetMapping("/{userId}")
+        public ResponseEntity<List<JobExistenceProjection>> exists(
+                        @PathVariable UUID userId,
+                        @RequestParam List<String> jobIds) {
+                JobUserGetRequest request = new JobUserGetRequest(userId, jobIds);
 
-        GetJobUserQuery query = jobsUserApiMapper
-                .getRequesttoQuery(request);
+                GetJobUserQuery query = jobsUserApiMapper
+                                .getRequesttoQuery(request);
 
-        List<JobExistenceProjection> response = jobsUserService
-                .jobsUserExists(query);
+                List<JobExistenceProjection> response = jobsUserService
+                                .jobsUserExists(query);
 
-        return ResponseEntity.ok(response);
-    }
+                return ResponseEntity.ok(response);
+        }
 
-    @PostMapping("/")
-    public ResponseEntity<String> create(
-            @RequestBody JobUserCreateRequest request) {
-        CreateJobUserCommand command = jobsUserApiMapper
-                .createRequestToCommand(request);
+        @GetMapping("/{userId}/count")
+        public ResponseEntity<Integer> count(@PathVariable UUID userId) {
+                Integer count = jobsUserService.countJobsUserByUserId(userId);
 
-        String response = jobsUserService
-                .createJobsUsers(command);
+                return ResponseEntity.ok(count);
+        }
 
-        return ResponseEntity.ok(response);
-    }
+        @PostMapping("/")
+        public ResponseEntity<String> create(
+                        @RequestBody JobUserCreateRequest request) {
+                CreateJobUserCommand command = jobsUserApiMapper
+                                .createRequestToCommand(request);
+
+                String response = jobsUserService
+                                .createJobsUsers(command);
+
+                return ResponseEntity.ok(response);
+        }
 }

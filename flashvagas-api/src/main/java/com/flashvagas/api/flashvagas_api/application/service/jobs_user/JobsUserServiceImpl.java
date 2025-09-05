@@ -1,5 +1,6 @@
 package com.flashvagas.api.flashvagas_api.application.service.jobs_user;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,6 +57,14 @@ public class JobsUserServiceImpl implements JobsUserService {
         String[] arrayJobs = jobIds.toArray(new String[jobIds.size()]);
 
         return jobsUserRepository.findJobsUserExists(arrayJobs, userId);
+    }
+
+    public int countJobsUserByUserId(UUID userId) {
+        OffsetDateTime start = OffsetDateTime.now().withHour(10);
+
+        OffsetDateTime end = OffsetDateTime.now().withHour(17);
+
+        return jobsUserRepository.countByUserIdAndReceivedAtBetween(userId, start, end);
     }
 
     public int deleteJobsUserByUserId(UUID userId) {

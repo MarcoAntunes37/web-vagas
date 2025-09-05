@@ -4,11 +4,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flashvagas.api.flashvagas_api.application.mapper.user_preferences.UserPreferencesApiMapper;
-import com.flashvagas.api.flashvagas_api.application.mapper.user_preferences.UserPreferencesCreateRequest;
 import com.flashvagas.api.flashvagas_api.application.service.user_preferences.UserPreferencesService;
 import com.flashvagas.api.flashvagas_api.application.service.user_preferences.command.CreateUserPreferencesCommand;
 import com.flashvagas.api.flashvagas_api.application.service.user_preferences.command.UpdateUserPreferencesCommand;
 import com.flashvagas.api.flashvagas_api.application.service.user_preferences.query.GetUserPreferencesQuery;
+import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.create.UserPreferencesCreateRequest;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.create.UserPreferencesCreateResponse;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.get.UserPreferencesGetRequest;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.dto.get.UserPreferencesGetResponse;

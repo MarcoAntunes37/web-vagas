@@ -13,4 +13,6 @@ public interface JobsUserService {
     List<JobExistenceProjection> jobsUserExists(GetJobUserQuery query);
 
     int deleteJobsUserByUserId(UUID userId);
+
+    int countJobsUserByUserId(UUID userId);
 }
