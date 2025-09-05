@@ -47,7 +47,7 @@ plans:
       quantity: 5
   turbo:
     jobs:
-      quantity: 5
+      quantity: 10
 
 jobs-user:
   url: "http://gateway-api:9000/api/v1/jobs/user/"
