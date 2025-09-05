@@ -3,7 +3,7 @@
 set -e
 
 DOCKERHUB_USER="$1"
-REPO_NAME="urlshortener-api"
+REPO_NAME="flashvagas"
 PROJECT_NAME="urlshortener-api"
 
 if [ -z "$DOCKERHUB_USER" ]; then
