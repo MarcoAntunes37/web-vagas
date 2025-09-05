@@ -11,6 +11,19 @@ services:
       POSTGRES_DB: ${BACKEND_DB_NAME}
     volumes:
       - ./data/backend-db:/var/lib/postgresql/data
+      
+  urlshortener-db:
+    image: postgres:17
+    container_name: urlshortener-db
+    hostname: urlshortener-db
+    ports:
+      - ${URL_SHORTENER_DB_HOST_PORT}:${URL_SHORTENER_DB_CONTAINER_PORT}
+    environment:
+      POSTGRES_USER: ${URL_SHORTENER_DB_USERNAME}
+      POSTGRES_PASSWORD: ${URL_SHORTENER_DB_PASSWORD}
+      POSTGRES_DB: ${URL_SHORTENER_DB_NAME}
+    volumes:
+      - ./data/urlshortener-db:/var/lib/postgresql/data
   
   keycloak:
     build:
