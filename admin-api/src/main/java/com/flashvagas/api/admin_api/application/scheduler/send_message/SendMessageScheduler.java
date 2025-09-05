@@ -26,14 +26,12 @@ public class SendMessageScheduler {
      * │ │ │ │ │ ┌───────────── dia da semana (0-6 ou SUN-SAT)
      */
 
-    @Scheduled(cron = "0 0 9 * * *")
-    @Scheduled(cron = "0 0 18 * * *")
+    @Scheduled(cron = "0 0 12 * * *")
     public void sendStartMessages() throws Exception {
         startService.sendMessages();
     }
 
-    @Scheduled(cron = "0 0 7 * * *")
-    @Scheduled(cron = "0 0 16 * * *")
+    @Scheduled(cron = "0 0 10,17 * * *")
     public void sendTurboMessages() throws Exception {
         turboService.sendMessages();
     }

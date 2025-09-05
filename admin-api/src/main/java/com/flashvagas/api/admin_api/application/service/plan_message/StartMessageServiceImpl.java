@@ -13,6 +13,7 @@ import com.flashvagas.api.admin_api.infrastructure.integration.flashvagas.UserPr
 import com.flashvagas.api.admin_api.infrastructure.integration.jsearch.JSearchClient;
 import com.flashvagas.api.admin_api.infrastructure.integration.keycloak.keycloak_auth.KeycloakAuthClientImpl;
 import com.flashvagas.api.admin_api.infrastructure.integration.keycloak.keycloak_user.KeycloakUserClientImpl;
+import com.flashvagas.api.admin_api.infrastructure.integration.urlshortener.UrlShortenerClient;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,8 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
     private final JobsUserClient jobsUserClient;
     @SuppressWarnings("unused")
     private final JSearchClient jsearchClient;
+    @SuppressWarnings("unused")
+    private final UrlShortenerClient urlShortenerClient;
     @Value("${plans.start.jobs.quantity}")
     private Integer startJobsQuantity;
 
@@ -37,21 +40,23 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
             JobsUserClient jobsUserClient,
             JSearchClient jsearchClient,
             UserPreferencesClient userPreferencesClient,
+            UrlShortenerClient urlShortenerClient,
             @Value("${twilio.accountSID}") String accountSid,
             @Value("${twilio.authToken}") String authToken,
             @Value("${twilio.phoneNumber}") String twilioNumber) {
-        super(jsearchClient, jobsUserClient, userPreferencesClient, accountSid, authToken, twilioNumber);
+        super(jsearchClient, jobsUserClient, userPreferencesClient, urlShortenerClient, accountSid, authToken, twilioNumber);
         this.kcAuthClient = kcAuthClient;
         this.jsearchClient = jsearchClient;
         this.kcUserClient = kcUserClient;
         this.jobsUserClient = jobsUserClient;
         this.userPreferencesClient = userPreferencesClient;
+        this.urlShortenerClient = urlShortenerClient;
     }
 
     @Override
     public void sendMessages() throws Exception {
         String token = kcAuthClient.getAccessToken();
-
+        
         log.info("token: {}", token);
 
         List<GetUserByRoleResponse> startUsers = kcUserClient

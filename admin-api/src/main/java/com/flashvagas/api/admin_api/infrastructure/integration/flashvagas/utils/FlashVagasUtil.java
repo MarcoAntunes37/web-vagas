@@ -11,13 +11,21 @@ public class FlashVagasUtil {
     @Value("${jobs-user.url}")
     private String url;
 
-    public String buildUrl(String userId, List<String> jobIds) {
+    public String buildUrlGetJobsUser(String userId, List<String> jobIds) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                 .pathSegment(userId);
 
         for (String jobId : jobIds) {
             builder.queryParam("jobIds", jobId);
         }
+
+        return builder.toUriString();
+    }
+
+    public String buildUrlCountJobsUserByInterval(String userId) {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
+                .pathSegment(userId)
+                .pathSegment("count");
 
         return builder.toUriString();
     }

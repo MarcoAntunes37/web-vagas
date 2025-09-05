@@ -50,6 +50,7 @@ public class JSearchUtils {
         putIfNotNullNotBlank(params, "work_from_home", request.isRemote());
         putIfNotNullNotBlank(params, "employment_types", request.employmentTypes());
         putIfNotNullNotBlank(params, "exclude_job_publishers", request.excludeJobPublishers().getValue());
+        putIfNotNullNotBlank(params, "fields", "job_id, employer_name, job_title, job_apply_link,  job_posted_at_datetime_utc");
 
         return params;
     }

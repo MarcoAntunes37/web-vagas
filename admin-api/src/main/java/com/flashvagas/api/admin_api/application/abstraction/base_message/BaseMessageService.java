@@ -1,21 +1,30 @@
 package com.flashvagas.api.admin_api.application.abstraction.base_message;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flashvagas.api.admin_api.domain.entity.job.dto.GetJobsRequest;
 import com.flashvagas.api.admin_api.domain.entity.job.dto.GetJobsResponse;
 import com.flashvagas.api.admin_api.domain.entity.job.dto.GetJobResponse;
 import com.flashvagas.api.admin_api.domain.entity.jobs_user.dto.JobsUserResponse;
+import com.flashvagas.api.admin_api.domain.entity.url_shortener.dto.CreateUrlShortenerRequest;
+import com.flashvagas.api.admin_api.domain.entity.url_shortener.dto.CreateUrlShortenerResponse;
 import com.flashvagas.api.admin_api.domain.entity.user.dto.GetUserByRoleResponse;
 import com.flashvagas.api.admin_api.domain.entity.user_preferences.dto.get.UserPreferencesGetResponse;
 import com.flashvagas.api.admin_api.infrastructure.integration.flashvagas.JobsUserClient;
 import com.flashvagas.api.admin_api.infrastructure.integration.flashvagas.UserPreferencesClient;
 import com.flashvagas.api.admin_api.infrastructure.integration.jsearch.JSearchClient;
+import com.flashvagas.api.admin_api.infrastructure.integration.urlshortener.UrlShortenerClient;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
@@ -27,19 +36,24 @@ public abstract class BaseMessageService {
     protected final JSearchClient jsearchClient;
     protected final JobsUserClient jobsUserClient;
     protected final UserPreferencesClient userPreferencesClient;
+    protected final UrlShortenerClient urlShortenerClient;
     protected final String accountSid;
     protected final String authToken;
     protected final String twilioNumber;
+    @Autowired
+    protected ObjectMapper mapper;
 
     protected BaseMessageService(
             JSearchClient jsearchClient,
             JobsUserClient jobsUserClient,
             UserPreferencesClient userPreferencesClient,
+            UrlShortenerClient urlShortenerClient,
             String accountSid,
             String authToken,
             String twilioNumber) {
         this.jsearchClient = jsearchClient;
         this.jobsUserClient = jobsUserClient;
+        this.urlShortenerClient = urlShortenerClient;
         this.accountSid = accountSid;
         this.authToken = authToken;
         this.userPreferencesClient = userPreferencesClient;
@@ -60,25 +74,50 @@ public abstract class BaseMessageService {
                 .orElse(new ArrayList<>());
     }
 
-    protected List<GetJobResponse> filterNewJobsForUser(String userId, List<GetJobResponse> fetchedJobs,
+    protected List<GetJobResponse> filterNewJobsForUser(
+            String userId,
+            List<GetJobResponse> fetchedJobs,
             int jobsNeeded,
-            String token)
-            throws JsonProcessingException {
+            String token) throws JsonProcessingException {
         List<String> jobIds = extractJobsIds(fetchedJobs);
 
-        ResponseEntity<List<JobsUserResponse>> jobsReceivedResponse = jobsUserClient
-                .getJobsUser(userId, jobIds, token);
+        List<CreateUrlShortenerRequest> jobApplyLinks = extractJobsUrl(fetchedJobs);
 
-        List<JobsUserResponse> receivedStatus = jobsReceivedResponse.getBody();
+        List<JobsUserResponse> receivedStatus = jobsUserClient
+                .getJobsUser(userId, jobIds, token)
+                .getBody();
 
-        if (receivedStatus == null)
-            return new ArrayList<>();
+        if (receivedStatus == null) {
+            return Collections.emptyList();
+        }
+
+        List<CreateUrlShortenerResponse> shortUrlsList = urlShortenerClient
+                .createShortUrl(jobApplyLinks)
+                .getBody();
+
+        if (shortUrlsList == null || shortUrlsList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        Map<String, String> shortUrlMap = shortUrlsList.stream()
+                .collect(Collectors.toMap(
+                        CreateUrlShortenerResponse::originalUrl,
+                        CreateUrlShortenerResponse::code,
+                        (a, b) -> a));
 
         List<GetJobResponse> newJobs = new ArrayList<>();
 
-        for (int i = 0; i < jobIds.size(); i++) {
-            if (!receivedStatus.get(i).exists() && newJobs.size() < jobsNeeded) {
-                newJobs.add(fetchedJobs.get(i));
+        for (int i = 0; i < jobIds.size() && newJobs.size() < jobsNeeded; i++) {
+            if (!receivedStatus.get(i).exists()) {
+                GetJobResponse job = fetchedJobs.get(i);
+                String shortenedUrl = shortUrlMap.getOrDefault(job.jobApplyLink(), job.jobApplyLink());
+
+                newJobs.add(new GetJobResponse(
+                        job.id(),
+                        job.employerName(),
+                        job.jobTitle(),
+                        job.jobPostedDateTime(),
+                        shortenedUrl));
             }
         }
 
@@ -92,16 +131,19 @@ public abstract class BaseMessageService {
                 .toList();
     }
 
-    protected String buildMessage(GetUserByRoleResponse user, List<GetJobResponse> jobsToSend) {
-        StringBuilder greetingsMessage = new StringBuilder();
+    protected List<CreateUrlShortenerRequest> extractJobsUrl(List<GetJobResponse> jobs) {
+        return jobs.stream()
+                .map(GetJobResponse::jobApplyLink)
+                .filter(link -> link != null && !link.isBlank())
+                .map(link -> new CreateUrlShortenerRequest(link))
+                .toList();
+    }
 
-        greetingsMessage.append("Olá ")
-                .append(user.firstName())
-                .append(", ")
-                .append("temos novas vagas para você!\n\n");
+    protected String buildJobListString(GetUserByRoleResponse user, List<GetJobResponse> jobsToSend) {
+        StringBuilder jobListString = new StringBuilder();
 
         for (GetJobResponse job : jobsToSend) {
-            greetingsMessage
+            jobListString
                     .append("*")
                     .append(job.employerName())
                     .append("*")
@@ -114,39 +156,40 @@ public abstract class BaseMessageService {
                     .append("\n\n");
         }
 
-        greetingsMessage.append("\n\nGostaríamos muito de saber o que você achou do nosso serviço!")
-                .append("\nSua opinião é essencial para que possamos continuar melhorando.")
-                .append("\n\nSe puder dedicar alguns minutinhos, responda ao nosso formulário: ")
-                .append("https://form.jotform.com/252053164981659");
-
-        return greetingsMessage.toString();
+        return jobListString.toString();
     }
 
-    protected String buildMessageNoJobsFound(GetUserByRoleResponse user) {
-        StringBuilder greetingsMessage = new StringBuilder();
-
-        greetingsMessage.append("Olá ")
-                .append(user.firstName())
-                .append(", ")
-                .append("não encontramos nenhuma vaga para você.\n\n")
-                .append("Mas não desanime, talvez surjam vagas novas até o fim do dia.\n\n")
-                .append("Os filtros são feitos de acordo com suas preferências, ")
-                .append("caso não esteja recebendo vagas de forma recorrente tente alterar os filtros para um filtro menos rigido.");
-
-        greetingsMessage.append("\n\nGostaríamos muito de saber o que você achou do nosso serviço!")
-                .append("\nSua opinião é essencial para que possamos continuar melhorando.")
-                .append("\n\nSe puder dedicar alguns minutinhos, responda ao nosso formulário: ")
-                .append("https://form.jotform.com/252053164981659");
-
-        return greetingsMessage.toString();
-    }
-
-    protected Message createMessage(String to, String message) throws Exception {
+    protected Message createMessageWithJobs(String to, String jobsListString, String name) throws Exception {
         Twilio.init(accountSid, authToken);
+
+        Map<String, String> contentVariables = new HashMap<>();
+        contentVariables.put("1", name);
+        contentVariables.put("2", jobsListString);
+
+        String jsonContentVariables = mapper.writeValueAsString(contentVariables);
+
         return Message.creator(
                 new PhoneNumber("whatsapp:" + to),
                 new PhoneNumber("whatsapp:" + twilioNumber),
-                message)
+                "")
+                .setContentSid("HX949f3c1f7cd3a6a4d223c342d3a01e61")
+                .setContentVariables(jsonContentVariables)
+                .create();
+    }
+
+    protected Message createMessageWithoutJobs(String to, String name) throws Exception {
+        Twilio.init(accountSid, authToken);
+        Map<String, String> contentVariables = new HashMap<>();
+        contentVariables.put("1", name);
+
+        String jsonContentVariables = mapper.writeValueAsString(contentVariables);
+
+        return Message.creator(
+                new PhoneNumber("whatsapp:" + to),
+                new PhoneNumber("whatsapp:" + twilioNumber),
+                "")
+                .setContentSid("HX81cb2a2e180feb216e078310f365bfdc")
+                .setContentVariables(jsonContentVariables)
                 .create();
     }
 
@@ -194,12 +237,12 @@ public abstract class BaseMessageService {
         }
 
         if (jobsToSend.size() > 0) {
-            String messageToUser = buildMessage(user, jobsToSend);
+            String messageToUser = buildJobListString(user, jobsToSend);
 
             List<String> jobsIds = extractJobsIds(jobsToSend);
 
             try {
-                Message message = createMessage(userPhone, messageToUser);
+                Message message = createMessageWithJobs(userPhone, messageToUser, user.firstName());
                 log.info(message.toString());
                 String response = jobsUserClient.createJobUser(userId, jobsIds, token);
                 log.info("Response: {}", response);
@@ -209,10 +252,8 @@ public abstract class BaseMessageService {
         }
 
         if (jobsToSend.size() == 0) {
-            String messageToUser = buildMessageNoJobsFound(user);
-
             try {
-                Message message = createMessage(userPhone, messageToUser);
+                Message message = createMessageWithoutJobs(userPhone, user.firstName());
                 log.info(message.toString());
             } catch (Exception e) {
                 log.error("Error sending message to user: {}", e);

@@ -7,6 +7,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CreateJobUserRequest(
-                @JsonProperty("user_id") String userId,
-                @JsonProperty("job_ids") List<String> jobIds) {
+                @JsonProperty("userId") String userId,
+                @JsonProperty("jobIds") List<String> jobIds) {
 }

@@ -13,6 +13,7 @@ import com.flashvagas.api.admin_api.infrastructure.integration.flashvagas.UserPr
 import com.flashvagas.api.admin_api.infrastructure.integration.jsearch.JSearchClient;
 import com.flashvagas.api.admin_api.infrastructure.integration.keycloak.keycloak_auth.KeycloakAuthClientImpl;
 import com.flashvagas.api.admin_api.infrastructure.integration.keycloak.keycloak_user.KeycloakUserClientImpl;
+import com.flashvagas.api.admin_api.infrastructure.integration.urlshortener.UrlShortenerClient;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,8 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
     private final JobsUserClient jobsUserClient;
     @SuppressWarnings("unused")
     private final JSearchClient jsearchClient;
+    @SuppressWarnings("unused")
+    private final UrlShortenerClient urlShortenerClient;
     @Value("${plans.turbo.jobs.quantity}")
     private Integer turboJobsQuantity;
 
@@ -37,15 +40,18 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
             JobsUserClient jobsUserClient,
             JSearchClient jsearchClient,
             UserPreferencesClient userPreferencesClient,
+            UrlShortenerClient urlShortenerClient,
             @Value("${twilio.accountSID}") String accountSid,
             @Value("${twilio.authToken}") String authToken,
             @Value("${twilio.phoneNumber}") String twilioNumber) {
-        super(jsearchClient, jobsUserClient, userPreferencesClient, accountSid, authToken, twilioNumber);
+        super(jsearchClient, jobsUserClient, userPreferencesClient, urlShortenerClient, accountSid, authToken,
+                twilioNumber);
         this.kcAuthClient = kcAuthClient;
         this.jsearchClient = jsearchClient;
         this.kcUserClient = kcUserClient;
         this.jobsUserClient = jobsUserClient;
         this.userPreferencesClient = userPreferencesClient;
+        this.urlShortenerClient = urlShortenerClient;
     }
 
     @Override
@@ -61,7 +67,11 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
         }
 
         for (GetUserByRoleResponse user : turboUsers) {
-            this.processUserData(user, turboJobsQuantity, token);
+            Integer quantitySendedToday = this.jobsUserClient.countJobsUser(user.id(), token);
+
+            log.info("quantitySendedToday: {}", quantitySendedToday.toString());
+
+            this.processUserData(user, quantitySendedToday, token);
         }
     }
 }

@@ -36,7 +36,7 @@ public class JobsUserClient {
 
         HttpEntity<List<JobsUserResponse>> entity = new HttpEntity<>(headers);
 
-        String fullUrl = flashVagasUtil.buildUrl(userId, jobsIds);
+        String fullUrl = flashVagasUtil.buildUrlGetJobsUser(userId, jobsIds);
 
         response = restTemplate.exchange(
                 fullUrl,
@@ -46,6 +46,26 @@ public class JobsUserClient {
                 });
 
         return response;
+    }
+
+    public Integer countJobsUser(String userId, String token) {
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.set("Content-Type", "application/json");
+
+        headers.set("Authorization", "Bearer " + token);
+
+        HttpEntity<Void> entity = new HttpEntity<>(headers);
+
+        String fullUrl = flashVagasUtil.buildUrlCountJobsUserByInterval(userId);
+
+        ResponseEntity<Integer> response = restTemplate.exchange(
+                fullUrl,
+                HttpMethod.GET,
+                entity,
+                Integer.class);
+
+        return response.getBody();
     }
 
     public String createJobUser(String userId, List<String> jobsIds, String token) {

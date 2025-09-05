@@ -1,17 +1,17 @@
 spring:
   application:
     name: Flashvagas Admin
-  profiles:
-    active: prod
+  config:
+    import: optional:file:.env[.properties]
 server:
   host: 0.0.0.0
   port: 8081
 springdoc:
   swagger-ui:
-    enabled: false
+    enabled: true
     path: /swagger-ui.html
   api-docs:
-    enabled: false
+    enabled: true
     path: /api-docs
 
 stripe:
@@ -39,21 +39,16 @@ jsearch:
   rapidapi-host: "jsearch.p.rapidapi.com"
   rapidapi-key: ${RAPIDAPI_KEY}
 
-cloudflare: 
-  access:
-    client-id: ${CF_ACCESS_CLIENT_ID}
-    client-secret: ${CF_ACCESS_CLIENT_SECRET}
-
 plans:
   start:
     jobs:
-      quantity: 10
+      quantity: 5
   turbo:
     jobs:
-      quantity: 20
+      quantity: 5
 
 jobs-user:
-  url: "http://gateway-api:9000/api/v1/jobs/user/"
+  url: "http://localhost:9000/api/v1/jobs/user/"
 
 user-preferences-jsearch:
-  url: "http://gateway-api:9000/api/v1/preferences/user/"
+  url: "http://localhost:9000/api/v1/preferences/user/"
