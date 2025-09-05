@@ -2,7 +2,7 @@ spring:
   application:
     name: Url Shortener API
   datasource:
-    url: jdbc:postgresql://${URL_SHORTENER_DB_HOST}:${URL_SHORTENER_DB_HOST_PORT}/${URL_SHORTENER_DB_NAME}
+    url: jdbc:postgresql://${URL_SHORTENER_DB_HOST}:${URL_SHORTENER_DB_CONTAINER_PORT}/${URL_SHORTENER_DB_NAME}
     username: ${URL_SHORTENER_DB_USERNAME}
     password: ${URL_SHORTENER_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
