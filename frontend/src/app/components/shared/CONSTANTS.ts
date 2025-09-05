@@ -81,7 +81,7 @@ const productListOptions: Product[] = [
             },
             {
                 icon: "check",
-                text: "Horarios 7h 12h 17h 20h."
+                text: "Horarios 7h 12h 16h 20h."
             },
             {
                 icon: "check",
@@ -112,7 +112,7 @@ const productListOptions: Product[] = [
             },
             {
                 icon: "check",
-                text: "Horarios 7h 12h 17h 20h."
+                text: "Horarios 7h 12h 16h 20h."
             },
             {
                 icon: "check",
