@@ -150,16 +150,24 @@ export class SettingsComponent {
   }
 
   handleJobFiltersFormSubmit() {
+    const employmentTypes = this.jobFiltersForm?.get('employmentTypes')?.value;
+
+    const excludeJobPublishers = this.jobFiltersForm?.get('excludeJobPublishers')?.value;
+
     this.saveUserPreferences = {
       userId: this.userProfile?.id ?? '',
       keywords: this.jobFiltersForm?.get('keywords')?.value || '',
-      employmentTypes: this.jobFiltersForm?.get('employmentTypes')?.value.join(',') || "",
+      employmentTypes: Array.isArray(employmentTypes) ? employmentTypes.join(',') : '',
       country: this.jobFiltersForm?.get('country')?.value || '',
       remoteWork: this.jobFiltersForm?.get('remoteWork')?.value || false,
-      excludeJobPublishers: this.jobFiltersForm?.get('excludeJobPublishers')?.value.join(",") || ""
-    },
-      this.userPreferencesStore.savePreferences(this.saveUserPreferences);
+      excludeJobPublishers: Array.isArray(excludeJobPublishers) ? excludeJobPublishers.join(',') : ''
+    }
+
+    this.userPreferencesStore.savePreferences(this.saveUserPreferences);
+
+    this.openSnackBar();
   }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
