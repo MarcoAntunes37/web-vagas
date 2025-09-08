@@ -212,7 +212,8 @@ public abstract class BaseMessageService {
         UserPreferencesGetResponse preferences = userPreferencesClient.findUserPreferences(userId, token);
 
         if (preferences.keywords() == null || preferences.keywords().isEmpty()) {
-            throw new IllegalArgumentException("At least keywords are required");
+            System.out.println("Skipping preferences: no keywords found");
+            return;
         }
 
         while (jobsNeeded > 0) {
