@@ -55,8 +55,5 @@ user-preferences:
 jobs-user:
   url: "http://localhost:9000/api/v1/jobs/user/"
 
-user-preferences-jsearch:
-  url: "http://localhost:9000/api/v1/preferences/user/"
-
 url-shortener:
   url: "http://localhost:8082/"
