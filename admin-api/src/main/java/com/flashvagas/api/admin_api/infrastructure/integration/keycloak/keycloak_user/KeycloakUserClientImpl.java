@@ -36,6 +36,8 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
     public GetUserByEmailResponse getUserByEmail(String email, String token) {
         String url = KeycloakClientUtils.buildUrlGetByEmail(email);
 
+        log.info("cloudflare: {}", "clientId: " + cfClientId, "clientSecret: " + cfClientSecret);
+
         log.info("url: {}", url);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
