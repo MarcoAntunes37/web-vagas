@@ -31,11 +31,6 @@ twilio:
   authToken: ${TWILIO_AUTH_TOKEN}
   phoneNumber: ${TWILIO_PHONE_NUMBER}
 
-adzuna:
-  url: "https://api.adzuna.com/v1/api/jobs/"
-  appId: ${ADZUNA_APP_ID}
-  appKey: ${ADZUNA_APP_SECRET}
-
 jsearch:
   url: "https://jsearch.p.rapidapi.com/search"
   rapidapi-host: "jsearch.p.rapidapi.com"

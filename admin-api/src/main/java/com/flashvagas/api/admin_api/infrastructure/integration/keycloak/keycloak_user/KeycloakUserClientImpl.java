@@ -26,10 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 public class KeycloakUserClientImpl implements KeycloakUserClient {
     private final RestTemplate restTemplate;
 
-    @Value("$cloudflare.access.client-id")
+    @Value("${cloudflare.access.client-id}")
     private String cfClientId;
 
-    @Value("$cloudflare.access.client-secret")
+    @Value("${cloudflare.access.client-secret}")
     private String cfClientSecret;
 
     @SuppressWarnings("null")
