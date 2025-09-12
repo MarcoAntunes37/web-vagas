@@ -23,11 +23,11 @@ public class JobMockController {
                 null,
                 List.of(
                         new GetJobResponse("job_id", "employer_name", "Desenvolvedor Full Stack", now,
-                                "job_apply_link"),
+                                "https://randomjobs.com.br/jobs/123456"),
                         new GetJobResponse("job_id", "employer_name", "Desenvolvedor Full Stack", now,
-                                "job_apply_link"),
+                                "https://randomjobs.com.br/jobs/123456"),
                         new GetJobResponse("job_id", "employer_name", "Desenvolvedor Full Stack", now,
-                                "job_apply_link")));
+                                "https://randomjobs.com.br/jobs/123456")));
                                 
         return ResponseEntity.ok(mockResponse);
     }
