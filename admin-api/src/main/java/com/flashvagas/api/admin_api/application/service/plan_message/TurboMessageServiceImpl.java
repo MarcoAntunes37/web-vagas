@@ -30,8 +30,10 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
     private final JSearchClient jsearchClient;
     @SuppressWarnings("unused")
     private final UrlShortenerClient urlShortenerClient;
-    @Value("${plans.turbo.jobs.quantity}")
-    private Integer turboJobsQuantity;
+    @Value("${plans.turbo.jobs.quantity.per-message}")
+    private Integer turboJobsQuantityPerMessage;
+    @Value("${plans.turbo.jobs.quantity.per-day}")
+    private Integer turboJobsQuantityPerDay;
 
     public TurboMessageServiceImpl(
             KeycloakAuthClientImpl kcAuthClient,
@@ -68,9 +70,13 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
         for (GetUserByRoleResponse user : turboUsers) {
             Integer quantitySendedToday = this.jobsUserClient.countJobsUser(user.id(), token);
 
+            if (quantitySendedToday > turboJobsQuantityPerDay) {
+                break;
+            }
+
             log.info("quantitySendedToday: {}", quantitySendedToday.toString());
 
-            this.processUserData(user, quantitySendedToday, token);
+            this.processUserData(user, turboJobsQuantityPerDay, token);
         }
     }
 }

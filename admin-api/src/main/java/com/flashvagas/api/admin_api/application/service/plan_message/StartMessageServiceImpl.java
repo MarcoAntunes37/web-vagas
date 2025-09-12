@@ -31,8 +31,10 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
     private final JSearchClient jsearchClient;
     @SuppressWarnings("unused")
     private final UrlShortenerClient urlShortenerClient;
-    @Value("${plans.start.jobs.quantity}")
-    private Integer startJobsQuantity;
+    @Value("${plans.start.jobs.quantity.per-message}")
+    private Integer startJobsQuantityPerMessage;
+    @Value("${plans.start.jobs.quantity.per-day}")
+    private Integer startJobsQuantityPerDay;
 
     public StartMessageServiceImpl(
             KeycloakAuthClientImpl kcAuthClient,
@@ -44,7 +46,8 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
             @Value("${twilio.accountSID}") String accountSid,
             @Value("${twilio.authToken}") String authToken,
             @Value("${twilio.phoneNumber}") String twilioNumber) {
-        super(jsearchClient, jobsUserClient, userPreferencesClient, urlShortenerClient, accountSid, authToken, twilioNumber);
+        super(jsearchClient, jobsUserClient, userPreferencesClient, urlShortenerClient, accountSid, authToken,
+                twilioNumber);
         this.kcAuthClient = kcAuthClient;
         this.jsearchClient = jsearchClient;
         this.kcUserClient = kcUserClient;
@@ -56,7 +59,7 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
     @Override
     public void sendMessages() throws Exception {
         String token = kcAuthClient.getAccessToken();
-        
+
         log.info("token: {}", token);
 
         List<GetUserByRoleResponse> startUsers = kcUserClient
@@ -67,7 +70,7 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
         }
 
         for (GetUserByRoleResponse user : startUsers) {
-            this.processUserData(user, startJobsQuantity, token);
+            this.processUserData(user, startJobsQuantityPerMessage, token);
         }
     }
 }

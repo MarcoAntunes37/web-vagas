@@ -77,7 +77,7 @@ public abstract class BaseMessageService {
     protected List<GetJobResponse> filterNewJobsForUser(
             String userId,
             List<GetJobResponse> fetchedJobs,
-            int jobsNeeded,
+            int jobsNeededPerMessage,
             String token) throws JsonProcessingException {
         List<String> jobIds = extractJobsIds(fetchedJobs);
 
@@ -107,7 +107,7 @@ public abstract class BaseMessageService {
 
         List<GetJobResponse> newJobs = new ArrayList<>();
 
-        for (int i = 0; i < jobIds.size() && newJobs.size() < jobsNeeded; i++) {
+        for (int i = 0; i < jobIds.size() && newJobs.size() < jobsNeededPerMessage; i++) {
             if (!receivedStatus.get(i).exists()) {
                 GetJobResponse job = fetchedJobs.get(i);
                 String shortenedUrl = shortUrlMap.getOrDefault(job.jobApplyLink(), job.jobApplyLink());
@@ -139,32 +139,25 @@ public abstract class BaseMessageService {
                 .toList();
     }
 
-    protected String buildJobListString(GetUserByRoleResponse user, List<GetJobResponse> jobsToSend) {
-        StringBuilder jobListString = new StringBuilder();
-
-        for (GetJobResponse job : jobsToSend) {
-            jobListString
-                    .append("*")
-                    .append(job.employerName())
-                    .append("*")
-                    .append("\n\n")
-                    .append("_")
-                    .append(job.jobTitle())
-                    .append("_")
-                    .append("\n\n")
-                    .append(job.jobApplyLink())
-                    .append("\n\n");
-        }
-
-        return jobListString.toString();
+    protected List<String> buildJobListString(GetUserByRoleResponse user, List<GetJobResponse> jobsToSend) {
+        return jobsToSend
+                .stream()
+                .map(job -> job.employerName() + " - " + job.jobTitle() + " - " + job.jobApplyLink())
+                .toList();
     }
 
-    protected Message createMessageWithJobs(String to, String jobsListString, String name) throws Exception {
+    protected Message createMessageWithJobs(String to, List<String> jobsListString, String name) throws Exception {
         Twilio.init(accountSid, authToken);
 
+        Integer paramsCount = 2;
+
         Map<String, String> contentVariables = new HashMap<>();
+
         contentVariables.put("1", name);
-        contentVariables.put("2", jobsListString);
+        for (int i = 0; i < jobsListString.size(); i++) {
+            contentVariables.put(String.valueOf(paramsCount), jobsListString.get(i));
+            paramsCount++;
+        }
 
         String jsonContentVariables = mapper.writeValueAsString(contentVariables);
 
@@ -172,7 +165,8 @@ public abstract class BaseMessageService {
                 new PhoneNumber("whatsapp:" + to),
                 new PhoneNumber("whatsapp:" + twilioNumber),
                 "")
-                .setContentSid("HX949f3c1f7cd3a6a4d223c342d3a01e61")
+                .setMessagingServiceSid("MGf49e885d19e2ab1026646ace32fa3a64")
+                .setContentSid("HX205864f4948e291faf9cc645e562a6d9")
                 .setContentVariables(jsonContentVariables)
                 .create();
     }
@@ -188,7 +182,8 @@ public abstract class BaseMessageService {
                 new PhoneNumber("whatsapp:" + to),
                 new PhoneNumber("whatsapp:" + twilioNumber),
                 "")
-                .setContentSid("HX81cb2a2e180feb216e078310f365bfdc")
+                .setMessagingServiceSid("MGf49e885d19e2ab1026646ace32fa3a64")
+                .setContentSid("HXaf5d472a6b2fa87a2c4fc7e2d7125e7b")
                 .setContentVariables(jsonContentVariables)
                 .create();
     }
@@ -200,7 +195,8 @@ public abstract class BaseMessageService {
                 && preferences.remoteWork() == null;
     }
 
-    protected void processUserData(GetUserByRoleResponse user, int jobsNeeded, String token) throws Exception {
+    protected void processUserData(GetUserByRoleResponse user, int jobsNeededPerMessage,
+            String token) throws Exception {
         int page = 1;
 
         List<GetJobResponse> jobsToSend = new ArrayList<>();
@@ -216,29 +212,29 @@ public abstract class BaseMessageService {
             return;
         }
 
-        while (jobsNeeded > 0) {
+        while (jobsNeededPerMessage > 0) {
             List<GetJobResponse> fetchedJobs = fetchJobs(preferences, page);
 
             if (fetchedJobs.size() == 0)
                 break;
 
-            List<GetJobResponse> newJobs = filterNewJobsForUser(userId, fetchedJobs, jobsNeeded, token);
+            List<GetJobResponse> newJobs = filterNewJobsForUser(userId, fetchedJobs, jobsNeededPerMessage, token);
 
             for (GetJobResponse job : newJobs) {
                 jobsToSend.add(job);
-                jobsNeeded--;
-                if (jobsNeeded == 0)
+                jobsNeededPerMessage--;
+                if (jobsNeededPerMessage == 0)
                     break;
             }
 
-            if (fetchedJobs.size() < 5)
+            if (fetchedJobs.size() < jobsNeededPerMessage)
                 break;
 
             page++;
         }
 
         if (jobsToSend.size() > 0) {
-            String messageToUser = buildJobListString(user, jobsToSend);
+            List<String> messageToUser = buildJobListString(user, jobsToSend);
 
             List<String> jobsIds = extractJobsIds(jobsToSend);
 
