@@ -53,11 +53,12 @@ public class UserPreferencesController {
                 return ResponseEntity.ok(response);
         }
 
-        @PostMapping
+        @PostMapping("/{userId}")
         public ResponseEntity<UserPreferencesCreateResponse> create(
+                        @PathVariable UUID userId,
                         @RequestBody UserPreferencesCreateRequest request) {
                 CreateUserPreferencesCommand command = userPreferencesApiMapper
-                                .createRequestToCommand(request);
+                                .createRequestToCommand(userId, request);
 
                 UserPreferencesCreateResponse response = userPreferencesService
                                 .create(command);
@@ -65,12 +66,13 @@ public class UserPreferencesController {
                 return ResponseEntity.ok(response);
         }
 
-        @PutMapping("/")
+        @PutMapping("/{userId}")
         public ResponseEntity<Void> update(
+                        @PathVariable UUID userId,
                         @RequestBody UserPreferencesUpdateRequest request) {
 
                 UpdateUserPreferencesCommand command = userPreferencesApiMapper
-                                .updateRequestToCommand(request);
+                                .updateRequestToCommand(userId, request);
 
                 userPreferencesService.update(command);
 

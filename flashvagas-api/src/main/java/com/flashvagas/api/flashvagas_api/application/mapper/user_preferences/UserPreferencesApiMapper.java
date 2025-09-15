@@ -29,11 +29,11 @@ import com.flashvagas.api.flashvagas_api.domain.value_object.ExcludeJobPublisher
         ExcludeJobPublishers.class })
 public interface UserPreferencesApiMapper {
     @Mapping(target = "id", expression = "java(new UserPreferencesId(UUID.randomUUID()))")
-    @Mapping(target = "userId", expression = "java(new UserId(UUID.fromString(request.userId())))")
+    @Mapping(target = "userId", expression = "java(new UserId(userId))")
     @Mapping(target = "keywords", expression = "java(new Keywords(request.keywords()))")
     @Mapping(target = "employmentTypes", expression = "java(mapToEmploymentTypes(request.employmentTypes()))")
     @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), new ExcludeJobPublishers(request.excludeJobPublishers())))")
-    CreateUserPreferencesCommand createRequestToCommand(UserPreferencesCreateRequest request);
+    CreateUserPreferencesCommand createRequestToCommand(UUID userId, UserPreferencesCreateRequest request);
 
     @Mapping(target = "keywords", expression = "java(domain.getKeywords().getValue())")
     @Mapping(target = "employmentTypes", expression = "java(domain.getEmploymentTypes().toString())")
@@ -52,11 +52,11 @@ public interface UserPreferencesApiMapper {
     @Mapping(target = "userId", expression = "java(new UserId(request.userId()))")
     GetUserPreferencesQuery getRequestToQuery(UserPreferencesGetRequest request);
 
-    @Mapping(target = "userId", expression = "java(new UserId(request.userId()))")
+    @Mapping(target = "userId", expression = "java(new UserId(userId))")
     @Mapping(target = "keywords", expression = "java(new Keywords(request.keywords()))")
     @Mapping(target = "employmentTypes", expression = "java(mapToEmploymentTypes(request.employmentTypes()))")
     @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), new ExcludeJobPublishers(request.excludeJobPublishers())))")
-    UpdateUserPreferencesCommand updateRequestToCommand(UserPreferencesUpdateRequest request);
+    UpdateUserPreferencesCommand updateRequestToCommand(UUID userId, UserPreferencesUpdateRequest request);
 
     default EmploymentTypes mapToEmploymentTypes(String employmentTypesString) {
         if (employmentTypesString == null || employmentTypesString.isBlank()) {
