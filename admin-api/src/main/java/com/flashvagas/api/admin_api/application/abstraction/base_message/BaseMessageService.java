@@ -40,6 +40,10 @@ public abstract class BaseMessageService {
     protected final String accountSid;
     protected final String authToken;
     protected final String twilioNumber;
+    protected final String jobListStringBase;
+    protected final String messageServiceId;
+    protected final String templateWithJobsId;
+    protected final String templateWithoutJobsId;
     @Autowired
     protected ObjectMapper mapper;
 
@@ -50,7 +54,11 @@ public abstract class BaseMessageService {
             UrlShortenerClient urlShortenerClient,
             String accountSid,
             String authToken,
-            String twilioNumber) {
+            String twilioNumber,
+            String jobListStringBase,
+            String messageServiceId,
+            String templateWithJobsId,
+            String templateWithoutJobsId) {
         this.jsearchClient = jsearchClient;
         this.jobsUserClient = jobsUserClient;
         this.urlShortenerClient = urlShortenerClient;
@@ -58,6 +66,10 @@ public abstract class BaseMessageService {
         this.authToken = authToken;
         this.userPreferencesClient = userPreferencesClient;
         this.twilioNumber = twilioNumber;
+        this.jobListStringBase = jobListStringBase;
+        this.messageServiceId = messageServiceId;
+        this.templateWithJobsId = templateWithJobsId;
+        this.templateWithoutJobsId = templateWithoutJobsId;
     }
 
     protected List<GetJobResponse> fetchJobs(
@@ -96,7 +108,7 @@ public abstract class BaseMessageService {
                 .getBody();
 
         if (shortUrlsList == null || shortUrlsList.isEmpty()) {
-            return Collections.emptyList();
+            throw new RuntimeException("Error creating short url");
         }
 
         Map<String, String> shortUrlMap = shortUrlsList.stream()
@@ -139,14 +151,17 @@ public abstract class BaseMessageService {
                 .toList();
     }
 
-    protected List<String> buildJobListString(GetUserByRoleResponse user, List<GetJobResponse> jobsToSend) {
+    protected List<String> buildJobListString(GetUserByRoleResponse user, List<GetJobResponse> jobsToSend,
+            String jobListStringBase) {
         return jobsToSend
                 .stream()
-                .map(job -> job.employerName() + " - " + job.jobTitle() + " - " + job.jobApplyLink())
+                .map(job -> job.employerName() + " - " + job.jobTitle() + " - " + jobListStringBase
+                        + job.jobApplyLink())
                 .toList();
     }
 
-    protected Message createMessageWithJobs(String to, List<String> jobsListString, String name) throws Exception {
+    protected Message createMessageWithJobs(String to, List<String> jobsListString, String name,
+            String templateId, String messageServiceId) throws Exception {
         Twilio.init(accountSid, authToken);
 
         Integer paramsCount = 2;
@@ -165,13 +180,14 @@ public abstract class BaseMessageService {
                 new PhoneNumber("whatsapp:" + to),
                 new PhoneNumber("whatsapp:" + twilioNumber),
                 "")
-                .setMessagingServiceSid("MGf49e885d19e2ab1026646ace32fa3a64")
-                .setContentSid("HX205864f4948e291faf9cc645e562a6d9")
+                .setMessagingServiceSid(messageServiceId)
+                .setContentSid(templateId)
                 .setContentVariables(jsonContentVariables)
                 .create();
     }
 
-    protected Message createMessageWithoutJobs(String to, String name) throws Exception {
+    protected Message createMessageWithoutJobs(String to, String name, String templateId, String messageServiceId)
+            throws Exception {
         Twilio.init(accountSid, authToken);
         Map<String, String> contentVariables = new HashMap<>();
         contentVariables.put("1", name);
@@ -182,8 +198,8 @@ public abstract class BaseMessageService {
                 new PhoneNumber("whatsapp:" + to),
                 new PhoneNumber("whatsapp:" + twilioNumber),
                 "")
-                .setMessagingServiceSid("MGf49e885d19e2ab1026646ace32fa3a64")
-                .setContentSid("HXaf5d472a6b2fa87a2c4fc7e2d7125e7b")
+                .setMessagingServiceSid(messageServiceId)
+                .setContentSid(templateId)
                 .setContentVariables(jsonContentVariables)
                 .create();
     }
@@ -195,8 +211,7 @@ public abstract class BaseMessageService {
                 && preferences.remoteWork() == null;
     }
 
-    protected void processUserData(GetUserByRoleResponse user, int jobsNeededPerMessage,
-            String token) throws Exception {
+    protected void processUserData(GetUserByRoleResponse user, int jobsNeededPerMessage, String token) throws Exception {
         int page = 1;
 
         List<GetJobResponse> jobsToSend = new ArrayList<>();
@@ -208,7 +223,7 @@ public abstract class BaseMessageService {
         UserPreferencesGetResponse preferences = userPreferencesClient.findUserPreferences(userId, token);
 
         if (preferences.keywords() == null || preferences.keywords().isEmpty()) {
-            System.out.println("Skipping preferences: no keywords found");
+            System.out.println("Skipping user: no keywords found");
             return;
         }
 
@@ -234,12 +249,13 @@ public abstract class BaseMessageService {
         }
 
         if (jobsToSend.size() > 0) {
-            List<String> messageToUser = buildJobListString(user, jobsToSend);
+            List<String> messageToUser = buildJobListString(user, jobsToSend, jobListStringBase);
 
             List<String> jobsIds = extractJobsIds(jobsToSend);
 
             try {
-                Message message = createMessageWithJobs(userPhone, messageToUser, user.firstName());
+                Message message = createMessageWithJobs(userPhone, messageToUser, user.firstName(), templateWithJobsId,
+                        messageServiceId);
                 log.info(message.toString());
                 String response = jobsUserClient.createJobUser(userId, jobsIds, token);
                 log.info("Response: {}", response);
@@ -250,7 +266,7 @@ public abstract class BaseMessageService {
 
         if (jobsToSend.size() == 0) {
             try {
-                Message message = createMessageWithoutJobs(userPhone, user.firstName());
+                Message message = createMessageWithoutJobs(userPhone, user.firstName(), messageServiceId, templateWithoutJobsId);
                 log.info(message.toString());
             } catch (Exception e) {
                 log.error("Error sending message to user: {}", e);

@@ -35,6 +35,8 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
     private Integer startJobsQuantityPerMessage;
     @Value("${plans.start.jobs.quantity.per-day}")
     private Integer startJobsQuantityPerDay;
+    @Value("${job-list-string.base}")
+    private String jobListStringBase;
 
     public StartMessageServiceImpl(
             KeycloakAuthClientImpl kcAuthClient,
@@ -45,9 +47,13 @@ public class StartMessageServiceImpl extends BaseMessageService implements PlanM
             UrlShortenerClient urlShortenerClient,
             @Value("${twilio.accountSID}") String accountSid,
             @Value("${twilio.authToken}") String authToken,
-            @Value("${twilio.phoneNumber}") String twilioNumber) {
+            @Value("${twilio.phoneNumber}") String twilioNumber,
+            @Value("${job-list-string.base}") String jobListStringBase,
+            @Value("${twilio.messageService}") String messageServiceId,
+            @Value("${twilio.templateWithJobsId}") String templateWithJobsId,
+            @Value("${twilio.templateWithoutJobsId}") String templateWithoutJobsId) {
         super(jsearchClient, jobsUserClient, userPreferencesClient, urlShortenerClient, accountSid, authToken,
-                twilioNumber);
+                twilioNumber, jobListStringBase, messageServiceId, templateWithJobsId, templateWithoutJobsId);
         this.kcAuthClient = kcAuthClient;
         this.jsearchClient = jsearchClient;
         this.kcUserClient = kcUserClient;

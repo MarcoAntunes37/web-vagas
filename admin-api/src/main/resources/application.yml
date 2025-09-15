@@ -30,6 +30,9 @@ twilio:
   accountSID: ${TWILIO_ACCOUNT_SID}
   authToken: ${TWILIO_AUTH_TOKEN}
   phoneNumber: ${TWILIO_PHONE_NUMBER}
+  messageService: ${TWILIO_MESSAGE_SERVICE}
+  templateWithJobsId: ${TWILIO_TEMPLATE_WITH_JOBS}
+  templateWithoutJobsId: ${TWILIO_TEMPLATE_WITHOUT_JOBS}
 
 jsearch:
   url: "https://jsearch.p.rapidapi.com/search"
@@ -45,13 +48,16 @@ plans:
   start:
     jobs:
       quantity: 
-        per-message: 4
+        per-message: 5
         per-day: 5
   turbo:
     jobs:
       quantity: 
-        per-message: 4
+        per-message: 5
         per-day: 10
+
+job-list-string: 
+  base: "https://go.flashvagas.com.br/"
 
 user-preferences:
   url: "http://localhost:9000/api/v1/preferences/user/"

@@ -35,8 +35,7 @@ public class JSearchClient {
         try {
             HashMap<String, Object> params = jsearchUtils.createParams(request);
 
-            // String fullUrl = jsearchUtils.createUrl(params);
-            String fullUrl = "http://localhost:8081/mock/jobs";
+            String fullUrl = jsearchUtils.createUrl(params);
 
             HttpHeaders headers = new HttpHeaders();
 

@@ -25,7 +25,7 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
     private final KeycloakUserClientImpl kcUserClient;
     private final JobsUserClient jobsUserClient;
     @SuppressWarnings("unused")
-    private final UserPreferencesClient userPreferencesClient;    
+    private final UserPreferencesClient userPreferencesClient;
     @SuppressWarnings("unused")
     private final JSearchClient jsearchClient;
     @SuppressWarnings("unused")
@@ -44,9 +44,13 @@ public class TurboMessageServiceImpl extends BaseMessageService implements PlanM
             UrlShortenerClient urlShortenerClient,
             @Value("${twilio.accountSID}") String accountSid,
             @Value("${twilio.authToken}") String authToken,
-            @Value("${twilio.phoneNumber}") String twilioNumber) {
+            @Value("${twilio.phoneNumber}") String twilioNumber,
+            @Value("${job-list-string.base}") String jobListStringBase,
+            @Value("${twilio.messageService}") String messageServiceId,
+            @Value("${twilio.templateWithJobsId}") String templateWithJobsId,
+            @Value("${twilio.templateWithoutJobsId}") String templateWithoutJobsId) {
         super(jsearchClient, jobsUserClient, userPreferencesClient, urlShortenerClient, accountSid, authToken,
-                twilioNumber);
+                twilioNumber, jobListStringBase, messageServiceId, templateWithJobsId, templateWithoutJobsId);
         this.kcAuthClient = kcAuthClient;
         this.jsearchClient = jsearchClient;
         this.kcUserClient = kcUserClient;
