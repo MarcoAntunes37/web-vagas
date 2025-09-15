@@ -13,8 +13,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { KeycloakProfile } from 'keycloak-js';
-import { JobFiltersTypeJsearch } from '../../models/types/JobFiltersTypeJsearch';
-import { SaveUserPreferencesJsearchRequest } from '../../models/types/SaveUserPreferencesJsearchRequest';
+import { JobFiltersType } from '../../models/types/JobFiltersType';
+import { SaveUserPreferencesRequest } from '../../models/types/SaveUserPreferencesRequest';
 import { map, Observable, of, startWith } from 'rxjs';
 import { UserProfileService } from '../../service/user-profile/user-profile.service';
 import { employmentTypeOptions, countryListOptions } from '../shared/CONSTANTS';
@@ -37,9 +37,9 @@ export class SettingsComponent {
 
   userProfile: KeycloakProfile | null = null
 
-  jobFilters: JobFiltersTypeJsearch | null = null
+  jobFilters: JobFiltersType | null = null
 
-  saveUserPreferences: SaveUserPreferencesJsearchRequest | null = null
+  saveUserPreferences: SaveUserPreferencesRequest | null = null
 
   userHavePreferences: boolean = false
 
@@ -155,7 +155,6 @@ export class SettingsComponent {
     const excludeJobPublishers = this.jobFiltersForm?.get('excludeJobPublishers')?.value;
 
     this.saveUserPreferences = {
-      userId: this.userProfile?.id ?? '',
       keywords: this.jobFiltersForm?.get('keywords')?.value || '',
       employmentTypes: Array.isArray(employmentTypes) ? employmentTypes.join(',') : '',
       country: this.jobFiltersForm?.get('country')?.value || '',
@@ -163,7 +162,7 @@ export class SettingsComponent {
       excludeJobPublishers: Array.isArray(excludeJobPublishers) ? excludeJobPublishers.join(',') : ''
     }
 
-    this.userPreferencesStore.savePreferences(this.saveUserPreferences);
+    this.userPreferencesStore.updatePreferences(this.userProfile?.id ?? '', this.saveUserPreferences);
 
     this.openSnackBar();
   }

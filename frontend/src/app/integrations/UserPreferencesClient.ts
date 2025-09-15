@@ -3,9 +3,9 @@ import { Injectable } from "@angular/core";
 import { from, Observable, switchMap } from "rxjs";
 import { environment } from '../environment/environment';
 import { UserProfileService } from "../service/user-profile/user-profile.service";
-import { SaveUserPreferencesJsearchRequest } from "../models/types/SaveUserPreferencesJsearchRequest";
-import { UpdateUserPreferencesJsearchRequest } from "../models/types/UpdateUserPreferencesJsearchRequest";
-import { JobFiltersTypeJsearch } from "../models/types/JobFiltersTypeJsearch";
+import { SaveUserPreferencesRequest } from "../models/types/SaveUserPreferencesRequest";
+import { UpdateUserPreferencesRequest } from "../models/types/UpdateUserPreferencesRequest";
+import { JobFiltersType } from "../models/types/JobFiltersType";
 
 @Injectable({
     providedIn: 'root'
@@ -15,11 +15,11 @@ export class UserPreferencesClient {
         private userProfileService: UserProfileService
     ) { }
 
-    getUserPreferences(userId: string): Observable<JobFiltersTypeJsearch> {
+    getUserPreferences(userId: string): Observable<JobFiltersType> {
         const { userPreferencesApiUrl } = environment;
         return from(this.userProfileService.getAccessToken()).pipe(
             switchMap(accessToken =>
-                this.http.get<JobFiltersTypeJsearch>(`${userPreferencesApiUrl}/${userId}`, {
+                this.http.get<JobFiltersType>(`${userPreferencesApiUrl}/${userId}`, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`
@@ -29,12 +29,12 @@ export class UserPreferencesClient {
         );
     }
 
-    saveUserPreferences(userPreferences: SaveUserPreferencesJsearchRequest)
-        : Observable<SaveUserPreferencesJsearchRequest> {
+    saveUserPreferences(userId: string, userPreferences: SaveUserPreferencesRequest)
+        : Observable<SaveUserPreferencesRequest> {
         const { userPreferencesApiUrl } = environment
         return from(this.userProfileService.getAccessToken()).pipe(
             switchMap(accessToken =>
-                this.http.put<SaveUserPreferencesJsearchRequest>(userPreferencesApiUrl + "/", userPreferences, {
+                this.http.post<SaveUserPreferencesRequest>(`${userPreferencesApiUrl}/${userId}`, userPreferences, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${accessToken}`
@@ -44,15 +44,18 @@ export class UserPreferencesClient {
         )
     }
 
-    updateUserPreferences(userPreferences: UpdateUserPreferencesJsearchRequest)
-        : Observable<UpdateUserPreferencesJsearchRequest> {
+    updateUserPreferences(userId: string, userPreferences: UpdateUserPreferencesRequest)
+        : Observable<void> {
         const { userPreferencesApiUrl } = environment
-        const accessToken = this.userProfileService.getAccessToken();
-        return this.http.put<any>(userPreferencesApiUrl + "/", userPreferences, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
-            }
-        });
+        return from(this.userProfileService.getAccessToken()).pipe(
+            switchMap(accessToken =>
+                this.http.put<void>(`${userPreferencesApiUrl}/${userId}`, userPreferences, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                })
+            )
+        )
     }
 }
