@@ -160,8 +160,7 @@ public abstract class BaseMessageService {
                 .toList();
     }
 
-    protected Message createMessageWithJobs(String to, List<String> jobsListString, String name,
-            String templateId, String messageServiceId) throws Exception {
+    protected Message createMessageWithJobs(String to, List<String> jobsListString, String name) throws Exception {
         Twilio.init(accountSid, authToken);
 
         Integer paramsCount = 2;
@@ -181,12 +180,12 @@ public abstract class BaseMessageService {
                 new PhoneNumber("whatsapp:" + twilioNumber),
                 "")
                 .setMessagingServiceSid(messageServiceId)
-                .setContentSid(templateId)
+                .setContentSid(templateWithJobsId)
                 .setContentVariables(jsonContentVariables)
                 .create();
     }
 
-    protected Message createMessageWithoutJobs(String to, String name, String templateId, String messageServiceId)
+    protected Message createMessageWithoutJobs(String to, String name)
             throws Exception {
         Twilio.init(accountSid, authToken);
         Map<String, String> contentVariables = new HashMap<>();
@@ -199,7 +198,7 @@ public abstract class BaseMessageService {
                 new PhoneNumber("whatsapp:" + twilioNumber),
                 "")
                 .setMessagingServiceSid(messageServiceId)
-                .setContentSid(templateId)
+                .setContentSid(templateWithoutJobsId)
                 .setContentVariables(jsonContentVariables)
                 .create();
     }
@@ -211,7 +210,8 @@ public abstract class BaseMessageService {
                 && preferences.remoteWork() == null;
     }
 
-    protected void processUserData(GetUserByRoleResponse user, int jobsNeededPerMessage, String token) throws Exception {
+    protected void processUserData(GetUserByRoleResponse user, int jobsNeededPerMessage, String token)
+            throws Exception {
         int page = 1;
 
         List<GetJobResponse> jobsToSend = new ArrayList<>();
@@ -254,8 +254,7 @@ public abstract class BaseMessageService {
             List<String> jobsIds = extractJobsIds(jobsToSend);
 
             try {
-                Message message = createMessageWithJobs(userPhone, messageToUser, user.firstName(), templateWithJobsId,
-                        messageServiceId);
+                Message message = createMessageWithJobs(userPhone, messageToUser, user.firstName());
                 log.info(message.toString());
                 String response = jobsUserClient.createJobUser(userId, jobsIds, token);
                 log.info("Response: {}", response);
@@ -266,7 +265,7 @@ public abstract class BaseMessageService {
 
         if (jobsToSend.size() == 0) {
             try {
-                Message message = createMessageWithoutJobs(userPhone, user.firstName(), messageServiceId, templateWithoutJobsId);
+                Message message = createMessageWithoutJobs(userPhone, user.firstName());
                 log.info(message.toString());
             } catch (Exception e) {
                 log.error("Error sending message to user: {}", e);
