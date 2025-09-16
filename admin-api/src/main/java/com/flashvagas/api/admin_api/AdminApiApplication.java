@@ -1,5 +1,7 @@
 package com.flashvagas.api.admin_api;
 
+import java.util.TimeZone;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -8,6 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class AdminApiApplication {
     public static void main(String[] args) {
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
         SpringApplication.run(AdminApiApplication.class, args);
     }
 }
