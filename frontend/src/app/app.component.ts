@@ -47,7 +47,7 @@ export class AppComponent {
     public keycloak: Keycloak,
     private router: Router) {
     effect(async () => {
-      this.userProfile.set(this.userProfileService.getUserProfile());
+      this.userProfile.set(await this.userProfileService.getUserProfile());
 
       this.userProfileService.userProfile$.subscribe(profile => {
         this.userProfile.set(profile);

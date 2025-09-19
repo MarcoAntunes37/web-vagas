@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, inject, signal, viewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, RequiredValidator, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
@@ -20,6 +20,7 @@ import { UserProfileService } from '../../service/user-profile/user-profile.serv
 import { employmentTypeOptions, countryListOptions } from '../shared/CONSTANTS';
 import { SnackBarComponent } from '../snack-bar/snack-bar.component';
 import { UserPreferencesStore } from '../../behavior/UserPreferencesStore';
+import { countryValidator } from '../../validators/countryValidator';
 @Component({
   selector: 'app-settings',
   imports: [MatFormFieldModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatSelectModule, MatInputModule,
@@ -62,20 +63,32 @@ export class SettingsComponent {
 
   async ngOnInit() {
     this.jobFiltersForm = this.fb.group({
-      keywords: '',
+      keywords: ['',
+        [
+          Validators.required,
+          Validators.maxLength(255),
+          Validators.minLength(3),
+          Validators.pattern('^[a-zA-Z0-9 ,]+$')
+        ]
+      ],
       employmentTypes: '',
-      country: '',
+      country: ['BR',
+        [
+          countryValidator(),
+          Validators.required,
+          Validators.maxLength(2),
+          Validators.minLength(2)
+        ]
+      ],
       remoteWork: false,
       excludeJobPublishers: ''
     })
 
-    if (await this.userProfileService.getAuthenticated()) {
-      this.userProfile = this.userProfileService.getUserProfile();
-    };
+    this.userProfile = await this.userProfileService.getUserProfile();
 
     if (!this.userProfile) return;
 
-    const userPreferences = this.userPreferencesStore.loadPreferences(this.userProfile.id ?? '');
+    const userPreferences = await this.userPreferencesStore.loadPreferences(this.userProfile.id ?? '');
 
     if (userPreferences === null) return;
 

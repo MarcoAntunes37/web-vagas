@@ -21,7 +21,7 @@ export class UserProfileService {
     }
   }
 
-  getUserProfile(): KeycloakProfile | null {
+  async getUserProfile(): Promise<KeycloakProfile | null> {
     return this.userProfileSubject.getValue();
   }
 

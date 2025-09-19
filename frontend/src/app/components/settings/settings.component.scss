@@ -106,3 +106,9 @@ ng-country-select {
     font-size: small;
     color: red;
 }
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}

@@ -31,7 +31,7 @@ export class ProductCardComponent {
   async handleSignatureClick() {
     const isAuthenticated = await this.userProfileService.getAuthenticated();
     if (isAuthenticated) {
-      const userProfile = this.userProfileService.getUserProfile();
+      const userProfile = await this.userProfileService.getUserProfile();
       if (userProfile?.email && this.product.defaultPrice) {
         this.checkoutSessionStore.createSession(
           this.product.defaultPrice,

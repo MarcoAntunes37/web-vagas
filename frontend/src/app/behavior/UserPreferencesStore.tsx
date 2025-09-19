@@ -14,7 +14,7 @@ export class UserPreferencesStore {
 
     constructor(private userPreferencesClient: UserPreferencesClient) { }
 
-    loadPreferences(userId: string) {
+    async loadPreferences(userId: string) {
         this.userPreferencesClient.getUserPreferences(userId).pipe(
             catchError(err => {
                 if (err.status === 404) {
@@ -32,7 +32,7 @@ export class UserPreferencesStore {
         ).subscribe(pref => this._preferences$.next(pref));
     }
 
-    savePreferences(userId: string, userPreferences: SaveUserPreferencesRequest) {
+    async savePreferences(userId: string, userPreferences: SaveUserPreferencesRequest) {
         console.log("userPreferences", userPreferences);
         this._preferences$.next(userPreferences);
         this.userPreferencesClient.saveUserPreferences(userId, userPreferences).pipe(
@@ -46,7 +46,7 @@ export class UserPreferencesStore {
     }
 
 
-    updatePreferences(userId: string, userPreferences: UpdateUserPreferencesRequest) {
+    async updatePreferences(userId: string, userPreferences: UpdateUserPreferencesRequest) {
         console.log("userPreferences", userPreferences);
         this._preferences$.next(userPreferences);
         this.userPreferencesClient.updateUserPreferences(userId, userPreferences).pipe(

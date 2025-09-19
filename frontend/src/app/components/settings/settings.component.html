@@ -19,9 +19,44 @@
                                 <mat-label>Palavra chave</mat-label>
                                 <input matInput type="text" formControlName="keywords" placeholder="Ex: Desenvolvedor">
                             </mat-form-field>
-                            <mat-error *ngIf="hasError('keywords', 'required')">
-                                Campo obrigatório
-                            </mat-error>
+                            <div class="error-container">
+                                <mat-error *ngIf="hasError('keywords', 'required')">
+                                    Campo obrigatório
+                                </mat-error>
+                                <mat-error *ngIf="hasError('keywords', 'maxlength')">
+                                    Palavra chave não pode ser maior que 250 caracteres.
+                                </mat-error>
+                                <mat-error *ngIf="hasError('keywords', 'minlength')">
+                                    Palavra chave não pode ser menor que 3 caracteres.
+                                </mat-error>
+                                <mat-error *ngIf="hasError('keywords', 'pattern')">
+                                    Palavra chave só pode conter numeros, letras, espaco e virgula.
+                                </mat-error>
+                            </div>
+                            <mat-form-field class="example-full-width">
+                                <mat-label>País da busca</mat-label>
+                                <input type="text" aria-label="País" matInput formControlName="country"
+                                    [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    @for (option of filteredOptions | async; track option) {
+                                    <mat-option [value]="option">{{option}}</mat-option>
+                                    }
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            <div class="error-container">
+                                <mat-error *ngIf="hasError('country', 'required')">
+                                    Campo obrigatório
+                                </mat-error>
+                                <mat-error *ngIf="hasError('country', 'invalidCountry')">
+                                    País inválido
+                                </mat-error>
+                                <mat-error *ngIf="hasError('country', 'maxLength')">
+                                    País não pode ser maior que 2 caracteres.
+                                </mat-error>
+                                <mat-error *ngIf="hasError('country', 'minLength')">
+                                    País não pode ser menor que 2 caracteres.
+                                </mat-error>
+                            </div>
                         </fieldset>
                         <mat-action-row>
                             <button mat-button type="submit" [disabled]="jobFiltersForm.invalid">Salvar</button>
@@ -67,16 +102,6 @@
                                 </mat-chip-grid>
                                 <input [matChipInputFor]="reactiveChipGrid"
                                     (matChipInputTokenEnd)="addEmployerName($event)" />
-                            </mat-form-field>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>País da busca</mat-label>
-                                <input type="text" aria-label="País" matInput formControlName="country"
-                                    [matAutocomplete]="auto">
-                                <mat-autocomplete #auto="matAutocomplete">
-                                    @for (option of filteredOptions | async; track option) {
-                                    <mat-option [value]="option">{{option}}</mat-option>
-                                    }
-                                </mat-autocomplete>
                             </mat-form-field>
                             <div style="display: flex;justify-content: space-between;width: 100%;">
                                 <mat-label>Incluir trabalho remoto</mat-label>
