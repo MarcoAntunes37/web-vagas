@@ -35,15 +35,20 @@ public class UserPreferencesEntity {
     private UUID userId;
 
     @Convert(converter = KeywordsConverter.class)
+    @Column(name = "keywords", nullable = false)
     private Keywords keywords;
 
     @Convert(converter = EmploymentTypesConverter.class)
+    @Column(name = "employment_types")
     private EmploymentTypes employmentTypes;
 
+    @Column(name = "country", nullable = false)
     private String country;
 
+    @Column(name = "remote_work", nullable = false)
     private Boolean remoteWork;
 
     @Convert(converter = ExcludeJobPublishersConverter.class)
+    @Column(name = "exclude_job_publishers")
     private ExcludeJobPublishers excludeJobPublishers;
 }

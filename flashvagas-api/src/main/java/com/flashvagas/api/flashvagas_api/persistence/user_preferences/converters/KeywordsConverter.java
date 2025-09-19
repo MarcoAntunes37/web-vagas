@@ -5,7 +5,7 @@ import com.flashvagas.api.flashvagas_api.domain.value_object.Keywords;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
-@Converter(autoApply = false)
+@Converter(autoApply = true)
 public class KeywordsConverter implements AttributeConverter<Keywords, String> {
 
     @Override

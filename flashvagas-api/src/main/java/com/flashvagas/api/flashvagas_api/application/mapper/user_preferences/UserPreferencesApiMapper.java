@@ -2,6 +2,7 @@ package com.flashvagas.api.flashvagas_api.application.mapper.user_preferences;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.enums.Em
 import com.flashvagas.api.flashvagas_api.domain.value_object.Country;
 import com.flashvagas.api.flashvagas_api.domain.value_object.EmploymentTypes;
 import com.flashvagas.api.flashvagas_api.domain.value_object.ExcludeJobPublishers;
+import com.flashvagas.api.flashvagas_api.domain.value_object.Keywords;
 
 @Mapper(componentModel = "spring", imports = {
         UUID.class, UserPreferencesId.class, Country.class, EmploymentTypes.class,
@@ -35,14 +37,14 @@ public interface UserPreferencesApiMapper {
     @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), new ExcludeJobPublishers(request.excludeJobPublishers())))")
     CreateUserPreferencesCommand createRequestToCommand(UUID userId, UserPreferencesCreateRequest request);
 
-    @Mapping(target = "keywords", expression = "java(domain.getKeywords().getValue())")
+    @Mapping(target = "keywords", source = "keywords")
     @Mapping(target = "employmentTypes", expression = "java(domain.getEmploymentTypes().toString())")
     @Mapping(target = "country", expression = "java(domain.getSearchFiltersCountry().getValue())")
     @Mapping(target = "remoteWork", expression = "java(domain.getSearchFiltersRemoteWork())")
     @Mapping(target = "excludeJobPublishers", expression = "java(domain.getSearchFiltersExcludeJobPublishers().getValue())")
     UserPreferencesCreateResponse domainToApiCreateResponse(UserPreferences domain);
 
-    @Mapping(target = "keywords", expression = "java(domain.getKeywords().getValue())")
+    @Mapping(target = "keywords", source = "keywords")
     @Mapping(target = "employmentTypes", expression = "java(domain.getEmploymentTypes().toString())")
     @Mapping(target = "country", expression = "java(domain.getSearchFiltersCountry().getValue())")
     @Mapping(target = "remoteWork", expression = "java(domain.getSearchFiltersRemoteWork())")
@@ -57,6 +59,14 @@ public interface UserPreferencesApiMapper {
     @Mapping(target = "employmentTypes", expression = "java(mapToEmploymentTypes(request.employmentTypes()))")
     @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), new ExcludeJobPublishers(request.excludeJobPublishers())))")
     UpdateUserPreferencesCommand updateRequestToCommand(UUID userId, UserPreferencesUpdateRequest request);
+
+    default Keywords map(Optional<Keywords> optional) {
+        return optional != null ? optional.orElse(null) : null;
+    }
+
+    default String mapToString(Keywords keywords) {
+        return keywords != null ? keywords.getValue() : null;
+    }
 
     default EmploymentTypes mapToEmploymentTypes(String employmentTypesString) {
         if (employmentTypesString == null || employmentTypesString.isBlank()) {

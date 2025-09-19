@@ -1,5 +1,7 @@
 package com.flashvagas.api.flashvagas_api.application.mapper.user_preferences;
 
+import java.util.Optional;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -7,6 +9,7 @@ import com.flashvagas.api.flashvagas_api.application.service.user_preferences.co
 import com.flashvagas.api.flashvagas_api.application.service.user_preferences.command.UpdateUserPreferencesCommand;
 import com.flashvagas.api.flashvagas_api.domain.entity.user_preferences.UserPreferences;
 import com.flashvagas.api.flashvagas_api.domain.value_object.Country;
+import com.flashvagas.api.flashvagas_api.domain.value_object.Keywords;
 import com.flashvagas.api.flashvagas_api.persistence.user_preferences.UserPreferencesEntity;
 @Mapper(componentModel = "spring", imports = {Country.class})
 public interface UserPreferencesJpaMapper {
@@ -30,4 +33,8 @@ public interface UserPreferencesJpaMapper {
 
     @Mapping(target = "id", ignore = true)
     UserPreferences updateCommandtoDomain(UpdateUserPreferencesCommand command);
+
+    default Keywords map(Optional<Keywords> optional) {
+        return optional.orElse(null);
+    }
 }
