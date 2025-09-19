@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,12 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 public class KeycloakRoleClientImpl implements KeycloakRoleClient {
     private final RestTemplate restTemplate;
 
-    @Value("$cloudflare.access.client-id")
-    private String cfClientId;
-
-    @Value("$cloudflare.access.client-secret")
-    private String cfClientSecret;
-
     public void assignRole(String userId, AssignRoleRequest role, String token) {
         String url = KeycloakClientUtils.buildUrlUpdateRole(userId);
 
@@ -44,10 +37,6 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
         headers.setContentType(MediaType.APPLICATION_JSON);
-
-        headers.set("CF-Access-Client-Id", cfClientId);
-
-        headers.set("CF-Access-Client-Secret", cfClientSecret);
 
         log.info("headers: {}", headers);
 
@@ -80,10 +69,6 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
 
         headers.set("Content-Type", "application/json");
 
-        headers.set("CF-Access-Client-Id", cfClientId);
-
-        headers.set("CF-Access-Client-Secret", cfClientSecret);
-
         log.info("headers: {}", headers);
 
         HttpEntity<RemoveRoleRequest[]> request = new HttpEntity<>(new RemoveRoleRequest[] { role }, headers);
@@ -99,10 +84,6 @@ public class KeycloakRoleClientImpl implements KeycloakRoleClient {
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
         headers.set("Content-Type", "application/json");
-
-        headers.set("CF-Access-Client-Id", cfClientId);
-
-        headers.set("CF-Access-Client-Secret", cfClientSecret);
 
         log.info("response: {}", headers);
 

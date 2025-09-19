@@ -6,6 +6,8 @@ public class Country {
     private String value;
 
     public Country(String value) {
+        if (value.length() != 2)
+            throw new IllegalArgumentException("Country must have 2 characters.");
         this.value = value;
     }
 

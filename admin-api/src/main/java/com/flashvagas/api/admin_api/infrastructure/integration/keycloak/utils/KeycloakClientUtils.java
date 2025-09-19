@@ -1,6 +1,8 @@
 package com.flashvagas.api.admin_api.infrastructure.integration.keycloak.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,8 +25,8 @@ public class KeycloakClientUtils {
     @Value("${keycloak.realm}")
     private String realmProp;
 
-    @Value("${spring.profiles.active}")
-    private String profileProp;
+    @Autowired
+    private ApplicationContext contextProp;
 
     public static HttpHeaders createAuthHeaders(String token) {
         HttpHeaders headers = new HttpHeaders();
@@ -67,7 +69,8 @@ public class KeycloakClientUtils {
     public void init() {
         host = hostProp;
         realm = realmProp;
-        profile = profileProp;
+        String[] context = contextProp.getEnvironment().getActiveProfiles();
+        profile = context.length > 0 ? context[0] : "dev";
     }
 
     private static String formatHost() {

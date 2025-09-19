@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,27 +25,15 @@ import lombok.extern.slf4j.Slf4j;
 public class KeycloakUserClientImpl implements KeycloakUserClient {
     private final RestTemplate restTemplate;
 
-    @Value("${cloudflare.access.client-id}")
-    private String cfClientId;
-
-    @Value("${cloudflare.access.client-secret}")
-    private String cfClientSecret;
-
     @SuppressWarnings("null")
     public GetUserByEmailResponse getUserByEmail(String email, String token) {
         String url = KeycloakClientUtils.buildUrlGetByEmail(email);
-
-        log.info("cloudflare: {}", "clientId: " + cfClientId, "clientSecret: " + cfClientSecret);
 
         log.info("url: {}", url);
 
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
         headers.set("Content-Type", "application/json");
-
-        headers.set("CF-Access-Client-Id", cfClientId);
-
-        headers.set("CF-Access-Client-Secret", cfClientSecret);
 
         log.info("headers: {}", headers);
 
@@ -73,10 +60,6 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
         HttpHeaders headers = KeycloakClientUtils.createAuthHeaders(token);
 
         headers.set("Content-Type", "application/json");
-
-        headers.set("CF-Access-Client-Id", cfClientId);
-
-        headers.set("CF-Access-Client-Secret", cfClientSecret);
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 

@@ -35,20 +35,10 @@ public class KeycloakAuthClientImpl implements KeycloakAuthClient {
     @Value("${keycloak.token_url}")
     private String tokenUrl;
 
-    @Value("$cloudflare.access.client-id")
-    private String cfClientId;
-
-    @Value("$cloudflare.access.client-secret")
-    private String cfClientSecret;
-
     public String getAccessToken() throws Exception {
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        headers.set("CF-Access-Client-Id", cfClientId);
-
-        headers.set("CF-Access-Client-Secret", cfClientSecret);
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("client_id", clientId);
