@@ -2,8 +2,6 @@ package com.flashvagas.urlshortener_api.domain.value_objects;
 
 import java.time.LocalDateTime;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class DateTime {
     private LocalDateTime value;
 
@@ -13,11 +11,6 @@ public class DateTime {
         }
 
         this.value = value;
-    }
-
-    @JsonCreator
-    public static Code from(String value) {
-        return new Code(value);
     }
 
     public String getStringValue() {
