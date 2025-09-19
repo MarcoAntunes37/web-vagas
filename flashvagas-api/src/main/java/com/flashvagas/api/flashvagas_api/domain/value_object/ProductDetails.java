@@ -1,5 +1,7 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ProductDetails {
@@ -9,16 +11,16 @@ public class ProductDetails {
     private ClientDescriptions clientDescription;
 
     public ProductDetails(String name,
-                          String description,
-                          Boolean active,
-                          ClientDescriptions clientDescription) {
+            String description,
+            Boolean active,
+            ClientDescriptions clientDescription) {
+                Objects.requireNonNull(name);
+                Objects.requireNonNull(description);
+                Objects.requireNonNull(active);
+                Objects.requireNonNull(clientDescription);
 
-        if (name == null || name.toString().isBlank()) {
-            throw new IllegalArgumentException("Name cannot be null or blank.");
-        }
-
-        if (active == null) {
-            throw new IllegalArgumentException("Active cannot be null.");
+        if (name.toString().isBlank()) {
+            throw new IllegalArgumentException("Name cannot be blank.");
         }
 
         this.name = name;
@@ -29,7 +31,7 @@ public class ProductDetails {
 
     @JsonCreator
     public static ProductDetails toProductDetails(String name, String description, Boolean active,
-                                                  ClientDescriptions clientDescription) {
+            ClientDescriptions clientDescription) {
         return new ProductDetails(name, description, active, clientDescription);
     }
 
@@ -45,21 +47,15 @@ public class ProductDetails {
         if (!(o instanceof ProductDetails))
             return false;
 
-        ProductDetails productDetails = (ProductDetails) o;
-
-        return name.equals(productDetails.name) &&
-                description.equals(productDetails.description) &&
-                active.equals(productDetails.active) &&
-                clientDescription.equals(productDetails.clientDescription);
+        return Objects.equals(name, this.name)
+                && Objects.equals(description, this.description)
+                && Objects.equals(active, this.active)
+                && Objects.equals(clientDescription, this.clientDescription);
     }
 
     @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + description.hashCode();
-        result = 31 * result + active.hashCode();
-        result = 31 * result + clientDescription.hashCode();
-        return result;
+    public int hashCode() {        
+        return Objects.hash(name, description, active, clientDescription);
     }
 
     @Override

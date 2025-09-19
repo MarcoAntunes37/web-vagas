@@ -1,6 +1,7 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -9,6 +10,10 @@ public class ProductDates {
     private OffsetDateTime updated;
 
     public ProductDates(OffsetDateTime created, OffsetDateTime updated) {
+        Objects.requireNonNull(created);
+
+        Objects.requireNonNull(updated);
+
         this.created = created;
         this.updated = updated;
     }
@@ -30,17 +35,13 @@ public class ProductDates {
         if (!(o instanceof ProductDates))
             return false;
 
-        ProductDates productDates = (ProductDates) o;
-
-        return created.equals(productDates.created) &&
-                updated.equals(productDates.updated);
+        return Objects.equals(created, this.created)
+                && Objects.equals(updated, this.updated);
     }
 
     @Override
     public int hashCode() {
-        int result = created.hashCode();
-        result = 31 * result + updated.hashCode();
-        return result;
+        return Objects.hash(created, updated);
     }
 
     @Override

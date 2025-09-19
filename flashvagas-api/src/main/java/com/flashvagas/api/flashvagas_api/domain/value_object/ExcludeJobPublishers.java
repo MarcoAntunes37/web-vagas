@@ -2,6 +2,7 @@ package com.flashvagas.api.flashvagas_api.domain.value_object;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -9,8 +10,7 @@ public class ExcludeJobPublishers {
     private final String value;
 
     public ExcludeJobPublishers(String value) {
-        if (value == null)
-            throw new IllegalArgumentException("ExcludeJobPublishers is required in this type of search");
+        Objects.requireNonNull(value, "ExcludeJobPublishers cannot be null.");
 
         this.value = value;
     }
@@ -39,13 +39,11 @@ public class ExcludeJobPublishers {
         if (!(o instanceof ExcludeJobPublishers))
             return false;
 
-        ExcludeJobPublishers excludeJobPublishers = (ExcludeJobPublishers) o;
-
-        return value.equals(excludeJobPublishers.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }

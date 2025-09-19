@@ -1,14 +1,18 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class UserPreferencesId {
     private UUID value;
 
     public UserPreferencesId(UUID value) {
-        if (value == null || value.toString().isBlank()) {
-            throw new IllegalArgumentException("UserPreferencesId cannot be null or blank");
+        Objects.requireNonNull(value, "UserPreferencesId cannot be null");
+
+        if (value.toString().isBlank()) {
+            throw new IllegalArgumentException("UserPreferencesId cannot be blank");
         }
+        
         this.value = value;
     }
 
@@ -24,14 +28,12 @@ public class UserPreferencesId {
         if (!(o instanceof UserPreferencesId))
             return false;
 
-        UserPreferencesId userPreferencesId = (UserPreferencesId) o;
-
-        return value.equals(userPreferencesId.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 
     @Override

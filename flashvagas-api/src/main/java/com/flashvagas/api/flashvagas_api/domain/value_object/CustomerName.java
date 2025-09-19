@@ -1,5 +1,7 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class CustomerName {
@@ -27,12 +29,11 @@ public class CustomerName {
             return true;
         if (!(o instanceof CustomerName))
             return false;
-        CustomerName customerName = (CustomerName) o;
-        return value.equals(customerName.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }

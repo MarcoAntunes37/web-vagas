@@ -1,13 +1,17 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class Price {
     private String value;
 
     public Price(String value) {
-        if (value == null || value.toString().isBlank()) {
-            throw new IllegalArgumentException("Price cannot be null or blank.");
+        Objects.requireNonNull(value, "Price cannot be null.");
+
+        if (value.toString().isBlank()) {
+            throw new IllegalArgumentException("Price cannot be blank.");
         }
 
         if (!value.startsWith("price_")) {
@@ -32,12 +36,11 @@ public class Price {
             return true;
         if (!(o instanceof Price))
             return false;
-        Price price = (Price) o;
-        return value.equals(price.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }

@@ -1,5 +1,6 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,9 +9,11 @@ public class UserId {
     private UUID value;
 
     public UserId(UUID value) {
-        if (value == null || value.toString().isBlank()) {
+        Objects.requireNonNull(value, "UserId cannot be null");
+
+        if (value.toString().isBlank())
             throw new IllegalArgumentException("UserId cannot be null or blank");
-        }
+
         this.value = value;
     }
 
@@ -31,14 +34,12 @@ public class UserId {
         if (!(o instanceof UserId))
             return false;
 
-        UserId userId = (UserId) o;
-
-        return value.equals(userId.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 
     @Override

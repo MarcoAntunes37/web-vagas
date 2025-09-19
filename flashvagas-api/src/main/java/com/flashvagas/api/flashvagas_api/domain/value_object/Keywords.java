@@ -2,6 +2,7 @@ package com.flashvagas.api.flashvagas_api.domain.value_object;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
@@ -9,8 +10,13 @@ public class Keywords {
     private final String value;
 
     public Keywords(String value) {
-        if (value == null)
-            throw new IllegalArgumentException("keywords is required in this type of search");
+        Objects.requireNonNull(value, "Keywords cannot be null");
+
+        if (value.length() > 255)
+            throw new IllegalArgumentException("Keywords cannot be longer than 255 characters");
+
+        if (value.contains("!@#$%^&*()_+={}[]|\\:;\"'<>./?"))
+            throw new IllegalArgumentException("Keywords cannot contain special characters");
 
         this.value = value;
     }
@@ -39,13 +45,11 @@ public class Keywords {
         if (!(o instanceof Keywords))
             return false;
 
-        Keywords keywords = (Keywords) o;
-
-        return value.equals(keywords.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }

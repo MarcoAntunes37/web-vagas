@@ -1,12 +1,19 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 public class StripeCustomerPortalReturnUrl {
     private String value;
 
     public StripeCustomerPortalReturnUrl(String value) {
-        if (value == null || value.toString().isBlank()) {
+        Objects.requireNonNull(value, "StripeCustomerId cannot be null");
+        
+        if (value.toString().isBlank())
             throw new IllegalArgumentException("StripeCustomerId cannot be null or blank");
-        }
+
+        if (!value.startsWith("https://"))
+            throw new IllegalArgumentException("StripeCustomerPortalReturnUrl must start with https://");
+
         this.value = value;
     }
 
@@ -22,14 +29,12 @@ public class StripeCustomerPortalReturnUrl {
         if (!(o instanceof StripeCustomerPortalReturnUrl))
             return false;
 
-        StripeCustomerPortalReturnUrl stripeCustomerPortalReturnUrl = (StripeCustomerPortalReturnUrl) o;
-
-        return value.equals(stripeCustomerPortalReturnUrl.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 
     @Override

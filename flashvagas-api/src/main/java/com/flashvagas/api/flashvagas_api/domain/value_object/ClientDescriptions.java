@@ -1,6 +1,7 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
 import java.util.List;
+import java.util.Objects;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,14 +35,12 @@ public class ClientDescriptions {
         if (!(o instanceof ClientDescriptions))
             return false;
 
-        ClientDescriptions other = (ClientDescriptions) o;
-
-        return this.value.equals(other.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 
     public List<ClientDescriptionItem> getItems() {

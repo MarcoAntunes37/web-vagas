@@ -1,5 +1,7 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 public class ClientDescriptionItem {
     private String text;
     private String icon;
@@ -28,15 +30,12 @@ public class ClientDescriptionItem {
         if (!(o instanceof ClientDescriptionItem))
             return false;
 
-        ClientDescriptionItem clientDescriptionItem = (ClientDescriptionItem) o;
-        return text.equals(clientDescriptionItem.text) &&
-                icon.equals(clientDescriptionItem.icon);
+        return Objects.equals(text, this.text)
+                && Objects.equals(icon, this.icon);
     }
 
     @Override
     public int hashCode() {
-        int result = text.hashCode();
-        result = 31 * result + icon.hashCode();
-        return result;
+        return Objects.hash(text, icon);
     }
 }

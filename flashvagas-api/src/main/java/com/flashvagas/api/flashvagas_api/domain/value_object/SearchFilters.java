@@ -1,5 +1,7 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class SearchFilters {
@@ -31,16 +33,14 @@ public class SearchFilters {
             return true;
         if (!(o instanceof SearchFilters))
             return false;
-        SearchFilters searchFilters = (SearchFilters) o;
-        return searchFilters.equals(searchFilters);
+        return Objects.equals(remoteWork, this.remoteWork)
+                && Objects.equals(country, this.country)
+                && Objects.equals(excludeJobPublishers, this.excludeJobPublishers);
     }
 
     @Override
     public int hashCode() {
-        int result = remoteWork.hashCode();
-        result = 31 * result + country.hashCode();
-        result = 31 * result + excludeJobPublishers.hashCode();
-        return result;
+        return Objects.hash(remoteWork, country, excludeJobPublishers);
     }
 
     @JsonCreator

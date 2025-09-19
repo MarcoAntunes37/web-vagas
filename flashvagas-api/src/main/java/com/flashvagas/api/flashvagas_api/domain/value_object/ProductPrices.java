@@ -1,17 +1,26 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ProductPrices {
     private final String defaultPrice;
-    private final double clientPrice;
+    private final Double clientPrice;
 
     public ProductPrices(String defaultPrice, double clientPrice) {
+        Objects.requireNonNull(defaultPrice, "Default price cannot be null.");
+
+        Objects.requireNonNull(clientPrice, "Client price cannot be null.");
+        
         if (clientPrice < 0)
             throw new IllegalArgumentException("Client price can't be negative.");
 
-        if (defaultPrice == null || defaultPrice.toString().isBlank())
+        if (defaultPrice.toString().isBlank())
             throw new IllegalArgumentException("Default price cannot be null or blank.");
+
+        if (clientPrice == 0)
+            throw new IllegalArgumentException("Client price can't be zero.");
 
         this.defaultPrice = defaultPrice;
         this.clientPrice = clientPrice;
@@ -34,17 +43,13 @@ public class ProductPrices {
         if (!(o instanceof ProductPrices))
             return false;
 
-        ProductPrices productPrice = (ProductPrices) o;
-
-        return defaultPrice.equals(productPrice.defaultPrice) &&
-                clientPrice == productPrice.clientPrice;
+        return Objects.equals(defaultPrice, this.defaultPrice)
+                && Objects.equals(clientPrice, this.clientPrice);
     }
 
     @Override
     public int hashCode() {
-        int result = defaultPrice.hashCode();
-        result = 31 * result + (int) clientPrice;
-        return result;
+        return Objects.hash(defaultPrice, clientPrice);
     }
 
     @Override

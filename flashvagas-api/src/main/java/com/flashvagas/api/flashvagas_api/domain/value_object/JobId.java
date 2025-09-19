@@ -1,14 +1,17 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class JobId {
     private String value;
 
     public JobId(String value) {
-        if (value == null || value.toString().isBlank()) {
-            throw new IllegalArgumentException("JobId cannot be null or blank");
-        }
+        Objects.requireNonNull(value, "JobId cannot be null");
+        if (value.toString().isBlank())
+            throw new IllegalArgumentException("JobId cannot be blank");
+
         this.value = value;
     }
 
@@ -29,13 +32,11 @@ public class JobId {
         if (!(o instanceof JobId))
             return false;
 
-        JobId jobId = (JobId) o;
-
-        return value.equals(jobId.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }

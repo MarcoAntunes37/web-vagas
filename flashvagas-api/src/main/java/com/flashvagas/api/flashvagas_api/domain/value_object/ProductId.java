@@ -1,14 +1,18 @@
 package com.flashvagas.api.flashvagas_api.domain.value_object;
 
+import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ProductId {
     private String value;
 
     public ProductId(String value) {
-        if (value == null || value.toString().isBlank()) {
-            throw new IllegalArgumentException("ProductId cannot be null or blank");
-        }
+        Objects.requireNonNull(value, "ProductId cannot be null");
+        
+        if (value.toString().isBlank())
+            throw new IllegalArgumentException("ProductId cannot be blank");
+            
         this.value = value;
     }
 
@@ -29,13 +33,11 @@ public class ProductId {
         if (!(o instanceof ProductId))
             return false;
 
-        ProductId productId = (ProductId) o;
-
-        return value.equals(productId.value);
+        return Objects.equals(value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }
