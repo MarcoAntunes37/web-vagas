@@ -220,15 +220,21 @@ public abstract class BaseMessageService {
 
         String userPhone = user.attributes().phone()[0];
 
-        UserPreferencesGetResponse preferences = userPreferencesClient.findUserPreferences(userId, token);
+        Optional<UserPreferencesGetResponse> preferences = userPreferencesClient.findUserPreferences(userId, token);
 
-        if (preferences.keywords() == null || preferences.keywords().isEmpty()) {
+        if (preferences.isEmpty()) {
+            System.out.println("Skipping user: no preferences found");
+            return;
+        }
+
+        UserPreferencesGetResponse preferencesValue = preferences.get();
+        if (preferencesValue.keywords() == null || preferencesValue.keywords().isEmpty()) {
             System.out.println("Skipping user: no keywords found");
             return;
         }
 
         while (jobsNeededPerMessage > 0) {
-            List<GetJobResponse> fetchedJobs = fetchJobs(preferences, page);
+            List<GetJobResponse> fetchedJobs = fetchJobs(preferencesValue, page);
 
             if (fetchedJobs.size() == 0)
                 break;
