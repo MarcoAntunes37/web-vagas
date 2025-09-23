@@ -22,14 +22,17 @@ export class UserPreferencesStore {
                         keywords: '',
                         employmentTypes: '',
                         remoteWork: false,
-                        country: 'br',
+                        country: 'BR',
                         excludeJobPublishers: ''
                     });
                 }
                 console.error("Erro ao buscar preferências", err);
                 return of(null);
             })
-        ).subscribe(pref => this._preferences$.next(pref));
+        ).subscribe({
+            next: pref => this._preferences$.next(pref),
+            error: err => console.error("Erro ao criar preferências", err)
+        });
     }
 
     async savePreferences(userId: string, userPreferences: SaveUserPreferencesRequest) {

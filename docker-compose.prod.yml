@@ -6,7 +6,7 @@ services:
     container_name: backend-db
     hostname: backend-db
     ports:
-      - ${BACKEND_DB_CONTAINER_PORT}
+      - ${BACKEND_DB_HOST_PORT}:${BACKEND_DB_CONTAINER_PORT}
     environment:
       POSTGRES_USER: ${BACKEND_DB_USERNAME}
       POSTGRES_PASSWORD: ${BACKEND_DB_PASSWORD}
