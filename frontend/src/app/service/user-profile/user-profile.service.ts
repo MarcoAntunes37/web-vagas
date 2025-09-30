@@ -51,4 +51,8 @@ export class UserProfileService {
   async getRefreshToken(): Promise<string | undefined> {
     return this.keycloak.refreshToken;
   }
+
+  async getLoginUrl(): Promise<string> {
+    return this.keycloak.createLoginUrl();
+  }
 }

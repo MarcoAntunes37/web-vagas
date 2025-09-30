@@ -3,8 +3,8 @@
 set -e
 
 DOCKERHUB_USER="$1"
-REPO_NAME="flashvagas"
-PROJECT_NAME="frontend" # ex.: backend, frontend, auth-service
+REPO_NAME="webvagas"
+PROJECT_NAME="frontend"
 
 if [ -z "$DOCKERHUB_USER" ]; then
   echo "Uso: ./build_${PROJECT_NAME}.sh <dockerhub-usuario>"

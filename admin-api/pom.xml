@@ -9,7 +9,7 @@
         <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.flashvagas.api</groupId>
+    <groupId>com.webvagas.api</groupId>
     <artifactId>admin-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>admin-api</name>

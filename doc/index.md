@@ -1,8 +1,8 @@
-# FlashVagas - Plataforma de Notificação de Vagas
+# WebVagas - Plataforma de Notificação de Vagas
 
 ## Visão Geral do Projeto
 
-O **FlashVagas** é uma plataforma de notificação de vagas de emprego que envia oportunidades personalizadas diretamente para o WhatsApp dos usuários. O sistema utiliza APIs pagas de emprego para buscar vagas e o Twilio como ponte para entrega via WhatsApp.
+O **WebVagas** é uma plataforma de notificação de vagas de emprego que envia oportunidades personalizadas diretamente para o WhatsApp dos usuários. O sistema utiliza APIs pagas de emprego para buscar vagas e o Twilio como ponte para entrega via WhatsApp.
 
 ## Objetivo Principal
 
@@ -127,7 +127,7 @@ Recebimento de Vagas (WhatsApp)
 - Circuit breaker
 - CORS configuration
 
-#### **4. FlashVagas API**
+#### **4. WebVagas API**
 - Gerenciamento de vagas
 - Preferências de usuário
 - Integração com APIs externas
@@ -192,8 +192,8 @@ Recebimento de Vagas (WhatsApp)
 ### **Produção**
 - SSL/TLS com Let's Encrypt
 - Domínios configurados:
-  - `flashvagas.com.br` (principal)
-  - `auth.flashvagas.com.br` (Keycloak)
+  - `webvagas.com.br` (principal)
+  - `auth.webvagas.com.br` (Keycloak)
 - Restart policies configuradas
 - Nginx como proxy reverso
 
@@ -246,6 +246,6 @@ Recebimento de Vagas (WhatsApp)
 
 ## Conclusão
 
-O FlashVagas é uma solução completa para automatização de busca e notificação de vagas de emprego, oferecendo uma experiência personalizada aos usuários através de notificações WhatsApp. A arquitetura de microsserviços permite escalabilidade e manutenibilidade, enquanto as integrações com Stripe e Twilio garantem uma experiência de pagamento e entrega confiável.
+O WebVagas é uma solução completa para automatização de busca e notificação de vagas de emprego, oferecendo uma experiência personalizada aos usuários através de notificações WhatsApp. A arquitetura de microsserviços permite escalabilidade e manutenibilidade, enquanto as integrações com Stripe e Twilio garantem uma experiência de pagamento e entrega confiável.
 
 O projeto está em evolução constante, com melhorias planejadas tanto no frontend quanto no backend, visando sempre a melhor experiência do usuário e a eficiência operacional do sistema.

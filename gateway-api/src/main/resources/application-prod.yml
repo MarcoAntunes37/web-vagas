@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Flashvagas Gateway
+    name: Webvagas Gateway
   security:
     oauth2:
       resourceserver:
@@ -11,8 +11,8 @@ springdoc:
     enabled: false
     path: /swagger-ui.html
     urls:
-      - name: Flash vagas
-        url: /aggregate/flashvagas-api/v3/api-docs
+      - name: Web vagas
+        url: /aggregate/webvagas-api/v3/api-docs
       - name: Admin
         url: /aggregate/admin-api/v3/api-docs
   api-docs:
@@ -33,13 +33,13 @@ management:
 resilience4j:
   circuitbreaker:
     instances:
-      flashVagasApiCircuitBreaker:
+      webVagasApiCircuitBreaker:
         registerHealthIndicator: true
         slidingWindowSize: 5
         minimumNumberOfCalls: 3
         failureRateThreshold: 50
         waitDurationInOpenState: 5s
-      flashVagasApiSwaggerCircuitBreaker:
+      webVagasApiSwaggerCircuitBreaker:
         registerHealthIndicator: true
         slidingWindowSize: 5
         minimumNumberOfCalls: 3
@@ -47,12 +47,12 @@ resilience4j:
         waitDurationInOpenState: 5s
   timelimiter:
     instances:
-      flashVagasApiCircuitBreaker:
+      webVagasApiCircuitBreaker:
         timeoutDuration: 4s
-      flashVagasApiSwaggerCircuitBreaker:
+      webVagasApiSwaggerCircuitBreaker:
         timeoutDuration: 4s
 
-flashvagas-api:
+webvagas-api:
   service:
     url: ${API_SERVICE_URL}
 

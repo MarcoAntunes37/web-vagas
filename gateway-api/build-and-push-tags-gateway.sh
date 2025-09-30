@@ -3,7 +3,7 @@
 set -e
 
 DOCKERHUB_USER="$1"
-REPO_NAME="flashvagas"
+REPO_NAME="webvagas"
 PROJECT_NAME="gateway-api"
 
 if [ -z "$DOCKERHUB_USER" ]; then

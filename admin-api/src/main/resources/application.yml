@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Flashvagas Admin
+    name: Webvagas Admin
   config:
     import: optional:file:.env[.properties]
 server:
@@ -52,7 +52,7 @@ plans:
         per-day: 10
 
 job-list-string: 
-  base: "https://go.flashvagas.com.br/"
+  base: "https://go.webvagas.com.br/"
 
 user-preferences:
   url: "http://localhost:9000/api/v1/preferences/user/"

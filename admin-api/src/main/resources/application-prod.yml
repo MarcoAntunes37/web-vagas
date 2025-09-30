@@ -1,6 +1,6 @@
 spring:
   application:
-    name: Flashvagas Admin
+    name: Webvagas Admin
 server:
   port: 8081
 springdoc:
@@ -52,13 +52,13 @@ plans:
         per-day: 10
 
 job-list-string: 
-  base: "https://go.flashvagas.com.br/"
+  base: "https://go.webvagas.com.br/"
 
 user-preferences:
   url: "http://gateway-api:9000/api/v1/preferences/user/"
 
 url-shortener:
-  url: "https://go.flashvagas.com.br/"
+  url: "https://go.webvagas.com.br/"
 
 jobs-user:
   url: "http://gateway-api:9000/api/v1/jobs/user/"

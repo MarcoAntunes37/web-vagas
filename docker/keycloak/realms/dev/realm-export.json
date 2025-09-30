@@ -1,6 +1,6 @@
 {
   "id": "181ebbfd-bcfb-4afe-9a27-e5791d743d1f",
-  "realm": "FlashVagas",
+  "realm": "WebVagas",
   "notBefore": 0,
   "defaultSignatureAlgorithm": "RS256",
   "revokeRefreshToken": false,
@@ -49,7 +49,7 @@
     "realm": [
       {
         "id": "d342e8b0-c35d-4e04-bd78-f79ed5db9fb1",
-        "name": "default-roles-flashvagas",
+        "name": "default-roles-webvagas",
         "description": "${role_default-roles}",
         "composite": true,
         "composites": {
@@ -429,7 +429,7 @@
   "groups": [],
   "defaultRole": {
     "id": "d342e8b0-c35d-4e04-bd78-f79ed5db9fb1",
-    "name": "default-roles-flashvagas",
+    "name": "default-roles-webvagas",
     "description": "${role_default-roles}",
     "composite": true,
     "clientRole": false,
@@ -512,13 +512,13 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/FlashVagas/account/",
+      "baseUrl": "/realms/WebVagas/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/FlashVagas/account/*"
+        "/realms/WebVagas/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -559,13 +559,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/FlashVagas/account/",
+      "baseUrl": "/realms/WebVagas/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/realms/FlashVagas/account/*"
+        "/realms/WebVagas/account/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -816,13 +816,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/FlashVagas/console/",
+      "baseUrl": "/admin/WebVagas/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "/admin/FlashVagas/console/*"
+        "/admin/WebVagas/console/*"
       ],
       "webOrigins": [
         "+"
@@ -1729,14 +1729,14 @@
     "port": "1025",
     "host": "mailhog",
     "replyTo": "",
-    "from": "noreply@flashvagas.com.br",
+    "from": "noreply@webvagas.com.br",
     "fromDisplayName": "",
     "envelopeFrom": "",
     "ssl": "false",
-    "user": "contato@flashvagas.com.br"
+    "user": "contato@webvagas.com.br"
   },
-  "loginTheme": "flash-vagas",
-  "accountTheme": "flash-vagas",
+  "loginTheme": "web-vagas",
+  "accountTheme": "web-vagas",
   "adminTheme": "keycloak.v2",
   "emailTheme": "keycloak",
   "eventsEnabled": false,

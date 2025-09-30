@@ -11,6 +11,6 @@ import { Router } from '@angular/router';
 export class NotFoundComponent {
   route = inject(Router);
   handleGoToHomeClick() {
-    this.route.navigate(['dashboard']);
+    this.route.navigate(['dashboard/home']);
   }
 }

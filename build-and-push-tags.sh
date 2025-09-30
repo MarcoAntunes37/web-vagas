@@ -3,7 +3,7 @@
 set -e
 
 DOCKERHUB_USER="$1"
-REPO_NAME="flashvagas"
+REPO_NAME="Webvagas"
 
 if [ -z "$DOCKERHUB_USER" ]; then
   echo "Uso: ./build_and_push.sh <dockerhub-usuario>"

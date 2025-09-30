@@ -1,4 +1,4 @@
-# FlashVagas - Guia de Desenvolvimento Local
+# WebVagas - Guia de Desenvolvimento Local
 
 ## Pré-requisitos
 
@@ -24,7 +24,7 @@ mvn --version     # Maven 3.8+
 ### **1. Clone do Repositório**
 ```bash
 git clone <repository-url>
-cd flashvagasapp
+cd webvagasapp
 ```
 
 ### **2. Configuração de Variáveis de Ambiente**
@@ -35,9 +35,9 @@ Crie um arquivo `.env` na raiz do projeto:
 # Database Configuration
 BACKEND_DB_HOST_PORT=5432
 BACKEND_DB_CONTAINER_PORT=5432
-BACKEND_DB_USERNAME=flashvagas
-BACKEND_DB_PASSWORD=flashvagas123
-BACKEND_DB_NAME=flashvagas
+BACKEND_DB_USERNAME=webvagas
+BACKEND_DB_PASSWORD=webvagas123
+BACKEND_DB_NAME=webvagas
 
 # Keycloak Configuration
 KC_HOST_PORT=8181
@@ -80,9 +80,9 @@ MAILHOG_MANAGER_CONTAINER_PORT=8025
 Crie o arquivo `admin-api/.env.dev`:
 ```bash
 # Database
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/flashvagas
-SPRING_DATASOURCE_USERNAME=flashvagas
-SPRING_DATASOURCE_PASSWORD=flashvagas123
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/webvagas
+SPRING_DATASOURCE_USERNAME=webvagas
+SPRING_DATASOURCE_PASSWORD=webvagas123
 
 # RabbitMQ
 SPRING_RABBITMQ_HOST=localhost
@@ -92,7 +92,7 @@ SPRING_RABBITMQ_PASSWORD=guest
 
 # Keycloak
 KEYCLOAK_URL=http://localhost:8181
-KEYCLOAK_REALM=FlashVagas
+KEYCLOAK_REALM=WebVagas
 
 # Stripe (para desenvolvimento)
 STRIPE_SECRET_KEY=sk_test_...
@@ -104,13 +104,13 @@ TWILIO_AUTH_TOKEN=...
 TWILIO_PHONE_NUMBER=+1234567890
 ```
 
-#### **FlashVagas API**
-Crie o arquivo `flashvagas-api/.env.dev`:
+#### **WebVagas API**
+Crie o arquivo `webvagas-api/.env.dev`:
 ```bash
 # Database
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/flashvagas
-SPRING_DATASOURCE_USERNAME=flashvagas
-SPRING_DATASOURCE_PASSWORD=flashvagas123
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/webvagas
+SPRING_DATASOURCE_USERNAME=webvagas
+SPRING_DATASOURCE_PASSWORD=webvagas123
 
 # RabbitMQ
 SPRING_RABBITMQ_HOST=localhost
@@ -120,18 +120,18 @@ SPRING_RABBITMQ_PASSWORD=guest
 
 # Keycloak
 KEYCLOAK_URL=http://localhost:8181
-KEYCLOAK_REALM=FlashVagas
+KEYCLOAK_REALM=WebVagas
 ```
 
 #### **Gateway API**
 Crie o arquivo `gateway-api/.env.dev`:
 ```bash
-# FlashVagas API URL
-FLASHVAGAS_API_SERVICE_URL=http://localhost:8080
+# WebVagas API URL
+WEBVAGAS_API_SERVICE_URL=http://localhost:8080
 
 # Keycloak
 KEYCLOAK_URL=http://localhost:8181
-KEYCLOAK_REALM=FlashVagas
+KEYCLOAK_REALM=WebVagas
 ```
 
 ### **4. Configuração do Frontend**
@@ -144,7 +144,7 @@ NG_APP_USER_PREFERENCES_JSEARCH_API_URL=http://localhost:9000/api/v1/user-prefer
 NG_APP_CHECKOUT_SESSION_API_URL=http://localhost:9000/api/v1/checkout-session
 
 # Keycloak Configuration
-NG_APP_KC_CONFIG_REALM=FlashVagas
+NG_APP_KC_CONFIG_REALM=WebVagas
 NG_APP_KC_CONFIG_URL=http://localhost:8181
 NG_APP_KC_CONFIG_CLIENT_ID=angular
 ```
@@ -183,9 +183,9 @@ mvn spring-boot:run -Dspring-boot.run.profiles=dev
 # API disponível em: http://localhost:8081
 ```
 
-#### **FlashVagas API**
+#### **WebVagas API**
 ```bash
-cd flashvagas-api
+cd webvagas-api
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 # API disponível em: http://localhost:8080
 ```
@@ -217,7 +217,7 @@ npm start
 ### **Aplicações**
 - **Frontend**: http://localhost:4200
 - **Gateway API**: http://localhost:9000
-- **FlashVagas API**: http://localhost:8080
+- **WebVagas API**: http://localhost:8080
 - **Admin API**: http://localhost:8081
 
 ### **Ferramentas de Desenvolvimento**
@@ -231,7 +231,7 @@ npm start
 
 ### **Documentação das APIs**
 - **Gateway Swagger**: http://localhost:9000/swagger-ui.html
-- **FlashVagas API Swagger**: http://localhost:8080/swagger-ui.html
+- **WebVagas API Swagger**: http://localhost:8080/swagger-ui.html
 - **Admin API Swagger**: http://localhost:8081/swagger-ui.html
 
 ## Configuração do Keycloak
@@ -242,7 +242,7 @@ npm start
 - Senha: `admin`
 
 ### **2. Verificar Realm**
-- O realm `FlashVagas` deve estar configurado automaticamente
+- O realm `WebVagas` deve estar configurado automaticamente
 - Verificar se o cliente `angular` está configurado
 
 ### **3. Configurações do Cliente Angular**
@@ -352,7 +352,7 @@ npm test
 cd admin-api
 mvn test
 
-cd flashvagas-api
+cd webvagas-api
 mvn test
 
 cd gateway-api

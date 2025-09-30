@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, Input, signal, viewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, RequiredValidator, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,17 +32,11 @@ import { countryValidator } from '../../validators/countryValidator';
 export class SettingsComponent {
   step = signal(0);
 
-  private _snackBar = inject(MatSnackBar);
-
-  announcer = inject(LiveAnnouncer);
-
   userProfile: KeycloakProfile | null = null
 
   jobFilters: JobFiltersType | null = null
 
   saveUserPreferences: SaveUserPreferencesRequest | null = null
-
-  userHavePreferences: boolean = false
 
   employmentTypeOptions = employmentTypeOptions
 
@@ -55,11 +49,12 @@ export class SettingsComponent {
   jobFiltersForm!: FormGroup;
 
   constructor(
+    private announcer: LiveAnnouncer,
+    private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private userProfileService: UserProfileService,
     private userPreferencesStore: UserPreferencesStore
   ) { }
-
 
   async ngOnInit() {
     this.jobFiltersForm = this.fb.group({
@@ -88,13 +83,12 @@ export class SettingsComponent {
 
     if (!this.userProfile) return;
 
-    const userPreferences = await this.userPreferencesStore.loadPreferences(this.userProfile.id ?? '');
-
-    if (userPreferences === null) return;
+    await this.userPreferencesStore.loadPreferences(this.userProfile.id ?? '', true);
 
     this.userPreferencesStore.preferences$.subscribe(pref => {
       if (pref) {
         const countryObj = countryListOptions.find(c => c.code === pref.country);
+        console.log(pref.employmentTypes)
         this.jobFiltersForm.patchValue({
           keywords: pref.keywords ?? "",
           employmentTypes: pref.employmentTypes != "" || pref.employmentTypes != null ? pref.employmentTypes.split(',') : [],
@@ -207,7 +201,8 @@ export class SettingsComponent {
   }
 
   openSnackBar() {
-    this._snackBar.openFromComponent(SnackBarComponent, {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      data: { message: 'Preferências salvas com sucesso!' },
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom'

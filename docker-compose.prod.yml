@@ -88,7 +88,7 @@ services:
     restart: unless-stopped
 
   admin-api:
-    image: flashvagas/flashvagas:admin-api
+    image: webvagas/webvagas:admin-api
     ports:
       - "8081:8081"
     environment:
@@ -101,21 +101,21 @@ services:
       - keycloak
     restart: unless-stopped
 
-  flashvagas-api:
-    image: flashvagas/flashvagas:flashvagas-api
+  webvagas-api:
+    image: webvagas/webvagas:webvagas-api
     ports:
       - "8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     env_file:
-      - ./flashvagas-api/.env.prod
+      - ./webvagas-api/.env.prod
     depends_on:
       - backend-db
       - rabbitmq
     restart: unless-stopped
 
   urlshortener-api:
-    image: flashvagas/flashvagas:urlshortener-api
+    image: webvagas/webvagas:urlshortener-api
     ports:
       - "8082:8082"
     environment:
@@ -127,7 +127,7 @@ services:
     restart: unless-stopped
 
   gateway-api:
-    image: flashvagas/flashvagas:gateway-api
+    image: webvagas/webvagas:gateway-api
     ports:
       - "9000:9000"
     environment:
@@ -135,12 +135,12 @@ services:
     env_file:
       - ./gateway-api/.env.prod
     depends_on:
-      - flashvagas-api
+      - webvagas-api
       - admin-api
     restart: unless-stopped
     
   frontend:
-    image: flashvagas/flashvagas:frontend
+    image: webvagas/webvagas:frontend
     ports:
       - "80"
       - "443"
@@ -159,4 +159,4 @@ services:
 
 networks:
   default:
-    name: flashvagas
+    name: webvagas

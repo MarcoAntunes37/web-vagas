@@ -14,7 +14,11 @@ export class UserPreferencesStore {
 
     constructor(private userPreferencesClient: UserPreferencesClient) { }
 
-    async loadPreferences(userId: string) {
+    async loadPreferences(userId: string, forceReload = false) {
+        if(!forceReload && this._preferences$.getValue()) {
+            return;
+        }
+        
         this.userPreferencesClient.getUserPreferences(userId).pipe(
             catchError(err => {
                 if (err.status === 404) {

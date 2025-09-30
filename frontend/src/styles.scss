@@ -24,7 +24,8 @@ html {
 body,
 :root,
 main {
-  height: 100vh !important;
+  height: 100vh;
+  overflow: hidden;
 }
 
 body {

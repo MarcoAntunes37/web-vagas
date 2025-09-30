@@ -1,8 +1,8 @@
-# FlashVagas - Arquitetura do Sistema
+# WebVagas - Arquitetura do Sistema
 
 ## Visão Geral
 
-O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que utiliza uma arquitetura de microsserviços com múltiplas APIs, frontend Angular e infraestrutura containerizada.
+O WebVagas é uma plataforma de busca e notificação de vagas de emprego que utiliza uma arquitetura de microsserviços com múltiplas APIs, frontend Angular e infraestrutura containerizada.
 
 ## Arquitetura Geral
 
@@ -19,7 +19,7 @@ O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que 
       E -->|Retorna a resposta|A
       E -->|Valida o acesso com token|B
       B -->|Recebe a resposta|E
-      E -->|Redireciona request para api|D[FlashvagasAPI]
+      E -->|Redireciona request para api|D[WebvagasAPI]
       D -->|Resposta da request|E
       D -->|Requisição para o db|F((BackendDB))
       E -->|Redireciona Request para api|G[AdminAPI]
@@ -35,15 +35,15 @@ O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que 
       Container(keycloak, "Keycloak", "Identity Provider", "Gerencia autenticação, autorização e tokens")
       ContainerDb(keycloakdb, "KeycloakDB", "PostgreSQL", "Armazena usuários, papéis e sessões do Keycloak")
       Container(adminapi, "Admin API", "Spring Boot", "Gerencia operações administrativas e webhooks")
-      Container(flashapi, "FlashVagas API", "Spring Boot", "Gerencia vagas, candidatos e lógica de negócio")
+      Container(webapi, "WebVagas API", "Spring Boot", "Gerencia vagas, candidatos e lógica de negócio")
       ContainerDb(backenddb, "BackendDB", "PostgreSQL", "Dados da aplicação (vagas, candidatos, etc.)")
 
       Rel(usuario, frontend, "Acessa via navegador/app")
       Rel(frontend, gateway, "Envia requisições com token")
       Rel(gateway, keycloak, "Valida token JWT / introspecção")
       Rel(keycloak, keycloakdb, "Consulta / persiste dados de autenticação")
-      Rel(gateway, flashapi, "Redireciona requisições")
-      Rel(flashapi, backenddb, "Consulta / persiste dados")
+      Rel(gateway, webapi, "Redireciona requisições")
+      Rel(webapi, backenddb, "Consulta / persiste dados")
       Rel(gateway, adminapi, "Redireciona requisições administrativas")
 ```
 
@@ -73,14 +73,14 @@ O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que 
   - Autenticação OAuth2
   - CORS configuration
 - **Configurações**:
-  - Roteamento para FlashVagas API (`/api/v1/**`)
+  - Roteamento para WebVagas API (`/api/v1/**`)
   - Fallback para serviços indisponíveis
-  - Swagger aggregation (`/aggregate/flashvagas-api/v3/api-docs`)
+  - Swagger aggregation (`/aggregate/webvagas-api/v3/api-docs`)
   - Recursos livres: Swagger UI, Actuator, API docs
 
-### 3. FlashVagas API (API Principal)
+### 3. WebVagas API (API Principal)
 - **Tecnologia**: Spring Boot 3.5.0
-- **Localização**: `/flashvagas-api/`
+- **Localização**: `/webvagas-api/`
 - **Porta**: 8080 (interno) / 8083 (externo)
 - **Responsabilidades**:
   - Gerenciamento de vagas
@@ -118,7 +118,7 @@ O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que 
 - **PostgreSQL 17**: Banco principal
 - **Flyway**: Migrations automáticas
 - **Tabelas Principais**:
-  - `user_preferences`: Preferências de busca (FlashVagas)
+  - `user_preferences`: Preferências de busca (WebVagas)
   - `user_preferences_jsearch`: Preferências específicas JSearch
   - `jobs_user`: Relacionamento vagas-usuário
   - `products`: Produtos/planos de assinatura (Essentials: R$9,90, Turbo: R$14,90)
@@ -164,7 +164,7 @@ O FlashVagas é uma plataforma de busca e notificação de vagas de emprego que 
 
 ## Estrutura de Domínio
 
-### FlashVagas API
+### WebVagas API
 ```
 domain/
 ├── entity/
@@ -208,8 +208,8 @@ application/
 - **Restart Policy**: `unless-stopped`
 - **Nginx**: Proxy reverso no frontend
 - **Domínios**: 
-  - `flashvagas.com.br` (principal)
-  - `auth.flashvagas.com.br` (Keycloak)
+  - `webvagas.com.br` (principal)
+  - `auth.webvagas.com.br` (Keycloak)
 - **Portas**: 80 (HTTP), 443 (HTTPS)
 
 ## Fluxo de Dados
@@ -221,7 +221,7 @@ Usuário → Frontend → Keycloak → Gateway API → APIs Internas
 
 ### 2. Busca de Vagas
 ```
-Frontend → Gateway API → FlashVagas API → Integrações Externas
+Frontend → Gateway API → WebVagas API → Integrações Externas
 ```
 
 ### 3. Notificações
