@@ -40,7 +40,6 @@ export class UserPreferencesStore {
     }
 
     async savePreferences(userId: string, userPreferences: SaveUserPreferencesRequest) {
-        console.log("userPreferences", userPreferences);
         this._preferences$.next(userPreferences);
         this.userPreferencesClient.saveUserPreferences(userId, userPreferences).pipe(
             catchError(err => {
@@ -54,7 +53,6 @@ export class UserPreferencesStore {
 
 
     async updatePreferences(userId: string, userPreferences: UpdateUserPreferencesRequest) {
-        console.log("userPreferences", userPreferences);
         this._preferences$.next(userPreferences);
         this.userPreferencesClient.updateUserPreferences(userId, userPreferences).pipe(
             catchError(err => {

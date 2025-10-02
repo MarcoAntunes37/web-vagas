@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "prebuild": "cross-env APP_ENV=prod ts-node builder/scripts/generate-env.ts",
+    "prebuild": "cross-env APP_ENV=dev ts-node builder/scripts/generate-env.ts",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

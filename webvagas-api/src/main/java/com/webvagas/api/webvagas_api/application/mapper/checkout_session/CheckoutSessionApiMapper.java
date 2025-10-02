@@ -19,7 +19,6 @@ import com.webvagas.api.webvagas_api.domain.entity.checkout_session.dto.get.GetC
 
 @Mapper(componentModel = "spring")
 public interface CheckoutSessionApiMapper {
-
     default BigDecimal toBigDecimal(Long amount) {
         if (amount == null)
             return null;

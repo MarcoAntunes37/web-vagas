@@ -88,7 +88,6 @@ export class SettingsComponent {
     this.userPreferencesStore.preferences$.subscribe(pref => {
       if (pref) {
         const countryObj = countryListOptions.find(c => c.code === pref.country);
-        console.log(pref.employmentTypes)
         this.jobFiltersForm.patchValue({
           keywords: pref.keywords ?? "",
           employmentTypes: pref.employmentTypes != "" || pref.employmentTypes != null ? pref.employmentTypes.split(',') : [],

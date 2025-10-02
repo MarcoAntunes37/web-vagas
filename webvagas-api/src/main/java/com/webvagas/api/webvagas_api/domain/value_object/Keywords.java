@@ -6,9 +6,6 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import jakarta.persistence.Embeddable;
-
-@Embeddable
 public class Keywords {
     private final String value;
 

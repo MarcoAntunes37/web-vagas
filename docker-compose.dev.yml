@@ -87,3 +87,7 @@ services:
     ports:
       - ${MAILHOG_SMTP_HOST_PORT}:${MAILHOG_SMTP_CONTAINER_PORT}
       - ${MAILHOG_MANAGER_HOST_PORT}:${MAILHOG_MANAGER_CONTAINER_PORT}
+      
+networks:
+  default:
+    name: webvagas

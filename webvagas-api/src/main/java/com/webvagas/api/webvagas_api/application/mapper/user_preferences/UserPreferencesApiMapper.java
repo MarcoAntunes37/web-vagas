@@ -31,22 +31,22 @@ public interface UserPreferencesApiMapper {
     @Mapping(target = "id", expression = "java(new UserPreferencesId(UUID.randomUUID()))")
     @Mapping(target = "userId", expression = "java(new UserId(userId))")
     @Mapping(target = "keywords", expression = "java(new Keywords(request.keywords()))")
-    @Mapping(target = "employmentTypes", expression = "java(mapToEmploymentTypes(request.employmentTypes()))")
-    @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), new ExcludeJobPublishers(request.excludeJobPublishers())))")
+    @Mapping(target = "employmentTypes", expression = "java(mapStringToEmploymentTypes(request.employmentTypes()))")
+    @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), mapStringToExcludeJobPublishers(request.excludeJobPublishers())))")
     CreateUserPreferencesCommand createRequestToCommand(UUID userId, UserPreferencesCreateRequest request);
 
     @Mapping(target = "keywords", expression = "java(domain.getKeywords().getValue())")
-    @Mapping(target = "employmentTypes", expression = "java(mapToString(domain.getEmploymentTypes()))")
+    @Mapping(target = "employmentTypes", expression = "java(mapEmploymentTypesToString(domain.getEmploymentTypes()))")
     @Mapping(target = "country", expression = "java(domain.getSearchFiltersCountry().getValue())")
     @Mapping(target = "remoteWork", expression = "java(domain.getSearchFiltersRemoteWork())")
-    @Mapping(target = "excludeJobPublishers", expression = "java(domain.getSearchFiltersExcludeJobPublishers().getValue())")
+    @Mapping(target = "excludeJobPublishers", expression = "java(mapExcludeJobPublishersToString(domain.getSearchFiltersExcludeJobPublishers()))")
     UserPreferencesCreateResponse domainToApiCreateResponse(UserPreferences domain);
 
     @Mapping(target = "keywords", expression = "java(domain.getKeywords().getValue())")
-    @Mapping(target = "employmentTypes", expression = "java(mapToString(domain.getEmploymentTypes()))")
+    @Mapping(target = "employmentTypes", expression = "java(mapEmploymentTypesToString(domain.getEmploymentTypes()))")
     @Mapping(target = "country", expression = "java(domain.getSearchFiltersCountry().getValue())")
     @Mapping(target = "remoteWork", expression = "java(domain.getSearchFiltersRemoteWork())")
-    @Mapping(target = "excludeJobPublishers", expression = "java(domain.getSearchFiltersExcludeJobPublishers().getValue())")
+    @Mapping(target = "excludeJobPublishers", expression = "java(mapExcludeJobPublishersToString(domain.getSearchFiltersExcludeJobPublishers()))")
     UserPreferencesGetResponse domainToApiGetResponse(UserPreferences domain);
 
     @Mapping(target = "userId", expression = "java(new UserId(request.userId()))")
@@ -54,11 +54,11 @@ public interface UserPreferencesApiMapper {
 
     @Mapping(target = "userId", expression = "java(new UserId(userId))")
     @Mapping(target = "keywords", expression = "java(new Keywords(request.keywords()))")
-    @Mapping(target = "employmentTypes", expression = "java(mapToEmploymentTypes(request.employmentTypes()))")
-    @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), new ExcludeJobPublishers(request.excludeJobPublishers())))")
+    @Mapping(target = "employmentTypes", expression = "java(mapStringToEmploymentTypes(request.employmentTypes()))")
+    @Mapping(target = "searchFilters", expression = "java(new SearchFilters(request.remoteWork(), new Country(request.country()), mapStringToExcludeJobPublishers(request.excludeJobPublishers())))")
     UpdateUserPreferencesCommand updateRequestToCommand(UUID userId, UserPreferencesUpdateRequest request);
 
-    default EmploymentTypes mapToEmploymentTypes(String employmentTypesString) {
+    default EmploymentTypes mapStringToEmploymentTypes(String employmentTypesString) {
         if (employmentTypesString == null || employmentTypesString.isBlank()) {
             return new EmploymentTypes(Collections.emptySet());
         }
@@ -69,12 +69,30 @@ public interface UserPreferencesApiMapper {
         return new EmploymentTypes(types);
     }
 
-    default String mapToString(EmploymentTypes employmentTypes) {
+    default String mapEmploymentTypesToString(EmploymentTypes employmentTypes) {
         if (employmentTypes == null || employmentTypes.values().isEmpty()) {
             return "";
         }
         return employmentTypes.values().stream()
                 .map(Enum::name)
                 .collect(Collectors.joining(","));
+    }
+
+    default String mapExcludeJobPublishersToString(ExcludeJobPublishers excludeJobPublishers) {
+        if (excludeJobPublishers == null || excludeJobPublishers.getValue().isEmpty()) {
+            return "";
+        }
+
+        return excludeJobPublishers.getValue().stream()
+                .collect(Collectors.joining(","));
+    }
+
+    default ExcludeJobPublishers mapStringToExcludeJobPublishers(String excludeJobPublishersString) {
+        if (excludeJobPublishersString == null || excludeJobPublishersString.isBlank()) {
+            return new ExcludeJobPublishers(Collections.emptySet());
+        }
+        return new ExcludeJobPublishers(
+                Arrays.stream(excludeJobPublishersString.split(","))
+                        .collect(Collectors.toSet()));
     }
 }

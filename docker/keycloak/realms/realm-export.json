@@ -885,9 +885,9 @@
       "clientId": "spring",
       "name": "${spring}",
       "description": "",
-      "rootUrl": "https://api.flahsvagas.com.br",
-      "adminUrl": "https://api.flahsvagas.com.br",
-      "baseUrl": "https://api.flahsvagas.com.br",
+      "rootUrl": "https://api.webvagas.com.br",
+      "adminUrl": "https://api.webvagas.com.br",
+      "baseUrl": "https://api.webvagas.com.br",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -896,7 +896,7 @@
         ""
       ],
       "webOrigins": [
-        "https://api.flahsvagas.com.br"
+        "https://api.webvagas.com.br"
       ],
       "notBefore": 0,
       "bearerOnly": false,

@@ -10,10 +10,8 @@ import com.webvagas.api.webvagas_api.domain.entity.user_preferences.enums.Employ
 import com.webvagas.api.webvagas_api.domain.value_object.EmploymentTypes;
 import com.webvagas.api.webvagas_api.domain.value_object.ExcludeJobPublishers;
 import com.webvagas.api.webvagas_api.domain.value_object.Keywords;
-import com.webvagas.api.webvagas_api.persistence.user_preferences.converters.ExcludeJobPublishersConverter;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -37,6 +35,9 @@ public class UserPreferencesEntity {
     @Transient
     private EmploymentTypes employmentTypes;
 
+    @Transient
+    private ExcludeJobPublishers excludeJobPublishers;
+
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
@@ -56,9 +57,12 @@ public class UserPreferencesEntity {
     @Column(name = "remote_work", nullable = false)
     private Boolean remoteWork;
 
-    @Convert(converter = ExcludeJobPublishersConverter.class)
     @Column(name = "exclude_job_publishers")
-    private ExcludeJobPublishers excludeJobPublishers;
+    private String excludeJobPublishersDb;
+
+    public Keywords getKeywords() {
+        return keywords;
+    }
 
     public void setKeywords(Keywords keywords) {
         this.keywords = keywords;
@@ -99,5 +103,30 @@ public class UserPreferencesEntity {
             this.employmentTypes = new EmploymentTypes(values);
         }
         this.employmentTypesDb = dbValue;
+    }
+
+    public ExcludeJobPublishers getExcludeJobPublishers() {
+        return excludeJobPublishers;
+    }
+
+    public void setExcludeJobPublishers(ExcludeJobPublishers values) {
+        this.excludeJobPublishers = values;
+        this.excludeJobPublishersDb = values.toString();
+    }
+
+    public String getExcludeJobPublishersDb() {
+        return excludeJobPublishersDb;
+    }
+
+    public void setExcludeJobPublishersDb(String dbValue) {
+        if (dbValue == null || dbValue.isBlank()) {
+            this.excludeJobPublishers = new ExcludeJobPublishers(Collections.emptySet());
+        } else {
+            Set<String> values = Arrays.stream(dbValue.split(",")).map(String::trim)
+                    .collect(Collectors.toSet());
+
+            this.excludeJobPublishers = new ExcludeJobPublishers(values);
+        }
+        this.excludeJobPublishersDb = dbValue;
     }
 }

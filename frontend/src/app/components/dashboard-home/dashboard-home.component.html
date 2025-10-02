@@ -1,25 +1,38 @@
 <section class="dashboard-home-container">
-    <h3 class="dashboard-home-title">Bem-vindo de volta!</h3>
+    <div class="dashboard-home-header">
+        <h1 class="dashboard-home-title">Bem-vindo de volta!</h1>
+    </div>
     <div class="dashboard-home-content">
-        <div class="user-preferences-card">
-            <mat-card>
-                <mat-card-header>
-                    <mat-card-title>Suas preferências</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <p><span>Palavras-chave: </span><span>{{this.jobFilters?.keywords ?? ""}}</span></p>
-                    <p><span>País da busca: </span><span>{{this.jobFilters?.country ?? ""}}</span></p>
-                    <p><span>Trabalho remoto: </span><span>{{this.jobFilters?.remoteWork}}</span></p>
-                    <p><span>Tipos de trabalho: </span><span>{{this.jobFilters?.employmentTypes ?? ""}}</span></p>
-                    <p><span>Excluir publicadores de trabalho: </span><span>{{this.jobFilters?.excludeJobPublishers ??
-                            ""}}</span></p>
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-raised-button class="card-button" (click)="handleEditPreferencesClick()">Editar
-                        preferências
-                    </button>
-                </mat-card-actions>
-            </mat-card>
-        </div>
+        <mat-card class="preferences-card">
+            <mat-card-header>
+                <mat-card-title>Suas preferências</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="preferences-card-content">
+                <ul>
+                    <li>
+                        <span>Palavras-chave: </span><span>{{this.jobFilters?.keywords || "Não informado"}}</span>
+                    </li>
+                    <li>
+                        <span>País da busca: </span><span>{{this.jobFilters?.country || "Não informado"}}</span>
+                    </li>
+                    <li>
+                        <span>Trabalho remoto: </span><span>{{this.jobFilters?.remoteWork ? "Sim" : "Não"}}</span>
+                    </li>
+                    <li>
+                        <span>Tipos de trabalho: </span><span>{{this.jobFilters?.employmentTypes || "Nenhum
+                            informado"}}</span>
+                    </li>
+                    <li>
+                        <span>Excluir publicadores de trabalho: </span><span>{{this.jobFilters?.excludeJobPublishers
+                            || "Nenhum informado"}}</span>
+                    </li>
+                </ul>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button class="card-button" (click)="handleEditPreferencesClick()">Editar
+                    preferências
+                </button>
+            </mat-card-actions>
+        </mat-card>
     </div>
 </section>

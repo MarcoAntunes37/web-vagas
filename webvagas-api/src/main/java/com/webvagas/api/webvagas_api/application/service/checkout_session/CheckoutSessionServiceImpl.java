@@ -16,7 +16,6 @@ import com.webvagas.api.webvagas_api.infrastructure.integrations.stripe.StripeCl
 
 import lombok.extern.slf4j.Slf4j;
 
-
 @Service
 @Slf4j
 public class CheckoutSessionServiceImpl implements CheckoutSessionService {

@@ -1,16 +1,19 @@
 <main>
   <mat-toolbar class="topnav-container">
-    <button class="hamburguer-icon" mat-icon-button (click)="drawer.toggle()"
-      *ngIf="roles()?.includes('plan-start') || roles()?.includes('plan-turbo')">
-      <span class="material-symbols-outlined menu-icon">menu</span>
-    </button>
-    <button mat-button matRipple class="logo-link" (click)="handleGotoHomeClick()">
-      <picture class="logo">
-        <source srcset="logo_azul.svg" media="(min-width: 501px)">
-        <source srcset="logo_pequena.svg" media="(max-width: 500px)">
-        <img src="logo_pequena.svg" alt="logo" class="logo-image">
-      </picture>
-    </button>
+    <div class="topnav-wraper">
+      <div class="menu-container">
+        <button class="hamburguer-icon" mat-icon-button (click)="drawer.toggle()"
+        *ngIf="roles()?.includes('plan-start') || roles()?.includes('plan-turbo')">
+        <span class="material-symbols-outlined menu-icon">menu</span>
+      </button>
+    </div>
+    <div class="logo-container">
+      <a class="logo-link" href="/dashboard/home" class="logo-container">
+        <picture class="logo">
+          <img src="logo.svg" alt="logo" class="logo-image">
+        </picture>
+      </a>
+    </div>
     <span class="spacer"></span>
     <button mat-icon-button matRipple class="topnav-dropdown" [matMenuTriggerFor]="menu" *ngIf="authenticated">
       <span class="material-symbols-outlined more-vert-icon">
@@ -37,6 +40,7 @@
         </div>
       </button>
     </mat-menu>
+  </div>
   </mat-toolbar>
   <mat-drawer-container autosize class="sidenav-container">
     <mat-drawer #drawer class="sidenav-drawer" mode="side">
