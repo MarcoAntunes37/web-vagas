@@ -1,0 +1,129 @@
+{
+  "properties": [
+    {
+      "name": "stripe.secret-key",
+      "type": "java.lang.String",
+      "description": "A description for 'stripe.secret-key'"
+    },
+    {
+      "name": "stripe.public-key",
+      "type": "java.lang.String",
+      "description": "A description for 'stripe.public-key'"
+    },
+    {
+      "name": "stripe.webhook-secret-key",
+      "type": "java.lang.String",
+      "description": "A description for 'stripe.webhook-secret-key'"
+    },
+    {
+      "name": "stripe.domain",
+      "type": "java.lang.String",
+      "description": "A description for 'stripe.domain'"
+    },
+    {
+      "name": "keycloak.client_id",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.client_id'"
+    },
+    {
+      "name": "keycloak.username",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.username'"
+    },
+    {
+      "name": "keycloak.password",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.password'"
+    },
+    {
+      "name": "keycloak.grant_type",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.grant_type'"
+    },
+    {
+      "name": "keycloak.host",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.host'"
+    },
+    {
+      "name": "keycloak.realm",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.realm'"
+    },
+    {
+      "name": "keycloak.token_url",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.token_url'"
+    },
+    {
+      "name": "twilio.account-sID",
+      "type": "java.lang.String",
+      "description": "A description for 'twilio.account-sID'"
+    },
+    {
+      "name": "twilio.authToken",
+      "type": "java.lang.String",
+      "description": "A description for 'twilio.authToken'"
+    },
+    {
+      "name": "twilio.phoneNumber",
+      "type": "java.lang.String",
+      "description": "A description for 'twilio.phoneNumber'"
+    },
+    {
+      "name": "adzuna.url",
+      "type": "java.lang.String",
+      "description": "A description for 'adzuna.url'"
+    },
+    {
+      "name": "adzuna.appId",
+      "type": "java.lang.String",
+      "description": "A description for 'adzuna.appId'"
+    },
+    {
+      "name": "adzuna.appKey",
+      "type": "java.lang.String",
+      "description": "A description for 'adzuna.appKey'"
+    },
+    {
+      "name": "jsearch.url",
+      "type": "java.lang.String",
+      "description": "A description for 'jsearch.url'"
+    },
+    {
+      "name": "jsearch.rapidapi-host",
+      "type": "java.lang.String",
+      "description": "A description for 'jsearch.rapidapi-host'"
+    },
+    {
+      "name": "jsearch.rapidapi-key",
+      "type": "java.lang.String",
+      "description": "A description for 'jsearch.rapidapi-key'"
+    },
+    {
+      "name": "cloudflare.access.client-secret",
+      "type": "java.lang.String",
+      "description": "A description for 'cloudflare.access.client-secret'"
+    },
+    {
+      "name": "plans.start.jobs.quantity",
+      "type": "java.lang.String",
+      "description": "A description for 'plans.start.jobs.quantity'"
+    },
+    {
+      "name": "plans.turbo.jobs.quantity",
+      "type": "java.lang.String",
+      "description": "A description for 'plans.turbo.jobs.quantity'"
+    },
+    {
+      "name": "user-preferences.url",
+      "type": "java.lang.String",
+      "description": "A description for 'user-preferences.url'"
+    },
+    {
+      "name": "jobs-user.url",
+      "type": "java.lang.String",
+      "description": "A description for 'jobs-user.url'"
+    }
+  ]
+}

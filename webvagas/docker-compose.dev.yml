@@ -1,0 +1,93 @@
+services:
+  backend-db:
+    image: postgres:17
+    container_name: backend-db
+    hostname: backend-db
+    ports:
+      - ${BACKEND_DB_HOST_PORT}:${BACKEND_DB_CONTAINER_PORT}
+    environment:
+      POSTGRES_USER: ${BACKEND_DB_USERNAME}
+      POSTGRES_PASSWORD: ${BACKEND_DB_PASSWORD}
+      POSTGRES_DB: ${BACKEND_DB_NAME}
+    volumes:
+      - ./data/backend-db:/var/lib/postgresql/data
+      
+  urlshortener-db:
+    image: postgres:17
+    container_name: urlshortener-db
+    hostname: urlshortener-db
+    ports:
+      - ${URL_SHORTENER_DB_HOST_PORT}:${URL_SHORTENER_DB_CONTAINER_PORT}
+    environment:
+      POSTGRES_USER: ${URL_SHORTENER_DB_USERNAME}
+      POSTGRES_PASSWORD: ${URL_SHORTENER_DB_PASSWORD}
+      POSTGRES_DB: ${URL_SHORTENER_DB_NAME}
+    volumes:
+      - ./data/urlshortener-db:/var/lib/postgresql/data
+  
+  keycloak:
+    build:
+      context: ./docker/keycloak/realms
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:26.1
+    command: [ "start-dev", "--import-realm" ]
+    environment:
+      RABBITMQ_HOST: ${RABBITMQ_HOST}
+      RABBITMQ_PORT: ${RABBITMQ_PORT}
+      RABBITMQ_USERNAME: ${RABBITMQ_USERNAME}
+      RABBITMQ_PASSWORD: ${RABBITMQ_PASSWORD}
+      KC_DB: postgres
+      KC_DB_USERNAME: ${KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
+      KC_DB_URL_HOST: keycloak-db
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: ${KC_DB_NAME}
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_ADMIN_USERNAME}
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD}
+    ports:
+      - "${KC_HOST_PORT}:${KC_CONTAINER_PORT}"
+    volumes:
+      - ./docker/keycloak/realms/dev/:/opt/keycloak/data/import/
+      - ./docker/keycloak/providers/:/opt/keycloak/providers/
+    depends_on:
+      - keycloak-db
+
+  keycloak-db:
+    image: postgres:17
+    container_name: keycloak-db
+    hostname: keycloak-db
+    ports:
+      - ${KEYCLOAK_DB_HOST_PORT}:${KEYCLOAK_DB_CONTAINER_PORT}
+    environment:
+      POSTGRES_USER: ${KEYCLOAK_DB_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      POSTGRES_DB: ${KEYCLOAK_DB_NAME}
+    volumes:
+      - ./data/keycloak-db:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:4.0-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - ${RABBITMQ_HOST_PORT}:${RABBITMQ_CONTAINER_PORT}
+      - ${RABBITMQ_MANAGEMENT_HOST_PORT}:${RABBITMQ_MANAGEMENT_CONTAINER_PORT}
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    command: >
+      sh -c "rabbitmq-server"
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+
+  mailgog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    hostname: mailhog
+    ports:
+      - ${MAILHOG_SMTP_HOST_PORT}:${MAILHOG_SMTP_CONTAINER_PORT}
+      - ${MAILHOG_MANAGER_HOST_PORT}:${MAILHOG_MANAGER_CONTAINER_PORT}
+      
+networks:
+  default:
+    name: webvagas

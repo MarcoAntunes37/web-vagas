@@ -1,0 +1,61 @@
+spring:
+  config:
+    import: optional:file:.env[.properties]
+  application:
+    name: Webvagas Gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${ISSUER_URI}
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: Web vagas
+        url: /aggregate/webvagas-api/v3/api-docs
+  api-docs:
+    enabled: true
+    path: /api-docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
+      cors:
+        allowed-origins: ${DOMAIN}
+        allowed-methods: "GET,OPTIONS"
+        allow-credentials: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      webVagasApiCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+      webVagasApiSwaggerCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+  timelimiter:
+    instances:
+      webVagasApiCircuitBreaker:
+        timeoutDuration: 4s
+      webVagasApiSwaggerCircuitBreaker:
+        timeoutDuration: 4s
+
+webvagas-api:
+  service:
+    url: ${API_SERVICE_URL}
+
+server:
+  host: 0.0.0.0
+  port: 9000
