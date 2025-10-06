@@ -10,6 +10,7 @@ public class ClientDescriptionItem {
     }
 
     public ClientDescriptionItem(String text, String icon) {
+        Objects.requireNonNull(text, "Text cannot be null");
         this.text = text;
         this.icon = icon;
     }
@@ -30,8 +31,10 @@ public class ClientDescriptionItem {
         if (!(o instanceof ClientDescriptionItem))
             return false;
 
-        return Objects.equals(text, this.text)
-                && Objects.equals(icon, this.icon);
+        ClientDescriptionItem that = (ClientDescriptionItem) o;
+
+        return Objects.equals(that.text, this.text)
+                && Objects.equals(that.icon, this.icon);
     }
 
     @Override

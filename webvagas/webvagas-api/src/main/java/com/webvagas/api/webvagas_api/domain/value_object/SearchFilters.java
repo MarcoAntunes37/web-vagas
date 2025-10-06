@@ -2,8 +2,6 @@ package com.webvagas.api.webvagas_api.domain.value_object;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class SearchFilters {
     private Boolean remoteWork;
     private Country country;
@@ -31,20 +29,19 @@ public class SearchFilters {
     public boolean equals(Object o) {
         if (this == o)
             return true;
+
         if (!(o instanceof SearchFilters))
             return false;
-        return Objects.equals(remoteWork, this.remoteWork)
-                && Objects.equals(country, this.country)
-                && Objects.equals(excludeJobPublishers, this.excludeJobPublishers);
+
+        SearchFilters that = (SearchFilters) o;
+
+        return Objects.equals(that.remoteWork, this.remoteWork)
+                && Objects.equals(that.country, this.country)
+                && Objects.equals(that.excludeJobPublishers, this.excludeJobPublishers);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(remoteWork, country, excludeJobPublishers);
-    }
-
-    @JsonCreator
-    public static SearchFilters from(Boolean remoteWork, Country country, ExcludeJobPublishers excludeJobPublishers) {
-        return new SearchFilters(remoteWork, country, excludeJobPublishers);
     }
 }

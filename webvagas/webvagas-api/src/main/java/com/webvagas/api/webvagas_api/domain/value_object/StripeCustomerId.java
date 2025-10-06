@@ -6,10 +6,10 @@ public class StripeCustomerId {
     private String value;
 
     public StripeCustomerId(String value) {
-        Objects.requireNonNull(value, "StripeCustomerId cannot be null");
+        Objects.requireNonNull(value, "StripeCustomerId cannot be null.");
 
         if (value.toString().isBlank())
-            throw new IllegalArgumentException("StripeCustomerId cannot be null or blank");
+            throw new IllegalArgumentException("StripeCustomerId cannot be empty.");
             
         this.value = value;
     }
@@ -25,7 +25,10 @@ public class StripeCustomerId {
 
         if (!(o instanceof StripeCustomerId))
             return false;
-        return Objects.equals(value, this.value);
+
+        StripeCustomerId that = (StripeCustomerId) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override

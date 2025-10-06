@@ -7,12 +7,8 @@ public class UserPreferencesId {
     private UUID value;
 
     public UserPreferencesId(UUID value) {
-        Objects.requireNonNull(value, "UserPreferencesId cannot be null");
+        Objects.requireNonNull(value, "UserPreferencesId cannot be null.");
 
-        if (value.toString().isBlank()) {
-            throw new IllegalArgumentException("UserPreferencesId cannot be blank");
-        }
-        
         this.value = value;
     }
 
@@ -28,7 +24,9 @@ public class UserPreferencesId {
         if (!(o instanceof UserPreferencesId))
             return false;
 
-        return Objects.equals(value, this.value);
+        UserPreferencesId that = (UserPreferencesId) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override

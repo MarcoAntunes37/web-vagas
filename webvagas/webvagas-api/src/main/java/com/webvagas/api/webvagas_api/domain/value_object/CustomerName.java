@@ -2,21 +2,17 @@ package com.webvagas.api.webvagas_api.domain.value_object;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class CustomerName {
     private String value;
 
     public CustomerName(String value) {
-        if (value == null || value.toString().isBlank()) {
-            throw new IllegalArgumentException("Customer name cannot be null or blank");
-        }
-        this.value = value;
-    }
+        Objects.requireNonNull(value, "Customer name cannot be null.");
 
-    @JsonCreator
-    public static CustomerName from(String value) {
-        return new CustomerName(value);
+        if (value.toString().isBlank()) {
+            throw new IllegalArgumentException("Customer name cannot be empty.");
+        }
+
+        this.value = value;
     }
 
     public String getValue() {
@@ -27,9 +23,13 @@ public class CustomerName {
     public boolean equals(Object o) {
         if (this == o)
             return true;
+
         if (!(o instanceof CustomerName))
             return false;
-        return Objects.equals(value, this.value);
+
+        CustomerName that = (CustomerName) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override

@@ -25,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class KeycloakUserClientImpl implements KeycloakUserClient {
     private final RestTemplate restTemplate;
 
-    @SuppressWarnings("null")
     public GetUserByEmailResponse getUserByEmail(String email, String token) {
         String url = KeycloakClientUtils.buildUrlGetByEmail(email);
 

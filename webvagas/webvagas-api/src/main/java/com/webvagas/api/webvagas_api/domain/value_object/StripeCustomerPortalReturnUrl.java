@@ -6,13 +6,13 @@ public class StripeCustomerPortalReturnUrl {
     private String value;
 
     public StripeCustomerPortalReturnUrl(String value) {
-        Objects.requireNonNull(value, "StripeCustomerId cannot be null");
+        Objects.requireNonNull(value, "StripeCustomerPortalReturnUrl cannot be null.");
         
         if (value.toString().isBlank())
-            throw new IllegalArgumentException("StripeCustomerId cannot be null or blank");
+            throw new IllegalArgumentException("StripeCustomerPortalReturnUrl cannot be empty.");
 
         if (!value.startsWith("https://"))
-            throw new IllegalArgumentException("StripeCustomerPortalReturnUrl must start with https://");
+            throw new IllegalArgumentException("StripeCustomerPortalReturnUrl must start with https://.");
 
         this.value = value;
     }
@@ -29,7 +29,9 @@ public class StripeCustomerPortalReturnUrl {
         if (!(o instanceof StripeCustomerPortalReturnUrl))
             return false;
 
-        return Objects.equals(value, this.value);
+        StripeCustomerPortalReturnUrl that = (StripeCustomerPortalReturnUrl) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override

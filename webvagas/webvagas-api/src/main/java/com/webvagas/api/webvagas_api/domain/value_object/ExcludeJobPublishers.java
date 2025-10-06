@@ -1,14 +1,18 @@
 package com.webvagas.api.webvagas_api.domain.value_object;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonCreator;
 
 public class ExcludeJobPublishers {
     private final Set<String> value;
 
     public ExcludeJobPublishers(Set<String> value) {
         Objects.requireNonNull(value, "ExcludeJobPublishers cannot be null.");
+
+        if (value.isEmpty())
+            value = Collections.emptySet();
 
         this.value = value;
     }
@@ -21,11 +25,6 @@ public class ExcludeJobPublishers {
         return value;
     }
 
-    @JsonCreator
-    public static ExcludeJobPublishers toExcludeJobPublishers(Set<String> value) {
-        return new ExcludeJobPublishers(value);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -34,12 +33,20 @@ public class ExcludeJobPublishers {
         if (!(o instanceof ExcludeJobPublishers))
             return false;
 
-        return Objects.equals(value, this.value);
+        ExcludeJobPublishers that = (ExcludeJobPublishers) o;
+
+        return Objects.equals(that.value, this.value);
+    }
+
+    private Collection<String> getSortedExcludeJobPublishers(Set<String> excludeJobPublishers) {
+        Collection<String> sortedExcludeJobPublishers = excludeJobPublishers.stream().toList();
+
+        return sortedExcludeJobPublishers.stream().sorted().toList();
     }
 
     @Override
     public String toString() {
-        return String.join(",", value);
+        return String.join(",", getSortedExcludeJobPublishers(value));
     }
 
     @Override

@@ -2,22 +2,16 @@ package com.webvagas.api.webvagas_api.domain.value_object;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class JobId {
     private String value;
 
     public JobId(String value) {
-        Objects.requireNonNull(value, "JobId cannot be null");
+        Objects.requireNonNull(value, "JobId cannot be null.");
+
         if (value.toString().isBlank())
-            throw new IllegalArgumentException("JobId cannot be blank");
+            throw new IllegalArgumentException("JobId cannot be empty.");
 
         this.value = value;
-    }
-
-    @JsonCreator
-    public static JobId from(String value) {
-        return new JobId(value);
     }
 
     public String getValue() {
@@ -32,7 +26,9 @@ public class JobId {
         if (!(o instanceof JobId))
             return false;
 
-        return Objects.equals(value, this.value);
+        JobId that = (JobId) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override

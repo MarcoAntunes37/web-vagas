@@ -4,26 +4,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class Keywords {
     private final String value;
 
     public Keywords(String value) {
-        Objects.requireNonNull(value, "Keywords cannot be null");
+        Objects.requireNonNull(value, "Keywords cannot be null.");
 
         if (value.length() > 255)
-            throw new IllegalArgumentException("Keywords cannot be longer than 255 characters");
+            throw new IllegalArgumentException("Keywords cannot be longer than 255 characters.");
 
         if (value.contains("!@#$%^&*()_+={}[]|\\:;\"'<>/?"))
-            throw new IllegalArgumentException("Keywords cannot contain any of these special characters [!@#$%^&*()_+={}[]|\\:;\"'<>/?]");
+            throw new IllegalArgumentException("Keywords cannot contain any of these special characters [!@#$%^&*()_+={}[]|\\:;\"'<>/?].");
 
         this.value = value;
-    }
-
-    @JsonCreator
-    public static Keywords toKeywords(String value) {
-        return new Keywords(value);
     }
 
     public String getValue() {
@@ -45,7 +38,9 @@ public class Keywords {
         if (!(o instanceof Keywords))
             return false;
 
-        return Objects.equals(value, this.value);
+        Keywords that = (Keywords) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override

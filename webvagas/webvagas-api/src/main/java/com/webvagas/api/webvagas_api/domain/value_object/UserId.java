@@ -3,23 +3,13 @@ package com.webvagas.api.webvagas_api.domain.value_object;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class UserId {
     private UUID value;
 
     public UserId(UUID value) {
-        Objects.requireNonNull(value, "UserId cannot be null");
-
-        if (value.toString().isBlank())
-            throw new IllegalArgumentException("UserId cannot be null or blank");
+        Objects.requireNonNull(value, "UserId cannot be null.");
 
         this.value = value;
-    }
-
-    @JsonCreator
-    public static UserId fromString(String value) {
-        return new UserId(UUID.fromString(value));
     }
 
     public UUID getValue() {
@@ -34,7 +24,9 @@ public class UserId {
         if (!(o instanceof UserId))
             return false;
 
-        return Objects.equals(value, this.value);
+        UserId that = (UserId) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override

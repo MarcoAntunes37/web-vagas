@@ -2,8 +2,6 @@ package com.webvagas.api.webvagas_api.domain.value_object;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public class Price {
     private String value;
 
@@ -11,7 +9,7 @@ public class Price {
         Objects.requireNonNull(value, "Price cannot be null.");
 
         if (value.toString().isBlank()) {
-            throw new IllegalArgumentException("Price cannot be blank.");
+            throw new IllegalArgumentException("Price cannot be empty.");
         }
 
         if (!value.startsWith("price_")) {
@@ -19,11 +17,6 @@ public class Price {
         }
 
         this.value = value;
-    }
-
-    @JsonCreator
-    public static Price from(String value) {
-        return new Price(value);
     }
 
     public String getValue() {
@@ -34,9 +27,13 @@ public class Price {
     public boolean equals(Object o) {
         if (this == o)
             return true;
+
         if (!(o instanceof Price))
             return false;
-        return Objects.equals(value, this.value);
+
+        Price that = (Price) o;
+
+        return Objects.equals(that.value, this.value);
     }
 
     @Override
