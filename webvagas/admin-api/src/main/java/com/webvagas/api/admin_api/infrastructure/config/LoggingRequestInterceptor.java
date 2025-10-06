@@ -8,7 +8,6 @@ import org.springframework.util.StreamUtils;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@SuppressWarnings("null")
 public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
