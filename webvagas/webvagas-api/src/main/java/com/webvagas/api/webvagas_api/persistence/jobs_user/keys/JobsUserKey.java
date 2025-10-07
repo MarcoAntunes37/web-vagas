@@ -13,7 +13,7 @@ public class JobsUserKey implements Serializable {
     public JobsUserKey() {
     }
 
-    public JobsUserKey(String jobId, UUID userId) {
+    public JobsUserKey(UUID userId, String jobId) {
         this.userId = userId;
         this.jobId = jobId;
     }
@@ -33,5 +33,4 @@ public class JobsUserKey implements Serializable {
     public void setJobId(String jobId) {
         this.jobId = jobId;
     }
-
 }

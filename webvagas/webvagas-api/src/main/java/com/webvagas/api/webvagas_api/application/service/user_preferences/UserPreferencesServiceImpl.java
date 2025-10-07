@@ -30,8 +30,11 @@ public class UserPreferencesServiceImpl implements UserPreferencesService {
     @Autowired
     private UserPreferencesApiMapper userPreferencesApiMapper;
 
-    public UserPreferencesServiceImpl(UserPreferencesRepository userPreferencesRepository) {
+    public UserPreferencesServiceImpl(UserPreferencesRepository userPreferencesRepository,
+            UserPreferencesJpaMapper userPreferencesJpaMapper, UserPreferencesApiMapper userPreferencesApiMapper) {
         this.userPreferencesRepository = userPreferencesRepository;
+        this.userPreferencesApiMapper = userPreferencesApiMapper;
+        this.userPreferencesJpaMapper = userPreferencesJpaMapper;
     }
 
     @Transactional

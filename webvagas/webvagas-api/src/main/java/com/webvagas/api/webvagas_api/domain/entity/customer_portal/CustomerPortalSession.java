@@ -12,11 +12,11 @@ public class CustomerPortalSession {
         this.returnUrl = returnUrl;
     }
 
-    public String getCustomerId() {
-        return customerId.getValue();
+    public StripeCustomerId getCustomerId() {
+        return customerId;
     }
 
-    public String getReturnUrl() {
-        return returnUrl.getValue();
+    public StripeCustomerPortalReturnUrl getReturnUrl() {
+        return returnUrl;
     }
 }

@@ -19,6 +19,6 @@ public interface CustomerPortalSessionApiMapper {
     @Mapping(target = "customerId", expression = "java(new StripeCustomerId(session.getCustomer()))")
     CustomerPortalSession sessionToDomain(Session session);
 
-    @Mapping(target = "url", expression = "java(customerPortalSession.getReturnUrl())")
+    @Mapping(target = "url", expression = "java(customerPortalSession.getReturnUrl().getValue())")
     CreateCustomerPortalSessionResponse domainToResponse(CustomerPortalSession customerPortalSession);
 }

@@ -19,7 +19,7 @@ public class JobsUser {
         this.sendedAt = sendedAt;
     }
 
-    public JobId geJobId() {
+    public JobId getJobId() {
         return jobId;
     }
 
