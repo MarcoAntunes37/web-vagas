@@ -3,5 +3,6 @@ package com.webvagas.api.webvagas_api.application.service.customer_portal.comman
 import com.webvagas.api.webvagas_api.domain.value_object.CustomerEmail;
 import com.webvagas.api.webvagas_api.domain.value_object.CustomerName;
 
-public record CreateCustomerPortalSessionCommand(CustomerEmail customerEmail, CustomerName customerName) {
+public record CreateCustomerPortalSessionCommand(
+    CustomerEmail customerEmail, CustomerName customerName) {
 }

@@ -4,7 +4,6 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,13 @@ import com.webvagas.api.webvagas_api.application.service.jobs_user.command.Creat
 import com.webvagas.api.webvagas_api.application.service.jobs_user.query.GetJobUserQuery;
 import com.webvagas.api.webvagas_api.infrastructure.repository.jobs_user.JobsUserRepository;
 import com.webvagas.api.webvagas_api.persistence.jobs_user.JobsUserEntity;
-import com.webvagas.api.webvagas_api.persistence.jobs_user.keys.JobsUserKey;
 import com.webvagas.api.webvagas_api.persistence.jobs_user.projections.JobExistenceProjection;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class JobsUserServiceImpl implements JobsUserService {
-    private final Logger logger = org.slf4j.LoggerFactory.getLogger(JobsUserServiceImpl.class);
 
     private JobsUserRepository jobsUserRepository;
 
@@ -26,31 +26,32 @@ public class JobsUserServiceImpl implements JobsUserService {
     private JobsUserJpaMapper jobsUserJpaMapper;
 
     public JobsUserServiceImpl(
-            JobsUserRepository jobsUserRepository) {
+            JobsUserRepository jobsUserRepository,
+            JobsUserJpaMapper jobsUserJpaMapper) {
         this.jobsUserRepository = jobsUserRepository;
+        this.jobsUserJpaMapper = jobsUserJpaMapper;
     }
 
     public String createJobsUsers(CreateJobUserCommand command) {
-        List<JobsUserEntity> jobsUsers = command
-                .jobIds()
-                .stream()
-                .map(jobId -> {
-                    JobsUserKey key = jobsUserJpaMapper.createCommandToKey(command.userId(), jobId);
+        try {
+            List<JobsUserEntity> jobsUsers = command.jobIds().stream()
+                    .map(jobId -> jobsUserJpaMapper.createCommandToDomain(command.userId(), jobId))
+                    .map(jobsUserJpaMapper::domainToEntity)
+                    .toList();
 
-                    return jobsUserJpaMapper.createKeyToEntity(key);
-                })
-                .toList();
+            jobsUserRepository.saveAll(jobsUsers);
 
-        jobsUserRepository.saveAll(jobsUsers);
-
-        return "success";
+            return "success";
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return "failure";
+        }
     }
 
     public List<JobExistenceProjection> jobsUserExists(GetJobUserQuery query) {
         UUID userId = query.userId().getValue();
 
-        List<String> jobIds = query.jobIds()
-                .stream()
+        List<String> jobIds = query.jobIds().stream()
                 .map(jobId -> jobId.getValue())
                 .toList();
 
@@ -69,12 +70,13 @@ public class JobsUserServiceImpl implements JobsUserService {
 
     public int deleteJobsUserByUserId(UUID userId) {
         int deletedLines = 0;
+
         try {
             deletedLines = jobsUserRepository.deleteAllByUserId(userId);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
         }
+
         return deletedLines;
     }
-
 }

@@ -30,14 +30,18 @@ public class CustomerPortalSessionServiceImpl implements CustomerPortalSessionSe
         @Value("${stripe.customer-portal.return-url}")
         private String returnUrl;
 
+        public CustomerPortalSessionServiceImpl(
+                        CustomerPortalSessionApiMapper mapper,
+                        StripeClient stripeClient) {
+                this.mapper = mapper;
+                this.stripeClient = stripeClient;
+        }
+
         public CreateCustomerPortalSessionResponse createCustomerPortalSession(
-                        CreateCustomerPortalSessionCommand command)
-                        throws StripeException {
+                        CreateCustomerPortalSessionCommand command) throws StripeException {
                 Customer target = stripeClient
                                 .getOrCreateCustomer(command.customerEmail().getValue(),
                                                 command.customerName().getValue());
-
-                log.info("Customer: {}", target.toJson());
 
                 SessionCreateParams sessionParams = SessionCreateParams
                                 .builder()

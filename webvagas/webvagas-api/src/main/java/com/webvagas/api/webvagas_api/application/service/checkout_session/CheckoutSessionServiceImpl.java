@@ -24,7 +24,10 @@ public class CheckoutSessionServiceImpl implements CheckoutSessionService {
     @Autowired
     private CheckoutSessionApiMapper mapper;
 
-    public CheckoutSessionServiceImpl(StripeClient stripeClient) {
+    public CheckoutSessionServiceImpl(
+            CheckoutSessionApiMapper mapper,
+            StripeClient stripeClient) {
+        this.mapper = mapper;
         this.stripeClient = stripeClient;
     }
 
@@ -35,30 +38,25 @@ public class CheckoutSessionServiceImpl implements CheckoutSessionService {
         Customer customer = stripeClient.getOrCreateCustomer(
                 checkoutSession.getCustomerEmail().getValue(),
                 checkoutSession.getCustomerName().getValue());
-        
-        log.info("Customer: {}", customer.toJson());
 
         Session session = stripeClient.createCheckoutSession(
                 checkoutSession.getPrice().getValue(), customer.getId());
 
-        log.info("Session: {}", session.toJson());
-
         CreateCheckoutSessionResponse response = mapper.sessionToCreateResponse(session);
 
         log.info("Response: {}", response);
-
+        
         return response;
     }
-
+    
     public GetCheckoutSessionResponse getCheckoutSession(CheckoutSessionGetQuery query) throws StripeException {
-        log.info("Query: {}", query);
-
+        
         Session session = stripeClient.retrieveSession(query.sessionId());
-
-        log.info("Session: {}", session.toJson());
         
         GetCheckoutSessionResponse response = mapper.sessionToGetResponse(session);
-
+        
+        log.info("Response: {}", response);
+        
         return response;
     }
 }

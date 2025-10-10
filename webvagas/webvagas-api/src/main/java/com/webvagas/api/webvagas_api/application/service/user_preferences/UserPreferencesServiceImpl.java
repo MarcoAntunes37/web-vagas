@@ -47,7 +47,11 @@ public class UserPreferencesServiceImpl implements UserPreferencesService {
 
         UserPreferencesEntity entity = userPreferencesJpaMapper.domainToEntity(domain);
 
-        userPreferencesRepository.save(entity);
+        try {
+            userPreferencesRepository.save(entity);
+        } catch (PersistenceException e) {
+            throw new IllegalArgumentException("Error creating user preferences", e);
+        }
 
         UserPreferences savedDomain = userPreferencesJpaMapper.entityToDomain(entity);
 
@@ -81,8 +85,11 @@ public class UserPreferencesServiceImpl implements UserPreferencesService {
 
         UserPreferencesEntity updatedEntity = userPreferencesJpaMapper
                 .domainToEntity(userPreferencesExistent);
-
-        userPreferencesRepository.save(updatedEntity);
+        try {
+            userPreferencesRepository.save(updatedEntity);
+        } catch (PersistenceException e) {
+            throw new IllegalArgumentException("Error updating user preferences", e);
+        }
     }
 
     public int deleteAllByUserId(DeleteUserPreferencesCommand command) {

@@ -8,15 +8,15 @@ import com.webvagas.api.webvagas_api.domain.value_object.UserId;
 public class JobsUser {
     private JobId jobId;
     private UserId userId;
-    private OffsetDateTime sendedAt;
+    private OffsetDateTime receivedAt;
 
     public JobsUser(
             JobId jobId,
             UserId userId,
-            OffsetDateTime sendedAt) {
+            OffsetDateTime receivedAt) {
         this.jobId = jobId;
         this.userId = userId;
-        this.sendedAt = sendedAt;
+        this.receivedAt = receivedAt;
     }
 
     public JobId getJobId() {
@@ -27,7 +27,7 @@ public class JobsUser {
         return userId;
     }
 
-    public OffsetDateTime getSendedAt() {
-        return sendedAt;
+    public OffsetDateTime getReceivedAt() {
+        return receivedAt;
     }
 }
