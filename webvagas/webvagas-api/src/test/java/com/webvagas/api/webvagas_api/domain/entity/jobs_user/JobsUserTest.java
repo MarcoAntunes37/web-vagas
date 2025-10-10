@@ -14,20 +14,20 @@ import com.webvagas.api.webvagas_api.domain.value_object.UserId;
 public class JobsUserTest {
     private JobId jobId;
     private UserId userId;
-    private OffsetDateTime sendedAt;
+    private OffsetDateTime receivedAt;
 
     @BeforeEach
     void Setup() {
         jobId = new JobId("1234567890");
         userId = new UserId(UUID.randomUUID());
-        sendedAt = OffsetDateTime.now();
+        receivedAt = OffsetDateTime.now();
     }
 
     @Test
     void shouldcreateJobsUserCorrectly() {
-        JobsUser jobsUser = new JobsUser(jobId, userId, sendedAt);
+        JobsUser jobsUser = new JobsUser(jobId, userId, receivedAt);
         assertThat(jobsUser.getJobId()).isEqualTo(jobId);
         assertThat(jobsUser.getUserId()).isEqualTo(userId);
-        assertThat(jobsUser.getSendedAt()).isEqualTo(sendedAt);
+        assertThat(jobsUser.getReceivedAt()).isEqualTo(receivedAt);
     }
 }
