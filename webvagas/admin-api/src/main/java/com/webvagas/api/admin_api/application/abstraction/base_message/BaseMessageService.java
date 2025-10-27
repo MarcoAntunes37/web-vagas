@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.webvagas.api.admin_api.domain.entity.job.dto.GetJobsRequest;
 import com.webvagas.api.admin_api.domain.entity.job.dto.GetJobsResponse;
 import com.webvagas.api.admin_api.domain.entity.job.dto.GetJobResponse;
@@ -28,6 +25,7 @@ import com.webvagas.api.admin_api.infrastructure.integration.webvagas.UserPrefer
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.json.JSONObject;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,8 +42,6 @@ public abstract class BaseMessageService {
     protected final String messageServiceId;
     protected final String templateWithJobsId;
     protected final String templateWithoutJobsId;
-    @Autowired
-    protected ObjectMapper mapper;
 
     protected BaseMessageService(
             JSearchClient jsearchClient,
@@ -108,7 +104,7 @@ public abstract class BaseMessageService {
                 .getBody();
 
         if (shortUrlsList == null || shortUrlsList.isEmpty()) {
-            throw new RuntimeException("Error creating short url");
+            return Collections.emptyList();
         }
 
         Map<String, String> shortUrlMap = shortUrlsList.stream()
@@ -173,7 +169,7 @@ public abstract class BaseMessageService {
             paramsCount++;
         }
 
-        String jsonContentVariables = mapper.writeValueAsString(contentVariables);
+        String jsonContentVariables = mapToJson(contentVariables);
 
         return Message.creator(
                 new PhoneNumber("whatsapp:" + to),
@@ -191,7 +187,7 @@ public abstract class BaseMessageService {
         Map<String, String> contentVariables = new HashMap<>();
         contentVariables.put("1", name);
 
-        String jsonContentVariables = mapper.writeValueAsString(contentVariables);
+        String jsonContentVariables = mapToJson(contentVariables);
 
         return Message.creator(
                 new PhoneNumber("whatsapp:" + to),
@@ -228,6 +224,7 @@ public abstract class BaseMessageService {
         }
 
         UserPreferencesGetResponse preferencesValue = preferences.get();
+
         if (preferencesValue.keywords() == null || preferencesValue.keywords().isEmpty()) {
             System.out.println("Skipping user: no keywords found");
             return;
@@ -277,5 +274,9 @@ public abstract class BaseMessageService {
                 log.error("Error sending message to user: {}", e);
             }
         }
+    }
+
+    protected String mapToJson(Map<String, String> map) {
+        return new JSONObject(map).toString();
     }
 }
