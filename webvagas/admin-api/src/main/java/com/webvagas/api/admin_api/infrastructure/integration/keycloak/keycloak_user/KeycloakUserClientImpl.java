@@ -43,7 +43,7 @@ public class KeycloakUserClientImpl implements KeycloakUserClient {
 
         GetUserByEmailResponse[] responseArray = response.getBody();
 
-        if (responseArray[0] == null) {
+        if (responseArray == null) {
             throw new RuntimeException("Usuário com e-mail " + email + " não encontrado.");
         }
 
