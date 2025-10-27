@@ -22,8 +22,8 @@ public interface JobsUserJpaMapper {
     @Mapping(target = "receivedAt", expression = "java(domain.getReceivedAt())")
     JobsUserEntity domainToEntity(JobsUser domain);
 
-    @Mapping(target = "userId", expression = "java(new UserId(entity.getUserId()))")
-    @Mapping(target = "jobId", expression = "java(new UserId(entity.getJobId()))")
+    @Mapping(target = "userId", expression = "java(new UserId(entity.getId().getUserId()))")
+    @Mapping(target = "jobId", expression = "java(new JobId(entity.getId().getJobId()))")
     @Mapping(target = "receivedAt", expression = "java(entity.getReceivedAt())")
     JobsUser entityToDomain(JobsUserEntity entity);
 }
