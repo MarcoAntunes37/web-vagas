@@ -1,7 +1,6 @@
 package com.webvagas.api.admin_api.domain.entity.job.dto;
 
 import java.util.Arrays;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.webvagas.api.admin_api.domain.entity.job.enums.DatePosted;
@@ -40,17 +39,19 @@ public record GetJobsRequest(
                         Integer page,
                         UserPreferencesGetResponse preferences) {
                 String keywords = preferences.keywords();
-                String employmentTypes = preferences.employmentTypes();
-                String[] employmentTypesArray = employmentTypes.split(",");
-                Set<EmploymentType> employmentTypesSet = Arrays.stream(employmentTypesArray)
-                                .filter(s -> !s.isBlank())
+                EmploymentTypes employmentTypesObj = new EmploymentTypes(Arrays.stream(
+                        preferences.employmentTypes().split(","))
+                                .filter(p -> !p.isBlank())
                                 .map(String::trim)
                                 .map(EmploymentType::valueOf)
-                                .collect(Collectors.toSet());
-                EmploymentTypes employmentTypesObj = new EmploymentTypes(employmentTypesSet);
+                                .collect(Collectors.toSet()));
                 String country = preferences.country();
                 Boolean remoteWork = preferences.remoteWork();
-                String excludeJobPublishers = preferences.excludeJobPublishers();
+                ExcludeJobPublishers excludeJobPublishersObj = new ExcludeJobPublishers(Arrays.stream(
+                                preferences.excludeJobPublishers().split(","))
+                                .filter(p -> !p.isBlank())
+                                .map(String::trim)
+                                .collect(Collectors.toSet()));
 
                 return new GetJobsRequest(
                                 keywords,
@@ -61,6 +62,6 @@ public record GetJobsRequest(
                                 DatePosted.today,
                                 remoteWork,
                                 employmentTypesObj,
-                                ExcludeJobPublishers.toExcludeJobPublishers(excludeJobPublishers));
+                                excludeJobPublishersObj);
         }
 }
