@@ -1,34 +1,28 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 
 public class ExcludeJobPublishers {
-    private final String value;
+    private final Set<String> value;
 
-    public ExcludeJobPublishers(String value) {
-        if (value == null)
-            throw new IllegalArgumentException("ExcludeJobPublishers is required in this type of search");
+    public ExcludeJobPublishers(Set<String> value) {
+        Objects.requireNonNull(value, "ExcludeJobPublishers cannot be null.");
+
+        if (value.isEmpty())
+            value = Collections.emptySet();
 
         this.value = value;
     }
 
-    public String getValue() {
+    public Set<String> getValue() {
         return value;
     }
 
-    public List<String> getTerms() {
-        return Arrays.stream(value.split(","))
-                .map(String::trim)
-                .filter(s -> !s.isBlank())
-                .toList();
-    }
-
-    @JsonCreator
-    public static ExcludeJobPublishers toExcludeJobPublishers(String value) {
-        return new ExcludeJobPublishers(value);
+    public Set<String> getTerms() {
+        return value;
     }
 
     @Override
@@ -39,13 +33,24 @@ public class ExcludeJobPublishers {
         if (!(o instanceof ExcludeJobPublishers))
             return false;
 
-        ExcludeJobPublishers excludeJobPublishers = (ExcludeJobPublishers) o;
+        ExcludeJobPublishers that = (ExcludeJobPublishers) o;
 
-        return value.equals(excludeJobPublishers.value);
+        return Objects.equals(that.value, this.value);
+    }
+
+    private Collection<String> getSortedExcludeJobPublishers(Set<String> excludeJobPublishers) {
+        Collection<String> sortedExcludeJobPublishers = excludeJobPublishers.stream().toList();
+
+        return sortedExcludeJobPublishers.stream().sorted().toList();
+    }
+
+    @Override
+    public String toString() {
+        return String.join(",", getSortedExcludeJobPublishers(value));
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }

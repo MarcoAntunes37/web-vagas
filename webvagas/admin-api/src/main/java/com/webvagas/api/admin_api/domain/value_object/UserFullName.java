@@ -1,12 +1,34 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
+import java.util.Objects;
+
 public class UserFullName {
     private String firstName;
     private String lastName;
 
     public UserFullName(String firstName, String lastName) {
+        Objects.requireNonNull(firstName, "First name cannot be null.");
+
+        Objects.requireNonNull(lastName, "Last name cannot be null.");
+
+        if (firstName.isBlank()) {
+            throw new IllegalArgumentException("First name cannot be empty.");
+        }
+
+        if (lastName.isBlank()) {
+            throw new IllegalArgumentException("Last name cannot be empty.");
+        }
+
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
@@ -17,34 +39,14 @@ public class UserFullName {
         if (!(o instanceof UserFullName))
             return false;
 
-        UserFullName userFullName = (UserFullName) o;
+        UserFullName that = (UserFullName) o;
 
-        return firstName.equals(userFullName.firstName)
-                && lastName.equals(userFullName.lastName);
+        return Objects.equals(that.firstName, this.firstName)
+                && Objects.equals(that.lastName, this.lastName);
     }
 
     @Override
     public int hashCode() {
-        int result = firstName.hashCode();
-
-        result = 31 * result + lastName.hashCode();
-
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "UserFullName{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+        return Objects.hash(firstName, lastName);
     }
 }

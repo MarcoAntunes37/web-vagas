@@ -1,6 +1,6 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 
 public class SearchFilters {
     private Boolean remoteWork;
@@ -8,6 +8,10 @@ public class SearchFilters {
     private ExcludeJobPublishers excludeJobPublishers;
 
     public SearchFilters(Boolean remoteWork, Country country, ExcludeJobPublishers excludeJobPublishers) {
+        Objects.requireNonNull(remoteWork, "Remote work cannot be null.");
+        Objects.requireNonNull(country, "Country cannot be null.");
+        Objects.requireNonNull(excludeJobPublishers, "Exclude job publishers cannot be null.");
+
         this.remoteWork = remoteWork;
         this.country = country;
         this.excludeJobPublishers = excludeJobPublishers;
@@ -29,22 +33,19 @@ public class SearchFilters {
     public boolean equals(Object o) {
         if (this == o)
             return true;
+
         if (!(o instanceof SearchFilters))
             return false;
-        SearchFilters searchFilters = (SearchFilters) o;
-        return searchFilters.equals(searchFilters);
+
+        SearchFilters that = (SearchFilters) o;
+
+        return Objects.equals(that.remoteWork, this.remoteWork)
+                && Objects.equals(that.country, this.country)
+                && Objects.equals(that.excludeJobPublishers, this.excludeJobPublishers);
     }
 
     @Override
     public int hashCode() {
-        int result = remoteWork.hashCode();
-        result = 31 * result + country.hashCode();
-        result = 31 * result + excludeJobPublishers.hashCode();
-        return result;
-    }
-
-    @JsonCreator
-    public static SearchFilters from(Boolean remoteWork, Country country, ExcludeJobPublishers excludeJobPublishers) {
-        return new SearchFilters(remoteWork, country, excludeJobPublishers);
+        return Objects.hash(remoteWork, country, excludeJobPublishers);
     }
 }

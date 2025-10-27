@@ -4,13 +4,14 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
-import com.webvagas.api.admin_api.domain.entity.user_preferences.enums.EmploymentType;
+import com.webvagas.api.admin_api.domain.entity.job.enums.EmploymentType;
 
-public class EmploymentTypes {
+
+public class JobEmploymentTypes {
     private Set<EmploymentType> values;
 
-    public EmploymentTypes(Set<EmploymentType> values) {
-        Objects.requireNonNull(values, "Employment types cannot be null.");
+    public JobEmploymentTypes(Set<EmploymentType> values) {
+        Objects.requireNonNull(values, "Job employment types cannot be null.");
 
         if (values.isEmpty()) {
             values = Collections.emptySet();
@@ -28,10 +29,10 @@ public class EmploymentTypes {
         if (this == o)
             return true;
 
-        if (!(o instanceof EmploymentTypes))
+        if (!(o instanceof JobEmploymentTypes))
             return false;
 
-        EmploymentTypes that = (EmploymentTypes) o;
+        JobEmploymentTypes that = (JobEmploymentTypes) o;
 
         return Objects.equals(that.values, this.values);
     }

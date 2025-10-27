@@ -1,5 +1,7 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
+import java.util.Objects;
+
 public class Location {
     private String region;
     private String city;
@@ -9,12 +11,44 @@ public class Location {
     private double longitude;
 
     public Location(String region, String city, String state, String country, double latitude, double longitude) {
+        Objects.requireNonNull(region, "Region cannot be null.");
+
+        Objects.requireNonNull(city, "City cannot be null.");
+
+        Objects.requireNonNull(state, "State cannot be null.");
+
+        Objects.requireNonNull(country, "Country cannot be null.");
+
         this.region = region;
         this.city = city;
         this.state = state;
         this.country = country;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     @Override
@@ -25,57 +59,18 @@ public class Location {
         if (!(o instanceof Location))
             return false;
 
-        Location location = (Location) o;
+        Location that = (Location) o;
 
-        return region.equals(location.region) &&
-                city.equals(location.city) &&
-                state.equals(location.state) &&
-                country.equals(location.country) &&
-                latitude == location.latitude &&
-                longitude == location.longitude;
+        return Objects.equals(that.region, this.region)
+                && Objects.equals(that.city, this.city)
+                && Objects.equals(that.state, this.state)
+                && Objects.equals(that.country, this.country)
+                && Objects.equals(that.latitude, this.latitude)
+                && Objects.equals(that.longitude, this.longitude);
     }
 
     @Override
     public int hashCode() {
-        int result = region.hashCode();
-        result = 31 * result + city.hashCode();
-        result = 31 * result + Double.hashCode(latitude);
-        result = 31 * result + Double.hashCode(longitude);
-        return result;
+        return Objects.hash(region, city, state, country, latitude, longitude);
     }
-
-    @Override
-    public String toString() {
-        return "LocationJ{" +
-                "region='" + region + '\'' +
-                ", city=" + city +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                '}';
-    }
-
-    public String getRegion() {
-        return region;
-    }
-    
-    public String getCity() {
-        return city;
-    }
-    
-    public String getState() {
-        return state;
-    }
-    
-    public String getCountry() {
-        return country;
-    }
-    
-    public double getLatitude() {
-        return latitude;
-    }
-    
-    public double getLongitude() {
-        return longitude;
-    }
-    
 }

@@ -1,12 +1,29 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
+import java.util.Objects;
+
 public class UserAttributes {
     private String[] locale;
     private String[] phone;
 
     public UserAttributes(String[] locale, String[] phone) {
-        this.locale = locale;
+        Objects.requireNonNull(locale, "Locale cannot be null.");
+
+        Objects.requireNonNull(phone, "Phone cannot be null.");
+
+        if (phone.length == 0)
+            throw new IllegalArgumentException("Phone cannot be empty.");
+
         this.phone = phone;
+        this.locale = locale;
+    }
+
+    public String[] getLocale() {
+        return locale;
+    }
+
+    public String[] getPhone() {
+        return phone;
     }
 
     @Override
@@ -17,34 +34,14 @@ public class UserAttributes {
         if (!(o instanceof UserAttributes))
             return false;
 
-        UserAttributes userAttributes = (UserAttributes) o;
+        UserAttributes that = (UserAttributes) o;
 
-        return locale[0].equals(userAttributes.locale[0])
-                && phone[0].equals(userAttributes.phone[0]);
+        return Objects.equals(that.locale, this.locale)
+                && Objects.equals(that.phone, this.phone);
     }
 
     @Override
     public int hashCode() {
-        int result = locale[0].hashCode();
-
-        result = 31 * result + phone[0].hashCode();
-
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "UserAttributes{" +
-                "locale='" + locale[0] + '\'' +
-                ", phone='" + phone[0] + '\'' +
-                '}';
-    }
-
-    public String[] getLocale() {
-        return locale;
-    }
-
-    public String[] getPhone() {
-        return phone;
+        return Objects.hash(locale, phone);
     }
 }

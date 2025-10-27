@@ -1,6 +1,6 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 
 public class SalaryRange {
     private final Integer salary;
@@ -10,6 +10,28 @@ public class SalaryRange {
     private final String period;
 
     public SalaryRange(Integer salary, Integer min, Integer max, String currency, String period) {
+        Objects.requireNonNull(salary, "Salary cannot be null.");
+
+        if (salary < 0)
+            throw new IllegalArgumentException("Salary cannot be negative.");
+
+        Objects.requireNonNull(min, "Min cannot be null.");
+
+        if (min < 0)
+            throw new IllegalArgumentException("Min cannot be negative.");
+
+        Objects.requireNonNull(max, "Max cannot be null.");
+
+        if (max < 0)
+            throw new IllegalArgumentException("Max cannot be negative.");
+
+        if (max < min)
+            throw new IllegalArgumentException("Max cannot be less than min.");
+
+        Objects.requireNonNull(currency, "Currency cannot be null.");
+
+        Objects.requireNonNull(period, "Period cannot be null.");
+
         this.salary = salary;
         this.min = min;
         this.max = max;
@@ -17,52 +39,8 @@ public class SalaryRange {
         this.period = period;
     }
 
-    @JsonCreator
-    public static SalaryRange toSalaryRangeJ(
-            Integer salary, Integer min, Integer max, String currency, String period) {
-        return new SalaryRange(salary, min, max, currency, period);
-    }
-
     public SalaryRange getValue() {
         return new SalaryRange(salary, min, max, currency, period);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-
-        if (!(o instanceof SalaryRange))
-            return false;
-
-        SalaryRange salaryRange = (SalaryRange) o;
-
-        return min.equals(salaryRange.min) &&
-                max.equals(salaryRange.max) &&
-                salary.equals(salaryRange.salary) &&
-                currency.equals(salaryRange.currency) &&
-                period.equals(salaryRange.period);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = min.hashCode();
-        result = 31 * result + max.hashCode();
-        result = 31 * result + salary.hashCode();
-        result = 31 * result + currency.hashCode();
-        result = 31 * result + period.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "SalaryRangeJ{" +
-                "salary='" + salary + '\'' +
-                ", min='" + min + '\'' +
-                ", max='" + max + '\'' +
-                ", currency='" + currency + '\'' +
-                ", period='" + period + '\'' +
-                '}';
     }
 
     public Integer getSalary() {
@@ -83,5 +61,27 @@ public class SalaryRange {
 
     public String getPeriod() {
         return period;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+
+        if (!(o instanceof SalaryRange))
+            return false;
+
+        SalaryRange that = (SalaryRange) o;
+
+        return Objects.equals(that.salary, this.salary)
+                && Objects.equals(that.min, this.min)
+                && Objects.equals(that.max, this.max)
+                && Objects.equals(that.currency, this.currency)
+                && Objects.equals(that.period, this.period);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(salary, min, max, currency, period);
     }
 }

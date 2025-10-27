@@ -2,22 +2,18 @@ package com.webvagas.api.admin_api.domain.value_object;
 
 import java.util.Arrays;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 
 public class Keywords {
     private final String value;
 
     public Keywords(String value) {
-        if (value == null || value.isBlank())
-            throw new IllegalArgumentException("keywords is required in this type of search");
+        Objects.requireNonNull(value, "Keywords cannot be null.");
+
+        if (value.isBlank())
+            throw new IllegalArgumentException("Keywords cannot be empty.");
 
         this.value = value;
-    }
-
-    @JsonCreator
-    public static Keywords toKeywords(String value) {
-        return new Keywords(value);
     }
 
     public String getValue() {
@@ -39,13 +35,13 @@ public class Keywords {
         if (!(o instanceof Keywords))
             return false;
 
-        Keywords keywords = (Keywords) o;
+        Keywords that = (Keywords) o;
 
-        return value.equals(keywords.value);
+        return Objects.equals(that.value, this.value);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return Objects.hash(value);
     }
 }

@@ -2,16 +2,14 @@ package com.webvagas.api.admin_api.domain.value_object;
 
 import java.util.Objects;
 
-public class JobId {
+public class OriginalUrl {
     private String value;
 
-    public JobId(String value) {
-        Objects.requireNonNull(value, "JobId cannot be null.");
-
+    public OriginalUrl(String value) {
+        Objects.requireNonNull(value, "OriginalUrl cannot be null.");
         if (value.isBlank()) {
-            throw new IllegalArgumentException("JobId cannot be empty.");
+            throw new IllegalArgumentException("OriginalUrl cannot be empty.");
         }
-
         this.value = value;
     }
 
@@ -24,10 +22,10 @@ public class JobId {
         if (this == o)
             return true;
 
-        if (!(o instanceof JobId))
+        if (!(o instanceof OriginalUrl))
             return false;
 
-        JobId that = (JobId) o;
+        OriginalUrl that = (OriginalUrl) o;
 
         return Objects.equals(that.value, this.value);
     }

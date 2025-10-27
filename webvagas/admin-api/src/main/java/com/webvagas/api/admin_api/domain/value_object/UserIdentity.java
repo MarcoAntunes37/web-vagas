@@ -1,25 +1,32 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Objects;
 
 public class UserIdentity {
     private String username;
     private String email;
 
     public UserIdentity(String username, String email) {
+        Objects.requireNonNull(username, "Username cannot be null.");
+
+        Objects.requireNonNull(email, "Email cannot be null.");
+
+        if (username.isBlank())
+            throw new IllegalArgumentException("Username cannot be empty.");
+
+        if (email.isBlank())
+            throw new IllegalArgumentException("Email cannot be empty.");
+
         this.username = username;
         this.email = email;
     }
 
-    @JsonCreator
-    public static UserIdentity fromString(String username, String email) {
-        return new UserIdentity(username, email);
+    public String getUsername() {
+        return username;
     }
 
-    @JsonValue
-    public String toJson(String username, String email) {
-        return "{\"username\":\"" + username + "\",\"email\":\"" + email + "\"}";
+    public String getEmail() {
+        return email;
     }
 
     public UserIdentity getValue() {
@@ -34,32 +41,15 @@ public class UserIdentity {
         if (!(o instanceof UserIdentity))
             return false;
 
-        UserIdentity userIdentity = (UserIdentity) o;
+        UserIdentity that = (UserIdentity) o;
 
-        return username.equals(userIdentity.username)
-                && email.equals(userIdentity.email);
+        return Objects.equals(that.username, this.username)
+                && Objects.equals(that.email, this.email);
     }
 
     @Override
     public int hashCode() {
-        int result = username.hashCode();
-        result = 31 * result + email.hashCode();
-        return result;
+        return Objects.hash(username, email);
     }
 
-    @Override
-    public String toString() {
-        return "UserIdentity{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }

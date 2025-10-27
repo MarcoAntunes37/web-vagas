@@ -1,21 +1,22 @@
 package com.webvagas.api.admin_api.domain.value_object;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class JobId {
-    private String value;
+public class DateTime {
+    private LocalDateTime value;
 
-    public JobId(String value) {
-        Objects.requireNonNull(value, "JobId cannot be null.");
-
-        if (value.isBlank()) {
-            throw new IllegalArgumentException("JobId cannot be empty.");
-        }
+    public DateTime(LocalDateTime value) {
+        Objects.requireNonNull(value, "DateTime cannot be null.");
 
         this.value = value;
     }
 
-    public String getValue() {
+    public String getStringValue() {
+        return value.toString();
+    }
+
+    public LocalDateTime getValue() {
         return value;
     }
 
@@ -24,10 +25,10 @@ public class JobId {
         if (this == o)
             return true;
 
-        if (!(o instanceof JobId))
+        if (!(o instanceof DateTime))
             return false;
 
-        JobId that = (JobId) o;
+        DateTime that = (DateTime) o;
 
         return Objects.equals(that.value, this.value);
     }
