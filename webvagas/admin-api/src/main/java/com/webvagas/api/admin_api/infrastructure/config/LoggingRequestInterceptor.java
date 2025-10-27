@@ -13,9 +13,9 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
     @Override
     @NonNull
     public ClientHttpResponse intercept(
-            HttpRequest request,
-            byte[] body,
-            ClientHttpRequestExecution execution) throws IOException {
+           @NonNull HttpRequest request,
+           @NonNull byte[] body,
+           @NonNull ClientHttpRequestExecution execution) throws IOException {
 
         logRequest(request, body);
         ClientHttpResponse response = execution.execute(request, body);
