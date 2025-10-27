@@ -76,6 +76,12 @@ public class WebhookServiceImpl implements WebhookService {
         Product product = stripeClient.retrieveProduct(productId);
 
         String plan = resolvePlanFromProduct(product);
+        log.info("=== handleInvoiceSucceeded START ===");
+        log.info("Invoice: {}", invoice);
+        log.info("Customer email: {}", invoice.getCustomerEmail());
+        log.info("Product ID: {}", productId);
+        log.info("Product: {}", product);
+        log.info("Plan: {}", plan);
 
         if (!plan.isBlank()) {
             log.info("Pagamento bem-sucedido para: {} | Plano: {}", email, plan);
@@ -103,6 +109,11 @@ public class WebhookServiceImpl implements WebhookService {
                         log.info("Removendo role do usuário com e-mail {} e ID {}", email, customer.getId());
 
                         RemovePlanRoleCommand command = new RemovePlanRoleCommand(email);
+
+                        log.info("command: {}", command);
+                        log.info("customer: {}", customer);
+                        log.info("subscription: {}", subscription);
+                        log.info("email: {}", email);
 
                         keycloakService.removePlanRole(command);
                         log.info("Role removida do usuário com e-mail {}", email);
