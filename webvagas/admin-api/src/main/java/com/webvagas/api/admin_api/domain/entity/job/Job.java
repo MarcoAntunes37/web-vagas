@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 
 import com.webvagas.api.admin_api.domain.value_object.Employer;
-import com.webvagas.api.admin_api.domain.value_object.EmploymentTypes;
+import com.webvagas.api.admin_api.domain.value_object.JobEmploymentTypes;
 import com.webvagas.api.admin_api.domain.value_object.JobId;
 import com.webvagas.api.admin_api.domain.value_object.JobMetadata;
 import com.webvagas.api.admin_api.domain.value_object.Location;
@@ -17,12 +17,12 @@ public class Job {
     private Employer employer;
     private Publisher publisher;
     private JobMetadata metadata;
-    private EmploymentTypes employmentTypes;
+    private JobEmploymentTypes employmentTypes;
     private Location location;
     private SalaryRange salaryRange;
 
     public Job(JobId id, Employer employer, Publisher publisher, JobMetadata metadata,
-            EmploymentTypes employmentTypes, Location location, SalaryRange salaryRange) {
+            JobEmploymentTypes employmentTypes, Location location, SalaryRange salaryRange) {
         this.id = id;
         this.employer = employer;
         this.publisher = publisher;
@@ -100,7 +100,7 @@ public class Job {
         return metadata.getApplyLink();
     }
 
-    public EmploymentTypes getEmploymentTypes() {
+    public JobEmploymentTypes getEmploymentTypes() {
         return employmentTypes;
     }
 
@@ -134,5 +134,25 @@ public class Job {
 
     public SalaryRange getSalaryRange() {
         return salaryRange;
+    }
+
+    public Integer getSalaryRangeSalary() {
+        return salaryRange.getSalary();
+    }
+
+    public Integer getSalaryRangeMin() {
+        return salaryRange.getMin();
+    }
+
+    public Integer getSalaryRangeMax() {
+        return salaryRange.getMax();
+    }
+
+    public String getSalaryRangeCurrency() {
+        return salaryRange.getCurrency();
+    }
+
+    public String getSalaryRangePeriod() {
+        return salaryRange.getPeriod();
     }
 }
