@@ -10,5 +10,5 @@ public record GetUserByRoleResponse(
                 @JsonProperty("lastName") String lastName,
                 @JsonProperty("email") String email,
                 @JsonProperty("username") String username,
-                @JsonProperty("attributes") Attributes attributes) {
+                @JsonProperty("attributes") UserAttributes attributes) {
 }
