@@ -59,7 +59,7 @@ public class Routes {
 
         @Bean
         public RouterFunction<ServerResponse> adminApiSwaggerRouter() {
-                return GatewayRouterFunctions.route("webvagas_api_swagger")
+                return GatewayRouterFunctions.route("admin_api_swagger")
                                 .route(RequestPredicates.path("/aggregate/admin-api/v3/api-docs"),
                                                 HandlerFunctions.http(adminApiUrl))
                                 .filter(CircuitBreakerFilterFunctions.circuitBreaker(
