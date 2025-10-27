@@ -24,12 +24,6 @@ public class UserPreferences {
         this.searchFilters = searchFilters;
     }
 
-    public void update(UserPreferences preferences) {
-        this.keywords = preferences.getKeywords();
-        this.employmentTypes = preferences.getEmploymentTypes();
-        this.searchFilters = preferences.getSearchFilters();
-    }
-
     public UserId getUserId() {
         return userId;
     }
