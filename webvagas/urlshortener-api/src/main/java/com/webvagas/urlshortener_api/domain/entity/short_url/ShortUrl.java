@@ -1,7 +1,5 @@
 package com.webvagas.urlshortener_api.domain.entity.short_url;
 
-import java.time.LocalDateTime;
-
 import com.webvagas.urlshortener_api.domain.value_objects.Code;
 import com.webvagas.urlshortener_api.domain.value_objects.DateTime;
 import com.webvagas.urlshortener_api.domain.value_objects.OriginalUrl;
@@ -24,23 +22,23 @@ public class ShortUrl {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
-        return id.getValue();
+    public ShortUrlId getId() {
+        return id;
     }
 
-    public String getCode() {
-        return code.getValue();
+    public Code getCode() {
+        return code;
     }
 
-    public String getOriginalUrl() {
-        return originalUrl.getValue();
+    public OriginalUrl getOriginalUrl() {
+        return originalUrl;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt.getValue();
+    public DateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public String getCreatedAtAsString() {
-        return createdAt.getStringValue();
+    public DateTime getCreatedAtAsString() {
+        return createdAt;
     }
 }
