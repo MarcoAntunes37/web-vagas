@@ -7,6 +7,9 @@ on:
 jobs:
   cd:
     runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    environment: webvagas
     steps:
       - uses: actions/checkout@v5
 
