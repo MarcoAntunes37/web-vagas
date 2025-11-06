@@ -16,15 +16,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
-      - name: Debug — show current path and files
-        run: |
-          echo "Current path:"
-          pwd
-          echo "Listing files:"
-          ls -R
-
-      - name: Give permissions to run script
-        run: chmod +x build_and_push.prod.sh
-
       - name: Execute deploy script
         run: ./build_and_push.prod.sh ${{ secrets.DOCKERHUB_USERNAME }} 
