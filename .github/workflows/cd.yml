@@ -17,7 +17,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Give permissions to run script
-        run: chmod +x webvagas/build_and_push.prod.sh
+        run: chmod +x ./webvagas/build_and_push.prod.sh
 
       - name: Execute deploy script
         run: ./webvagas/build_and_push.prod.sh ${{ secrets.DOCKERHUB_USERNAME }} 
