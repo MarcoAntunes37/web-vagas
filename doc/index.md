@@ -1,96 +1,77 @@
-# WebVagas - Plataforma de Notificação de Vagas
+# WebVagas - Job Notification Platform
 
-## Visão Geral do Projeto
+Project Overview
 
-O **WebVagas** é uma plataforma de notificação de vagas de emprego que envia oportunidades personalizadas diretamente para o WhatsApp dos usuários. O sistema utiliza APIs pagas de emprego para buscar vagas e o Twilio como ponte para entrega via WhatsApp.
+**WebVagas** is a job notification platform that delivers personalized job opportunities directly to users’ WhatsApp. The system uses paid job APIs to fetch vacancies and Twilio as the bridge for WhatsApp message delivery.
 
-## Objetivo Principal
+## Main Objective
 
-Automatizar o processo de busca e notificação de vagas de emprego, entregando oportunidades personalizadas aos usuários através do WhatsApp, baseado em seus filtros de preferência e plano de assinatura.
+Automate the process of searching and notifying job openings, delivering personalized opportunities to users via WhatsApp based on their preference filters and subscription plan.
 
-## Modelo de Negócio
+## User Flow
 
-### Planos de Assinatura
+### 1. Acquisition and Onboarding
+<div style="overflow: auto;"> 
+  <pre class="mermaid"> 
+  flowchart TD 
+    A[Access the application] --> B[Redirect to login screen] 
+    B --> C{Does the user have an account?} 
+    C -->|No| D[Click on register] 
+    D --> E[Redirect to registration screen] 
+    E --> F[Registration Form] 
+    F --> G[Fill out and submit form] 
+    G --> H[Receive confirmation email] 
+    H --> I[Confirm email] 
+    I --> J[Login] 
+    C -->|Yes| J 
+    J --> K{Does the user have an active subscription?} 
+    K -->|No| L[Redirect to subscription page] 
+    L --> M[Choose a Plan] 
+    M --> N[Payment] 
+    N --> O[Payment confirmation] 
+    O --> P[Add role with user subscription] 
+    P --> Q[Set up Filters] 
+    Q --> R[Receive Job Notifications] 
+    K -->|Yes| Q 
+  <pre> 
+</div>
 
-#### Plano Start
-- **Frequência**: 2 blocos de mensagem por dia
-- **Horários**: 9h e 18h
-- **Preço**: R$ 19,90/mês
-- **Limite**: Até 5 vagas por bloco de mensagem
+### 2. Flow Details
+#### **Frontend(Angular)**
+- Redirects to the Keycloak realm login page.
 
-#### Plano Turbo
-- **Frequência**: 4 blocos de mensagem por dia
-- **Horários**: 7h, 12h, 16h e 20h
-- **Preço**: R$ 29,90/mês
-- **Limite**: Até 5 vagas por bloco de mensagem
+#### **Register (Keycloak)**
+- Collects personal data and creates user accounts.
+- Validates email and terms agreement.
+- Integrates with authentication system.
+- Allows user self-management.
+- Administrators can manage and impersonate users.
 
-### Estrutura das Mensagens
-Cada bloco de mensagem contém:
-- **Máximo**: 5 vagas
-- **Formato**: Descrição da vaga + link direto
-- **Personalização**: Baseada nos filtros configurados pelo usuário
+#### **Payment (Stripe)**
+- Api de pagamento do stripe gera uma tela de checkout.
+- Processamento seguro de transação.
+- Confirmação de assinatura.
+- Captura dos eventos stripe pelo webhook.
 
-## Fluxo do Usuário
+#### **Configure UserPreferences**
+- Angular interface for defining preferences.
 
-### 1. Aquisição e Onboarding
+- Filters include:
+  - Keywords: A required search string.
+  - EmploymentTypes: Available job types [EmploymentType](https://github.com/MarcoAntunes37/web-vagas/blob/main/webvagas/webvagas-api/src/main/java/com/webvagas/api/webvagas_api/domain/entity/user_preferences/enums/EmploymentType.java).
+  - RemoteWork: Boolean flag indicating whether to show only remote jobs..
+    - Country: Required search country.
+    - ExcludeJobPublishers: String of publishers to exclude from job notifications.
 
-```
-Landing Page (Flutter) 
-    ↓
-Tela de Cadastro (Keycloak)
-    ↓
-Confirmação de Email
-    ↓
-Escolha do Plano
-    ↓
-Pagamento (Stripe)
-    ↓
-Login na Plataforma
-    ↓
-Configuração de Filtros
-    ↓
-Recebimento de Vagas (WhatsApp)
-```
+#### **Notifications (WhatsApp)**
+- Automatic delivery via Twilio.
+- Scheduled message times based on subscription plan.
 
-### 2. Detalhamento do Fluxo
+## Technical Architecture
 
-#### **Landing Page (Flutter)**
-- Apresentação dos planos e benefícios
-- Call-to-action para assinatura
-- Redirecionamento para cadastro
-
-#### **Cadastro (Keycloak)**
-- Coleta de dados pessoais
-- Validação de email
-- Criação de conta na plataforma
-- Integração com sistema de autenticação
-
-#### **Pagamento (Stripe)**
-- Modal de pagamento integrado
-- Processamento seguro de transação
-- Confirmação de assinatura
-
-#### **Configuração de Filtros**
-- Interface Angular para definição de preferências
-- Filtros por:
-  - Localização
-  - Tipo de contrato
-  - Faixa salarial
-  - Palavras-chave
-  - Tipo de jornada
-  - País
-
-#### **Notificações (WhatsApp)**
-- Envio automático via Twilio
-- Horários programados por plano
-- Conteúdo personalizado por usuário
-
-## Arquitetura Técnica
-
-### Stack Tecnológica
+### Technology Stack
 
 #### **Frontend**
-- **Landing Page**: Flutter (melhorias necessárias)
 - **Plataforma**: Angular 19.2.0
 - **UI Framework**: Angular Material
 - **Autenticação**: Keycloak Angular
@@ -102,150 +83,100 @@ Recebimento de Vagas (WhatsApp)
 - **Mensageria**: RabbitMQ
 - **Autenticação**: Keycloak 26.1
 
-#### **Integrações**
+#### **Integrations**
 - **Pagamentos**: Stripe
 - **WhatsApp**: Twilio
-- **Vagas**: APIs pagas de emprego
+- **Vagas**: Jsearch
 - **Email**: MailHog (dev) / SMTP (prod)
 
-### Componentes do Sistema
+### System components
 
-#### **1. Landing Page (Flutter)**
-- Interface de captação
-- Apresentação de planos
-- Redirecionamento para cadastro
+#### **1. Angular App**
+- User dashboard
+- Filter configuration
+- Preference management
+- Subscription interface
 
-#### **2. Plataforma Angular**
-- Dashboard de usuário
-- Configuração de filtros
-- Gestão de preferências
-- Interface de assinatura
-
-#### **3. Gateway API**
-- Roteamento de requisições
-- Autenticação OAuth2
+#### **2. Gateway API**
+- Request routing
+- OAuth2 authentication
 - Circuit breaker
 - CORS configuration
 
-#### **4. WebVagas API**
-- Gerenciamento de vagas
-- Preferências de usuário
-- Integração com APIs externas
-- Processamento de mensagens
+#### **3. WebVagas API**
+- Job management
+- User preference handling
+- Integration with external APIs
+- Message processing
 
-#### **5. Admin API**
-- Agendamento de tarefas
-- Envio de mensagens (Twilio)
-- Processamento de pagamentos
-- Webhooks
+#### **4. Admin API**
+- Task scheduling
+- Twilio message sending
+- Payment processing
+- Webhook handling
 
-#### **6. Keycloak**
-- Autenticação e autorização
-- Gestão de usuários
-- Single Sign-On
-- Realm personalizado
+#### **5. Keycloak**
+- Authentication and authorization
+- User management
+- Single Sign-On (SSO)
+- Custom realm configuration
 
-## Funcionalidades Principais
+## Key Features
 
-### **Para o Usuário**
-- Cadastro e autenticação
-- Escolha de plano de assinatura
-- Configuração de filtros de vagas
-- Recebimento de notificações personalizadas
-- Gestão de preferências
+### **For Users**
+- Account registration and authentication
+- Subscription plan selection
+- Job filter configuration
+- Personalized job notifications
+- Preference management
 
-### **Para o Sistema**
-- Agendamento automático de mensagens
-- Integração com APIs de vagas
-- Processamento de pagamentos
-- Entrega via WhatsApp
-- Monitoramento de performance
+### **For the System**
+- Automatic message scheduling
+- Integration with job search APIs
+- Payment processing
+- WhatsApp delivery
+- Performance monitoring
 
-## Pontos de Melhoria Identificados
+## Environment Configuration
 
-### **Frontend Angular**
-- [ ] Melhorar responsividade
-- [ ] Implementar lazy loading
-- [ ] Otimizar performance
-- [ ] Adicionar testes unitários
-- [ ] Melhorar UX/UI
+### **Development**
+- Docker Compose with all ports exposed
+- MailHog for email capture
+- Persistent volumes for data
 
-### **Landing Page Flutter**
-- [ ] Refatorar código
-- [ ] Melhorar design
-- [ ] Otimizar conversão
-- [ ] Implementar analytics
+### **Production**
+- SSL/TLS via Cloudflare
+- Configured domains:
+  - webvagas.com.br (main)
+  - auth.webvagas.com.br (Keycloak)
+- Restart policies configured
+- Nginx as reverse proxy
 
-### **Backend**
-- [ ] Implementar cache Redis
-- [ ] Adicionar métricas Prometheus
-- [ ] Melhorar logging
-- [ ] Implementar rate limiting
-
-## Configurações de Ambiente
-
-### **Desenvolvimento**
-- Docker Compose com todas as portas expostas
-- MailHog para captura de emails
-- Volumes persistentes para dados
-
-### **Produção**
-- SSL/TLS com Let's Encrypt
-- Domínios configurados:
-  - `webvagas.com.br` (principal)
-  - `auth.webvagas.com.br` (Keycloak)
-- Restart policies configuradas
-- Nginx como proxy reverso
-
-## Monitoramento e Observabilidade
+## Monitoring and Observability
 
 ### **Health Checks**
-- Actuator endpoints em todas as APIs
-- Circuit breaker no Gateway
-- Monitoramento de agendadores
+- Actuator endpoints in all APIs
+- Circuit breaker at Gateway level
+- Scheduler monitoring
 
-### **Logs e Métricas**
-- Logs estruturados JSON
-- Métricas Spring Boot Actuator
-- Preparação para Prometheus
+### **Logs and metrics**
+- Structured JSON logs
+- Spring Boot Actuator metrics
+- Prometheus-ready configuration
 
-## Segurança
+## Security
 
-### **Autenticação**
+### **Authentication**
 - OAuth2/OIDC via Keycloak
-- JWT tokens para APIs
-- Silent SSO no frontend
+- JWT tokens for APIs
+- Silent SSO in frontend
 
-### **Comunicação**
-- HTTPS em produção
-- CORS configurado
-- Headers de segurança
+### **Communication**
+- HTTPS in production
+- Proper CORS configuration
+- Security headers enabled
 
-## Roadmap Futuro
+## Conclusion
 
-### **Curto Prazo**
-- [ ] Implementar cache Redis
-- [ ] Adicionar métricas Prometheus
-- [ ] Melhorar logging estruturado
-- [ ] Implementar rate limiting
-- [ ] Adicionar health checks customizados
-
-### **Médio Prazo**
-- [ ] Implementar feature flags
-- [ ] Adicionar testes de integração
-- [ ] Implementar blue-green deployment
-- [ ] Configurar monitoramento de agendadores
-- [ ] Implementar retry policies para mensagens
-
-### **Longo Prazo**
-- [ ] Migração para Kubernetes
-- [ ] Implementar service mesh
-- [ ] Adicionar observabilidade distribuída
-- [ ] Implementar multi-tenancy
-- [ ] Adicionar suporte a múltiplos provedores de vagas
-
-## Conclusão
-
-O WebVagas é uma solução completa para automatização de busca e notificação de vagas de emprego, oferecendo uma experiência personalizada aos usuários através de notificações WhatsApp. A arquitetura de microsserviços permite escalabilidade e manutenibilidade, enquanto as integrações com Stripe e Twilio garantem uma experiência de pagamento e entrega confiável.
-
-O projeto está em evolução constante, com melhorias planejadas tanto no frontend quanto no backend, visando sempre a melhor experiência do usuário e a eficiência operacional do sistema.
+**WebVagas** is a complete solution for automating the search and delivery of job opportunities, providing users with a personalized experience through WhatsApp notifications.
+Its microservices architecture enables scalability and maintainability, while integrations with **Stripe** and **Twilio** ensure secure payments and reliable message delivery.
