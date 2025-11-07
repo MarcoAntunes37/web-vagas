@@ -1,4 +1,4 @@
-package com.webvagas.api.admin_api.api.controller;
+package com.webvagas.api.admin_api.api.controller.webhook;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.webvagas.api.admin_api.api.controller;
+package com.webvagas.api.admin_api.api.controller.send_message;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
