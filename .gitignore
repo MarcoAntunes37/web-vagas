@@ -7,3 +7,4 @@ data
 .idea
 .apt_generated_tests
 node_modules
+.secret
