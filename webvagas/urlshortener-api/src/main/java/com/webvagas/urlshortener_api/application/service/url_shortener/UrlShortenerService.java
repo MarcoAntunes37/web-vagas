@@ -10,7 +10,6 @@ import com.webvagas.urlshortener_api.infrastructure.repository.projections.UrlSh
 
 import java.util.List;
 import java.util.Optional;
-
 @Service
 public interface UrlShortenerService {
     ShortenResponse shortenUrl(CreateShortUrlCommand command);

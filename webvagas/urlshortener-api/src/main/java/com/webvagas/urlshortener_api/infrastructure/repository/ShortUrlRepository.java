@@ -1,7 +1,9 @@
-package com.webvagas.urlshortener_api.persistence.repository;
+package com.webvagas.urlshortener_api.infrastructure.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.webvagas.urlshortener_api.infrastructure.entity.ShortUrlEntity;
+
+import com.webvagas.urlshortener_api.persistence.shourt_url.ShortUrlEntity;
+
 import java.util.Optional;
 
 public interface ShortUrlRepository extends JpaRepository<ShortUrlEntity, Long> {

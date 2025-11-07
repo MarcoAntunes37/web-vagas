@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record GetOriginalUrlQuery(
-        @JsonProperty("code") String code) {
+                @JsonProperty("code") String code) {
 }
