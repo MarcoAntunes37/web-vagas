@@ -2,10 +2,10 @@
 
 ## Table of Contents {#sumary}
 - [Overview](#overview)
-- [Third party apps](#third-party)
+- [Third party apps](#third-party-apps)
 - [Architecture](#architecture)
-    - [Tecnical details](#detalhes-tecnicos)
-    - [Stack tecnologies used](#tecnologies-stack)
+    - [Tecnical details](#tecnical-details)
+    - [Stack tecnologies used](#technologies)
     - [Dependencies](#dependencies)
 - [Configuration](#configuration)
 - [Usage](#usage)
@@ -44,7 +44,7 @@ All design choices were made to **maximize performance and minimize development 
 
 <div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
-### Technical Details {#technical-details}
+### Technical Details {#tecnical-details}
 The application includes four microservices, as follows:
 
 - [webvagas-api](https://github.com/MarcoAntunes37/web-vagas/tree/main/webvagas/webvagas-api) - Manages user job preferences and ensures duplicate job messages are not sent within the same period.
@@ -83,7 +83,7 @@ Você precisa preencher alguns requisitos para conseguir rodar a aplicação em 
 
 - [Maven](https://maven.apache.org/) - Required for **dev** and **build** environments.
 
-<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#topo">Back to top</a></div>
+<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#top">Back to top</a></div>
 
 ## Configuration {#configuration}
 Each project includes an example .env file that must be present when building or running.
@@ -95,9 +95,9 @@ The ```.env``` file is read according to the environment:
 - .env.prod → production mode
 - .env → dev mode
 
-<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#topo">Back to top</a></div>
+<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#top">Back to top</a></div>
 
-Usage {#uso}
+## Usage {#usage}
 
 The images must be built and available on Docker Hub under the Docker account logged into the production machine.
 
@@ -133,7 +133,7 @@ Once everything is properly configured and functional, at the scheduled time the
 
 - Generate and send WhatsApp messages accordingly.
 
-<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#topo">Back to top</a></div>
+<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#top">Back to top</a></div>
 
 ## Tests {#tests}
 Run this command to execute unit tests:
@@ -144,10 +144,10 @@ Run this command to include integration tests:
 
 This repository includes a GitHub Actions pipeline that automatically executes all tests on every change outside ```main``` branch.
 
-<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#topo">Back to top</a></div>
+<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#top">Back to top</a></div>
 
 ## License {#license}
 > ⚠️ This project is intended for demonstration and educational purposes only.
 > Commercial use, redistribution, or modification without permission is strictly prohibited.
 
-<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#topo">Back to top</a></div>
+<div style="display: flex;flex-direction: column"><a style="text-align: right;" href="#top">Back to top</a></div>

@@ -1,4 +1,4 @@
-# WebVagas - System Architecture
+# WebVagas - System Architecture {#top}
 
 ## Summary
 - [Overview](#overview)
@@ -104,9 +104,13 @@
   </pre>
 </div>
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 #### Use cases diagram {#use-cases-diagram}
 
 > To access the use case diagram [click here](https://github.com/MarcoAntunes37/web-vagas/blob/main/doc/casos-de-uso.md)
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 #### Containers diagram {#containers-diagram}
 ```mermaid
@@ -129,6 +133,8 @@
       Rel(gateway, adminapi, "Routes administrative requests")
 ```
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ## System components {#system-components}
 
 ### Frontend (Angular 19) {#frontend}
@@ -143,6 +149,8 @@
   - `@angular/material`: Components UI
   - `keycloak-angular`: Keycloak angular integration
   - `rxjs`: Reactive programming
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### Gateway API (Spring Cloud Gateway) {#gateway}
 - **Technology**: Spring Boot 3.4.5 + Spring Cloud Gateway
@@ -161,6 +169,8 @@
   - Free ressources: Swagger UI, Actuator and API docs
   Obs.: In this layer swagger calls will hit gateway endpoints that is secured cause 501 by acessing without a valid token. That means swagger will work more like a readonly documentation in this layer.
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### WebVagas API (UserPreferences and JobsUser services) {#webvagas-api} 
 - **Technology**: Spring Boot 3.5.0
 - **Path**: `/webvagas-api/`
@@ -175,6 +185,8 @@
   - Flyway (Migrations)
   - PostgreSQL
   - TestContainers
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### Admin API (Integration heavy, Data process heavy) {#admin-api}
 - **Technology**: Spring Boot 3.5.0
@@ -194,6 +206,8 @@
   - Essentials: 9h and 18h daily
   - Turbo: 7h, 12h, 16h and 20h daily
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### UrlShortener API {#urlshortener-api}
 - **Technology**: Spring Boot 3.5.0
 - **Path**: `/urlshortener-api/`
@@ -205,6 +219,8 @@
   - External tools would be costlier for temporary storage
   - Job URLs are short-lived and don’t need long-term retention
   - A cleanup job is manually required post-database creation
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ## Infrastructure {#infrastructure}
 
@@ -226,10 +242,14 @@
 - **Tabelas Principais**:
   - `short_url`: Url shortener
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Authentication and Authorization {#authorization-and-authentication}
 - **Keycloak 26.1**: Identity server
 - **Realm**: Personalised configuration
 - **Integração**: OAuth2/OIDC with Angular and APIs
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### Brokers {#brokers}
 - **Message Broker**: RabbitMQ 
@@ -237,9 +257,13 @@
 - **Uso**: Async communication between services
 - **Interface**: Management UI
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Email service (Development mode) {#email-service}
 - **MailHog**: Mock smtp
 - **Interface**: Use mailhog interface to visualise emails sended
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ## Architectural patterns {#arquitectural-patterns}
 
@@ -248,19 +272,27 @@
 - Independent scalable apis
 - Communication with HTTP/REST
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### API Gateway Pattern {#gateway-pattern}
 - Single access point
 - Smart routing
 - Resilience with circuit breaking
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Event-Driven Architecture {#event-driven}
 - Async communication with rabbitmq
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### Domain-Driven Design (DDD) {#ddd}
 - Packages structure
 - Clear and rich domain entities and value objects
 - Entities access delegation to complex objects properties
 - Split layers (API, Application, Domain, Infrastructure e Persistence)
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ## Folders structure {#folders-structure}
 
@@ -306,9 +338,13 @@ persistence/
 │    └──user_preferences
 ```
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Gateway API {#folder-gateway-api}
 configs/            # Security config
 routes/             # Router config
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### UrlShortener API {#folder-urlshortener-api}
 ```
@@ -331,6 +367,8 @@ infrastructure/
 persistence/
 │    └──short_url     # Database entity
 ```
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### Admin API {#folders-admin-api}
 ```
@@ -363,6 +401,8 @@ infrastructure/
 │   └──webvagas       # Integration client Webvagas API
 ```
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ## Environment configurations {#environment-configurations}
 
 ### Development {#environment-development}
@@ -370,6 +410,8 @@ infrastructure/
 - **Exposed ports**: All ports mapped
 - **Volumes**: Volumes located in `./data/`
 - **MailHog**: Email service simulation
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### Production {#environment-production}
 - **Docker Compose**: `docker-compose.prod.yml`
@@ -381,6 +423,8 @@ infrastructure/
   - `auth.webvagas.com.br` (Keycloak)
 - **Ports**: 80 (HTTP), 443 (HTTPS)
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ## Data flux {#data-flux}
 
 ### Authentication {#flux-authentication}
@@ -388,20 +432,27 @@ infrastructure/
 User → Frontend → Keycloak → Gateway API → Intern APIs
 ```
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Jobs search {#flux-jobsearch}
 ```
 Frontend → Gateway API → WebVagas API → Jsearch integration → Jsearch API
 ```
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Notification {#flux-notification}
 ```
 Admin API → Scheduler → PlanMessageService → Twilio → Users
 ```
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ### Payment {#flux-payment}
 ```
 Frontend → Gateway API → Admin API → Stripe
 ```
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ## Monitoring and observability {#monitoring-and-observability}
 
@@ -409,12 +460,18 @@ Frontend → Gateway API → Admin API → Stripe
 - **Actuator**: Health endpoints in all APIs
 - **Circuit Breaker**: Gateway circuit breaker with Resilience4j
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Logs {#logs}
 - **Structured**: Logs JSON
 - **Centered**: Docker logs
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Metrics {#metrics}
 - **Spring Boot Actuator**: Basic metrics
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ## Security {#security}
 
@@ -423,15 +480,21 @@ Frontend → Gateway API → Admin API → Stripe
 - **JWT Tokens**: for APIs
 - **Silent SSO**: in Frontend
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Authorization {#authorization}
 - **Roles**: Keycloak defined roles
 - **Guards**: in Frontend Angular
 - **Security Config**: in Gateway
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Comunication {#communication}
 - **HTTPS**: Production mode cloud flare generate a ssl certificate
 - **CORS**: Configured in Gateway (localhost:4200)
 - **Headers**: Authorization, Content-Type are permited
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ## Deploy and CI/CD{#ci-cd}
 
@@ -439,10 +502,14 @@ Frontend → Gateway API → Admin API → Stripe
 - `build-and-push-tags.sh`: Build with tags for alocate in one only repository
 - `build-and-push.prod.sh`: Build for production
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Containers {#build-containers}
 - **Multi-staged builds**: Image optimization by splitting only necessary from build to run 
 - **Health checks**: Health checks
 - **Environment variables**: Configuration based in environment
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
 
 ## Performance considerations {#performance-considerations}
 
@@ -451,11 +518,17 @@ Frontend → Gateway API → Admin API → Stripe
 - **Tree Shaking**: Bundle optimization
 - **Environment Generation**: Environment.ts generate dinamically based on environment
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Backend {#backend-performance}
 - **Connection Pooling**: PostgreSQL
 - **Async Processing**: RabbitMQ is used to reflect keycloak user delete into other services where userid has weak relationship
 - **Scheduled Tasks**: Cron jobs
 
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
+
 ### Infrastructure {#infrastructure-performance}
 - **Load Balancing**: from Gateway
 - **Resource Limits**: Docker resource constraints
+
+<div style="display: flex;flex-direction: column"> <a style="text-align: right;" href="#top">Back to top</a> </div>
