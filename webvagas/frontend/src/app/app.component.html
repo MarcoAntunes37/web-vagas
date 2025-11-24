@@ -3,44 +3,46 @@
     <div class="topnav-wraper">
       <div class="menu-container">
         <button class="hamburguer-icon" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="roles()?.includes('plan-start') || roles()?.includes('plan-turbo')">
-        <span class="material-symbols-outlined menu-icon">menu</span>
+          *ngIf="roles().includes('plan-start') || roles().includes('plan-turbo')">
+          <span class="material-symbols-outlined menu-icon">menu</span>
+        </button>
+      </div>
+      <div class="logo-container">
+        <a class="logo-link" href="/dashboard/home">
+          <picture class="logo">
+            <source srcset="logo.svg" media="(min-width: 600px)" style="width: 0px; height: 0px; position:absolute;" class="logo-image">
+            <source srcset="logo-icon.svg" media="(max-width: 600px)" style="width: 0px;height: 0px; position:absolute;" class="logo-image-icon">
+            <img src="logo.svg" alt="Logo" [ngClass]="isDesktop() ? 'logo-image' : 'logo-image-icon'">
+          </picture>
+        </a>
+      </div>
+      <span class="spacer"></span>
+      <button mat-icon-button matRipple class="topnav-dropdown" [matMenuTriggerFor]="menu" *ngIf="authenticated">
+        <span class="material-symbols-outlined more-vert-icon">
+          more_vert
+        </span>
       </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="handleProfileClick()">
+          <div class="button-content">
+            <span class="material-symbols-outlined person-icon">manage_accounts</span>
+            <span>Perfil</span>
+          </div>
+        </button>
+        <button mat-menu-item (click)="handleCustomerPortalClick()">
+          <div class="button-content">
+            <span class="material-symbols-outlined person-icon">receipt_long</span>
+            <span>Portal do cliente</span>
+          </div>
+        </button>
+        <button mat-menu-item (click)="handleLogoutClick()">
+          <div class="button-content">
+            <span class="material-symbols-outlined logout-icon">logout</span>
+            <span>Sair</span>
+          </div>
+        </button>
+      </mat-menu>
     </div>
-    <div class="logo-container">
-      <a class="logo-link" href="/dashboard/home" class="logo-container">
-        <picture class="logo">
-          <img src="logo.svg" alt="logo" class="logo-image">
-        </picture>
-      </a>
-    </div>
-    <span class="spacer"></span>
-    <button mat-icon-button matRipple class="topnav-dropdown" [matMenuTriggerFor]="menu" *ngIf="authenticated">
-      <span class="material-symbols-outlined more-vert-icon">
-        more_vert
-      </span>
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="handleProfileClick()">
-        <div class="button-content">
-          <span class="material-symbols-outlined person-icon">manage_accounts</span>
-          <span>Perfil</span>
-        </div>
-      </button>
-      <button mat-menu-item (click)="handleCustomerPortalClick()">
-        <div class="button-content">
-          <span class="material-symbols-outlined person-icon">receipt_long</span>
-          <span>Portal do cliente</span>
-        </div>
-      </button>
-      <button mat-menu-item (click)="handleLogoutClick()">
-        <div class="button-content">
-          <span class="material-symbols-outlined logout-icon">logout</span>
-          <span>Sair</span>
-        </div>
-      </button>
-    </mat-menu>
-  </div>
   </mat-toolbar>
   <mat-drawer-container autosize class="sidenav-container">
     <mat-drawer #drawer class="sidenav-drawer" mode="side">

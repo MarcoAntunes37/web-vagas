@@ -47,23 +47,29 @@
     grid-template-columns: 1fr;
     justify-items: center;
     width: 80%;
+    max-width: 800px;
 }
 
 .preferences-card-content {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr;
-    justify-items: center;
+    justify-items: center;    
 
     ul {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         list-style-type: none;
+        gap: 1em;
     }
 
     li {
         display: flex;
         flex-direction: row;
+        padding: .8em;
         justify-content: space-between;
+        border-bottom: 1px solid var(--mat-sys-outline);
     }
 
     @media screen and (max-width: 600px) {

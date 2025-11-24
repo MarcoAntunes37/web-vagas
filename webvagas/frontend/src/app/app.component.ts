@@ -1,4 +1,4 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, effect, Host, HostListener, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -8,7 +8,7 @@ import { UserProfileService } from './service/user-profile/user-profile.service'
 import Keycloak, { KeycloakProfile } from 'keycloak-js';
 import { ThemeService } from './service/theme/theme.service';
 import { MatMenuModule } from '@angular/material/menu';
-import { NgIf } from '@angular/common';
+import { NgIf, NgClass } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { CustomerPortalClient } from './integrations/CustomerPortalClient';
 
@@ -16,7 +16,8 @@ import { CustomerPortalClient } from './integrations/CustomerPortalClient';
 @Component({
   selector: 'app-root',
   imports: [
-    MatToolbarModule, MatSidenavModule, MatButtonModule, MatIconModule, RouterOutlet, MatButtonModule, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, NgIf, MatRippleModule
+    MatToolbarModule, MatSidenavModule, MatButtonModule, MatIconModule, RouterOutlet, MatButtonModule, MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, NgIf, MatRippleModule,
+    NgClass
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -27,6 +28,15 @@ export class AppComponent {
   authenticated = signal(false);
   roles = signal<string[]>([]);
   screenWidth = signal(window.innerWidth);
+
+  @HostListener('window:resize')
+  onResize() {
+    this.screenWidth.set(window.innerWidth);
+  }
+
+  isDesktop() {
+    return this.screenWidth() > 600;
+  }
 
   async handleProfileClick() {
     return this.userProfileService.getProfileManagementLink();
@@ -46,6 +56,7 @@ export class AppComponent {
     private customerPortalClient: CustomerPortalClient,
     public keycloak: Keycloak,
     private router: Router) {
+
     effect(async () => {
       this.userProfile.set(await this.userProfileService.getUserProfile());
 

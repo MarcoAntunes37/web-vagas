@@ -34,7 +34,7 @@ a:active {
     justify-content: center;
     align-items: center;
     background-color: var(--mat-sys-surface-container-low) !important;
-    color: var(--mat-sys-shadow) !important;    
+    color: var(--mat-sys-shadow) !important;
     gap: 0.6em;
 }
 
@@ -54,14 +54,18 @@ a:active {
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 97%;
+    width: 100%;
     justify-content: center;
     margin-inline: auto;
+    padding: 0 1em 0 1em;
 }
 
 .menu-container,
 .logo-container {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
 }
 
 .mat-toolbar {
@@ -83,7 +87,13 @@ picture {
 }
 
 .logo-image {
-    width: clamp(5em, 9vw, 15em);
+    width: clamp(5em, 10vw, 15em);
+    padding: 0.5em;
+    display: flex;
+}
+
+.logo-image-icon {
+    width: clamp(1em, 5vw, 8em);
     display: flex;
 }
 
