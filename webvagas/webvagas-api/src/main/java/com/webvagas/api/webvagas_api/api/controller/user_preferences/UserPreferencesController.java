@@ -14,6 +14,8 @@ import com.webvagas.api.webvagas_api.domain.entity.user_preferences.dto.get.User
 import com.webvagas.api.webvagas_api.domain.entity.user_preferences.dto.get.UserPreferencesGetResponse;
 import com.webvagas.api.webvagas_api.domain.entity.user_preferences.dto.update.UserPreferencesUpdateRequest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@RestController("UserPreferences Api")
+@RestController
+@Tag(name = "User preferences", description = "User preferences management")
 @RequestMapping("api/v1/preferences/user")
 public class UserPreferencesController {
         private final UserPreferencesService userPreferencesService;

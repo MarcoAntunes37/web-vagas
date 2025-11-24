@@ -18,6 +18,8 @@ import com.webvagas.urlshortener_api.domain.entity.short_url.dto.shorten.Shorten
 import com.webvagas.urlshortener_api.domain.entity.short_url.dto.shorten.ShortenResponse;
 import com.webvagas.urlshortener_api.infrastructure.repository.projections.UrlShortenerBatchInsertProjection;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.HttpStatus;
 
 import java.net.URI;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@Tag(name = "Url shortener", description = "Url shortener for webvagas used in message sending")
 @RequestMapping
 public class UrlShortenerController {
     private final UrlShortenerService service;

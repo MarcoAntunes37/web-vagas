@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.webvagas.api.admin_api.application.service.webhook.WebhookService;
 import com.webvagas.api.admin_api.infrastructure.integration.stripe.StripeClient;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.stripe.exception.StripeException;
 import com.stripe.model.Event;
 
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @ControllerAdvice
 @RequestMapping
+@Tag(name = "Webhook", description = "Webhook listening outside events from stripe")
 @Slf4j
 public class WebhookController {
     private final WebhookService webhookService;

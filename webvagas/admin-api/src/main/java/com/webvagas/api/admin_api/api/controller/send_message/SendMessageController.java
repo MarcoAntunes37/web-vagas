@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.webvagas.api.admin_api.application.service.send_message.SendMessageService;
 import com.webvagas.api.admin_api.domain.entity.message.dto.SendMessageRequest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @ControllerAdvice
+@Tag(name = "Send message", description = "Force message sending regardless of time to all users and plans")
 @RequestMapping("/api/v1/send-message")
 public class SendMessageController {
     private final SendMessageService sendMessageService;
@@ -29,5 +32,4 @@ public class SendMessageController {
                 .ok()
                 .build();
     }
-
 }

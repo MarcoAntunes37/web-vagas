@@ -21,7 +21,10 @@ import com.webvagas.api.webvagas_api.domain.entity.jobs_user.dto.create.JobUserC
 import com.webvagas.api.webvagas_api.domain.entity.jobs_user.dto.get.JobUserGetRequest;
 import com.webvagas.api.webvagas_api.persistence.jobs_user.projections.JobExistenceProjection;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
+@Tag(name = "Jobs User",  description = "Jobs user relationship management")
 @RequestMapping("api/v1/jobs/user")
 public class JobsUserController {
         private final JobsUserService jobsUserService;

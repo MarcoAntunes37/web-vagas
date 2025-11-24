@@ -12,6 +12,7 @@ import com.webvagas.api.webvagas_api.domain.entity.checkout_session.dto.create.C
 import com.webvagas.api.webvagas_api.domain.entity.checkout_session.dto.get.GetCheckoutSessionRequest;
 import com.webvagas.api.webvagas_api.domain.entity.checkout_session.dto.get.GetCheckoutSessionResponse;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @ControllerAdvice
+@Tag(name = "Checkout session", description = "Stripe checkout session management")
 @RequestMapping("/api/v1/checkout-session")
 public class CheckoutSessionController {
     private final CheckoutSessionService checkoutSessionService;

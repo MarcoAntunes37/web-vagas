@@ -15,7 +15,10 @@ import com.webvagas.api.webvagas_api.application.service.customer_portal.command
 import com.webvagas.api.webvagas_api.domain.entity.customer_portal.dto.CreateCustomerPortalSessionRequest;
 import com.webvagas.api.webvagas_api.domain.entity.customer_portal.dto.CreateCustomerPortalSessionResponse;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
+@Tag(name = "Customer portal", description = "Stripe customer portal management")
 @ControllerAdvice
 @RequestMapping("/api/v1/customer-portal")
 public class CustomerPortalController {

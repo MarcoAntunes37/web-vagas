@@ -13,8 +13,10 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
     urls:
-      - name: Web vagas
+      - name: Web vagas API
         url: /aggregate/webvagas-api/v3/api-docs
+      - name: Admin API
+        url: /aggregate/admin-api/v3/api-docs
   api-docs:
     enabled: true
     path: /api-docs
@@ -55,6 +57,10 @@ resilience4j:
 webvagas-api:
   service:
     url: ${API_SERVICE_URL}
+
+admin-api:
+  service:
+    url: ${API_ADMIN_SERVICE_URL}
 
 server:
   host: 0.0.0.0
